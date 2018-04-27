@@ -1558,52 +1558,6 @@ MonoBehaviour:
   game: {fileID: 843580147}
   image_timer: {fileID: 968421495}
   text_timer: {fileID: 149618113}
---- !u!1001 &1910317978
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4280309514915974, guid: 242a320930b81430ba610f94f9b760c8, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4280309514915974, guid: 242a320930b81430ba610f94f9b760c8, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4280309514915974, guid: 242a320930b81430ba610f94f9b760c8, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4280309514915974, guid: 242a320930b81430ba610f94f9b760c8, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4280309514915974, guid: 242a320930b81430ba610f94f9b760c8, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4280309514915974, guid: 242a320930b81430ba610f94f9b760c8, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4280309514915974, guid: 242a320930b81430ba610f94f9b760c8, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4280309514915974, guid: 242a320930b81430ba610f94f9b760c8, type: 2}
-      propertyPath: m_RootOrder
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1190091649889860, guid: 242a320930b81430ba610f94f9b760c8, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 242a320930b81430ba610f94f9b760c8, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &1952897182
 GameObject:
   m_ObjectHideFlags: 0
@@ -1759,6 +1713,10 @@ Prefab:
     - target: {fileID: 4497055787654456, guid: c10877f7cd5764de18d46d7b777d1faa, type: 2}
       propertyPath: m_LocalPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1637996540812124, guid: c10877f7cd5764de18d46d7b777d1faa, type: 2}
+      propertyPath: m_TagString
+      value: MainCamera
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c10877f7cd5764de18d46d7b777d1faa, type: 2}

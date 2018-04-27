@@ -130,6 +130,8 @@ public class ARCoreController : MonoBehaviour
             RoomPrefab.transform.rotation = hit.Pose.rotation;
             RoomPrefab.SetActive(true);
 
+            GameController.Instance.Spawn(GameController.PremadeTypes.GIRAFFE, true);
+
             // Position room 5 units in front of the camera
             //var pos = FirstPersonCamera.transform.forward * 10f;
             //pos.y = -5f;

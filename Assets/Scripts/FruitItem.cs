@@ -45,7 +45,7 @@ public class FruitItem : MonoBehaviour
             return;
 
         // Constaint positions within boundaries
-        StayWithinBoundaries();
+        //StayWithinBoundaries();
     }
 
     private void StayWithinBoundaries()
