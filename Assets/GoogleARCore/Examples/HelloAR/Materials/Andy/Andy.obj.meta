@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 0e8c4400e5a274e79b60fa5a300aab17
-timeCreated: 1525115349
-licenseType: Free
+timeCreated: 1503349535
+licenseType: Pro
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -57,7 +57,6 @@ ModelImporter:
     keepQuads: 0
     weldVertices: 1
     preserveHierarchy: 0
-    indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
