@@ -167,7 +167,6 @@ public class GameController : Singleton<GameController>
 
                             // Convert world position to screen position.
                             screenPos = Camera.main.WorldToScreenPoint(dragItem.position);
-                            Debug.DrawRay(screenPos, transform.forward, Color.red, 10f);
                             offset = dragItem.position - Camera.main.ScreenToWorldPoint(new Vector3(t.position.x, t.position.y, screenPos.z));
                         }
                     }
@@ -210,7 +209,7 @@ public class GameController : Singleton<GameController>
 
         HideIndicators();
         SpawnItem(_type);
-        RotatePlatform(Explode, 0.25f, startGame);
+        RotatePlatform(Explode, 1.5f, startGame);
     }
 
     private void SpawnItem(PremadeTypes _type)
@@ -252,7 +251,7 @@ public class GameController : Singleton<GameController>
     private IEnumerator ExplodeCR(bool startGame)
     {
         // Explode
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(1.5f);
         FruitItem[] fruitItems = activeItem.GetComponentsInChildren<FruitItem>(true);
         foreach (var fi in fruitItems)
             fi.Explode();
@@ -260,7 +259,7 @@ public class GameController : Singleton<GameController>
         // Start game
         if (startGame)
         {
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(1.5f);
             StartGame();
         }
     }
@@ -281,7 +280,7 @@ public class GameController : Singleton<GameController>
         yield return new WaitForSeconds(delay);
 
         float fElapsed = 0f;
-        float fDuration = 0.25f;
+        float fDuration = 1.5f;
 
         float startAngle = Platform.eulerAngles.y;
         float endAngle = startAngle + 360.0f;
