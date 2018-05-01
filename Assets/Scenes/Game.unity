@@ -400,7 +400,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!81 &225461489
 AudioListener:
   m_ObjectHideFlags: 0
@@ -660,6 +660,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &420639478 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114136752755502098, guid: cf498fc35b538884db557f7a9a2c0ef9,
+    type: 2}
+  m_PrefabInternal: {fileID: 793495049}
+  m_Script: {fileID: 11500000, guid: 92a4cf446a0c7334aaceb5457be27894, type: 3}
 --- !u!1 &434742360
 GameObject:
   m_ObjectHideFlags: 0
@@ -685,8 +691,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1665807751}
   - {fileID: 843580146}
+  - {fileID: 1665807751}
   - {fileID: 150357112}
   - {fileID: 1225219175}
   - {fileID: 1792469123}
@@ -944,7 +950,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 434742361}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &843580147
 MonoBehaviour:
@@ -957,6 +963,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79dec006aeea5f24a81ca13b88c78088, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInstantPreview: 1
+  arCoreController: {fileID: 1665807752}
+  arCoreSession: {fileID: 1517634309}
+  arCoreEnvironmentalLight: {fileID: 420639478}
+  camEditor: {fileID: 225461491}
   PremadeItems:
   - Type: 1
     Prefab: {fileID: 1688054292488130, guid: 647037e60ba5c59469e3f1c05daaade8, type: 2}
@@ -1465,6 +1476,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 50, y: 0, z: 0}
+--- !u!114 &1517634309 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114451889682527732, guid: c10877f7cd5764de18d46d7b777d1faa,
+    type: 2}
+  m_PrefabInternal: {fileID: 2009820178}
+  m_Script: {fileID: 11500000, guid: d4ca0c6a3af6b4635b7e98c6ea0a0cf9, type: 3}
 --- !u!20 &1545835392 stripped
 Camera:
   m_PrefabParentObject: {fileID: 20155940112608238, guid: c10877f7cd5764de18d46d7b777d1faa,
@@ -1497,7 +1514,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 434742361}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1665807752
 MonoBehaviour:

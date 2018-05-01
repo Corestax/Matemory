@@ -22,6 +22,17 @@ public class GameController : Singleton<GameController>
     }
 
     [SerializeField]
+    private bool isInstantPreview;
+    [SerializeField]
+    private ARCoreController arCoreController;
+    [SerializeField]
+    private ARCoreSession arCoreSession;
+    [SerializeField]
+    private EnvironmentalLight arCoreEnvironmentalLight;
+    [SerializeField]
+    private Camera camEditor;
+
+    [SerializeField]
     private Premades[] PremadeItems;
 
     public Transform Platform;
@@ -50,117 +61,142 @@ public class GameController : Singleton<GameController>
             GameObject go = item.Prefab;
             Items.Add(name, go);
         }
+
+        if(isInstantPreview)
+        {
+            arCoreController.gameObject.SetActive(true);
+            arCoreSession.gameObject.SetActive(true);
+            arCoreEnvironmentalLight.gameObject.SetActive(true);
+            camEditor.gameObject.SetActive(false);
+        }
+        else
+        {
+            arCoreController.gameObject.SetActive(false);
+            arCoreSession.gameObject.SetActive(false);
+            arCoreEnvironmentalLight.gameObject.SetActive(false);
+            camEditor.gameObject.SetActive(true);
+        }
     }
 
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.Alpha1))
-        //    Spawn(PremadeTypes.GIRAFFE, true);
-        //if (Input.GetKeyDown(KeyCode.Alpha2))
-        //    Spawn(PremadeTypes.DOG, true);
-        //if (Input.GetKeyDown(KeyCode.Alpha3))
-        //    Spawn(PremadeTypes.GIRAFFE, false);
-        //if (Input.GetKeyDown(KeyCode.Alpha4))
-        //    Spawn(PremadeTypes.DOG, false);
+        if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha1))
+            Spawn(PremadeTypes.GIRAFFE, true);
+        if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha2))
+            Spawn(PremadeTypes.DOG, true);
+        if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha3))
+            Spawn(PremadeTypes.GIRAFFE, false);
+        if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha4))
+            Spawn(PremadeTypes.DOG, false);
 
-        //if (Input.GetKeyDown(KeyCode.Escape))
-        //    SceneManager.LoadScene(0);
+        if (UnityEngine.Input.GetKeyDown(KeyCode.Escape))
+            SceneManager.LoadScene(0);
 
         DragItem();
     }
 
 
     #region DRAGGABLE
-    private bool isDragging;
-    private Transform dragObject;
     private Vector3 screenPos;
     private Vector3 offset;
     private RaycastHit hit;
     private Ray ray;
+    private Transform dragItem;
 
     void DragItem()
     {
         if (!IsGameRunning)
             return;
 
-#if UNITY_EDITOR
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    // Raycast
-        //    ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        //    if (Physics.Raycast(ray, out hit, 100f))
-        //    {
-        //        if (hit.collider.tag == "Draggable")
-        //        {
-        //            dragObject = hit.collider.transform;
-        //            isDragging = true;
-
-        //            // Convert world position to screen position.
-        //            screenPos = Camera.main.WorldToScreenPoint(hit.collider.transform.position);
-        //            offset = hit.collider.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPos.z));
-        //        }
-        //    }
-        //}
-        //if (Input.GetMouseButtonUp(0))
-        //{
-        //    isDragging = false;
-        //    dragObject = null;
-        //}
-
-        //if (isDragging)
-        //{
-        //    // Touch screen position
-        //    Vector3 touchPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPos.z);
-
-        //    // Convert screen position to world position with offset changes.
-        //    Vector3 worldPos = Camera.main.ScreenToWorldPoint(touchPos) + offset;
-
-        //    // Drag object
-        //    dragObject.position = worldPos;
-        //}
-//#else
-
-        if (Input.touchCount < 1)
-            return;
-
-        //Touch touch = Input.GetTouch(0);
-        if (Input.GetTouch(0).phase == TouchPhase.Began)
+        if (!isInstantPreview)
         {
-            //ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
-            ray = Camera.main.ScreenPointToRay(new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, 0f));
-            if (Physics.Raycast(ray, out hit))
+            if (Input.GetMouseButtonDown(0))
             {
-                if (hit.collider.tag == "Draggable")
+                // Raycast
+                ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity))
                 {
-                    print("********** STARTED!");
-                    dragObject = hit.collider.transform;
-                    isDragging = true;
+                    if (hit.collider.tag == "Draggable")
+                    {
+                        dragItem = hit.collider.transform;
+                        dragItem.GetComponent<FruitItem>().SetGrabbed(true);
 
-                    // Convert world position to screen position.
-                    screenPos = Camera.main.WorldToScreenPoint(hit.collider.transform.position);
-                    offset = hit.collider.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, screenPos.z));
+                        // Convert world position to screen position.
+                        screenPos = Camera.main.WorldToScreenPoint(dragItem.position);
+                        offset = dragItem.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPos.z));
+                    }
+                }
+            }
+            else if (Input.GetMouseButton(0))
+            {
+                if (dragItem)
+                {
+                    // Touch screen position
+                    Vector3 touchPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPos.z);
+
+                    // Convert screen position to world position with offset changes.
+                    Vector3 worldPos = Camera.main.ScreenToWorldPoint(touchPos) + offset;
+
+                    // Drag object
+                    dragItem.position = worldPos;
+                }
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+                if (dragItem)
+                {
+                    dragItem.GetComponent<FruitItem>().SetGrabbed(false);
+                    dragItem = null;
                 }
             }
         }
-        if (Input.GetTouch(0).phase == TouchPhase.Ended)
+        else
         {
-            print("********* ENDED!");
-            isDragging = false;
-            dragObject = null;
+            foreach (var t in Input.touches)
+            {
+                if (t.phase == TouchPhase.Began)
+                {
+                    ray = Camera.main.ScreenPointToRay(t.position);
+                    if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+                    {
+                        if (hit.collider.tag == "Draggable")
+                        {
+                            //print("*********** START!");
+                            dragItem = hit.collider.transform;
+                            dragItem.GetComponent<FruitItem>().SetGrabbed(true);
+
+                            // Convert world position to screen position.
+                            screenPos = Camera.main.WorldToScreenPoint(dragItem.position);
+                            Debug.DrawRay(screenPos, transform.forward, Color.red, 10f);
+                            offset = dragItem.position - Camera.main.ScreenToWorldPoint(new Vector3(t.position.x, t.position.y, screenPos.z));
+                        }
+                    }
+                }
+                else if (t.phase == TouchPhase.Moved)
+                {
+                    if (dragItem)
+                    {
+                        // Touch screen position
+                        Vector3 touchPos = new Vector3(t.position.x, t.position.y, screenPos.z);
+
+                        // Convert screen position to world position with offset changes.
+                        Vector3 worldPos = Camera.main.ScreenToWorldPoint(touchPos) + offset;
+
+                        // Drag object
+                        dragItem.position = worldPos;
+                    }
+                }
+                else if (t.phase == TouchPhase.Ended)
+                {
+                    if (dragItem)
+                    {
+                        //print("*********** ENDED!");
+                        dragItem.GetComponent<FruitItem>().SetGrabbed(false);
+                        dragItem = null;
+                    }
+                }
+            }
         }
-
-        if (isDragging)
-        {
-            // Touch screen position
-            Vector3 touchPos = new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, screenPos.z);
-
-            // Convert screen position to world position with offset changes.
-            Vector3 worldPos = Camera.main.ScreenToWorldPoint(touchPos) + offset;
-
-            // Drag object
-            dragObject.position = worldPos;
-        }        
-#endif
     }
     #endregion
 
