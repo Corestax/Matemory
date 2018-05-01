@@ -11,6 +11,9 @@ public class RoomController : Singleton<RoomController>
     public Vector3 MaxDraggableBoundaries { get { return maxDraggableBoundaries; } }
     private Vector3 maxDraggableBoundaries;
 
+    //public Vector3 MinDraggableBoundaries { get { return minDraggableBoundaries; } }
+    //private Vector3 minDraggableBoundaries;
+
     public GameObject Room;
 
     void Start()
@@ -32,6 +35,8 @@ public class RoomController : Singleton<RoomController>
             if (b.transform.localPosition.z > maxDraggableBoundaries.z)
                 maxDraggableBoundaries.z = b.transform.localPosition.z;
         }
+
+        //minDraggableBoundaries = new Vector3(InnerBoundaryCollider.GetComponent<CapsuleCollider>().radius, InnerBoundaryCollider.GetComponent<CapsuleCollider>().radius, InnerBoundaryCollider.GetComponent<CapsuleCollider>().radius);
     }
 
     void OnEnable()

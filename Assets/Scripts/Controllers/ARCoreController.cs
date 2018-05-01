@@ -50,6 +50,11 @@ public class ARCoreController : MonoBehaviour
 
     private Anchor anchor;
 
+    public void TEST()
+    {
+        print("YESSSSSSSSSSS");
+    }
+
     /// <summary>
     /// The Unity Update() method.
     /// </summary>

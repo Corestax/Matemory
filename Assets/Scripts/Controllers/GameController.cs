@@ -98,7 +98,7 @@ public class GameController : Singleton<GameController>
 
     #region DRAGGABLE
     private Vector3 screenPos;
-    private Vector3 offset;
+    private Vector3 vOffset;
     private RaycastHit hit;
     private Ray ray;
     private Transform dragItem;
@@ -123,7 +123,7 @@ public class GameController : Singleton<GameController>
 
                         // Convert world position to screen position.
                         screenPos = Camera.main.WorldToScreenPoint(dragItem.position);
-                        offset = dragItem.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPos.z));
+                        vOffset = dragItem.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPos.z));
                     }
                 }
             }
@@ -135,10 +135,28 @@ public class GameController : Singleton<GameController>
                     Vector3 touchPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPos.z);
 
                     // Convert screen position to world position with offset changes.
-                    Vector3 worldPos = Camera.main.ScreenToWorldPoint(touchPos) + offset;
+                    Vector3 worldPos = Camera.main.ScreenToWorldPoint(touchPos) + vOffset;
+
+                    //var fruitCollider = dragItem.GetComponent<Collider>();
+
+                    //// Offset X
+                    //float padding = fruitCollider.bounds.size.x / 2f;
+                    //float offset = RoomController.Instance.Room.transform.position.x;
+                    //worldPos.x = Mathf.Clamp(worldPos.x, -RoomController.Instance.MaxDraggableBoundaries.x + padding + offset, RoomController.Instance.MaxDraggableBoundaries.x - padding + offset);
+
+                    //// Offset Y
+                    //float minHeight = fruitCollider.bounds.size.y / 2f;
+                    //padding = fruitCollider.bounds.size.y / 2f;
+                    //offset = RoomController.Instance.Room.transform.position.y;
+                    //worldPos.y = Mathf.Clamp(worldPos.y, minHeight + padding + offset, RoomController.Instance.MaxDraggableBoundaries.y - padding + offset);
+
+                    //// Offset Z
+                    //offset = RoomController.Instance.Room.transform.position.z;
+                    //padding = fruitCollider.bounds.size.z / 2f;
+                    //worldPos.z = Mathf.Clamp(worldPos.z, -RoomController.Instance.MaxDraggableBoundaries.z + padding + offset, RoomController.Instance.MaxDraggableBoundaries.z - padding + offset);
 
                     // Drag object
-                    dragItem.position = worldPos;
+                    dragItem.position = worldPos;                    
                 }
             }
             else if (Input.GetMouseButtonUp(0))
@@ -167,7 +185,7 @@ public class GameController : Singleton<GameController>
 
                             // Convert world position to screen position.
                             screenPos = Camera.main.WorldToScreenPoint(dragItem.position);
-                            offset = dragItem.position - Camera.main.ScreenToWorldPoint(new Vector3(t.position.x, t.position.y, screenPos.z));
+                            vOffset = dragItem.position - Camera.main.ScreenToWorldPoint(new Vector3(t.position.x, t.position.y, screenPos.z));
                         }
                     }
                 }
@@ -179,7 +197,7 @@ public class GameController : Singleton<GameController>
                         Vector3 touchPos = new Vector3(t.position.x, t.position.y, screenPos.z);
 
                         // Convert screen position to world position with offset changes.
-                        Vector3 worldPos = Camera.main.ScreenToWorldPoint(touchPos) + offset;
+                        Vector3 worldPos = Camera.main.ScreenToWorldPoint(touchPos) + vOffset;
 
                         // Drag object
                         dragItem.position = worldPos;

@@ -4,11 +4,11 @@
 public class FruitItem : MonoBehaviour
 {
     public enum FruitTypes { PINEAPPLE, BANNANA, WATERMELON }
-    public FruitTypes Fruit;    
+    public FruitTypes Fruit;
 
     public int[] Order;
     public Vector3 PositionToSnap { get; private set; }
-        
+
     private RoomController roomController;
     private Rigidbody rigidBody;
     private Collider fruitCollider;
@@ -23,9 +23,9 @@ public class FruitItem : MonoBehaviour
         fruitCollider = GetComponent<Collider>();
         rigidBody.isKinematic = true;
         PositionToSnap = transform.position;
-        explosionForce = 3f;
+        explosionForce = 10f;
     }
-    
+
     void OnEnable()
     {
         CheckShowStartPosition();
@@ -41,9 +41,6 @@ public class FruitItem : MonoBehaviour
 
     void Update()
     {
-        if (!GameController.Instance.IsGameRunning)
-            return;
-
         // Constaint positions within boundaries
         StayWithinBoundaries();
     }
@@ -56,17 +53,17 @@ public class FruitItem : MonoBehaviour
 
     private void StayWithinBoundaries()
     {
-        //// Constaint positions within boundaries (Allow dragging to origin)
-        //if (isGrabbed)
+        // Constaint positions within boundaries (Allow dragging to origin)
+        //if (isGrabbed || !GameController.Instance.IsGameRunning)
         //{
             // Offset X
-            float padding = fruitCollider.bounds.size.x /4f;
+            float padding = fruitCollider.bounds.size.x / 4f;
             float offset = roomController.Room.transform.position.x;
             float x = Mathf.Clamp(transform.position.x, -roomController.MaxDraggableBoundaries.x + padding + offset, roomController.MaxDraggableBoundaries.x - padding + offset);
 
             // Offset Y
-            float minHeight = fruitCollider.bounds.size.y / 2f;
-            padding = fruitCollider.bounds.size.y / 4f;
+            float minHeight = fruitCollider.bounds.size.y / 4f;
+            padding = fruitCollider.bounds.size.y / 2f;
             offset = roomController.Room.transform.position.y;
             float y = Mathf.Clamp(transform.position.y, minHeight + padding + offset, roomController.MaxDraggableBoundaries.y - padding + offset);
 
@@ -131,8 +128,14 @@ public class FruitItem : MonoBehaviour
 
     //private void OnCollisionEnter(Collision collision)
     //{
-    //    if(collision.collider.tag == "Platform")
-    //        print(gameObject.name + " collided with " + collision.collider.name);
+    //    if (gameObject.name == "2/3")
+    //    {
+    //        if (collision.collider.tag == "Wall")
+    //        {
+    //            print(rigidBody.velocity + " -- " + rigidBody.angularVelocity);
+    //            //print(gameObject.name + " collided with " + collision.collider.name);
+    //        }
+    //    }
     //}
 
     private void OnGameStarted(bool showStatusText)
