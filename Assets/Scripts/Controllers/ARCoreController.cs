@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using GoogleARCore;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
 using GoogleARCore.HelloAR;
 
@@ -49,11 +50,6 @@ public class ARCoreController : MonoBehaviour
     private bool m_IsQuitting = false;
 
     private Anchor anchor;
-
-    public void TEST()
-    {
-        print("YESSSSSSSSSSS");
-    }
 
     /// <summary>
     /// The Unity Update() method.
@@ -126,42 +122,46 @@ public class ARCoreController : MonoBehaviour
         // Reposition room
         if (Frame.Raycast(touch.position.x, touch.position.y, raycastFilter, out hit))
         {
-            print("Repositioning room...");
-            //var roomPrefab = Instantiate(RoomPrefab, hit.Pose.position, hit.Pose.rotation);
-
-            // Set room
-            RoomController.Instance.Room = RoomPrefab;
-            RoomPrefab.transform.position = hit.Pose.position;
-            RoomPrefab.transform.rotation = hit.Pose.rotation;
-            RoomPrefab.SetActive(true);
-
-            GameController.Instance.Spawn(GameController.PremadeTypes.GIRAFFE, true);
-
-            // Position room 5 units in front of the camera
-            //var pos = FirstPersonCamera.transform.forward * 10f;
-            //pos.y = -5f;
-            //RoomController.Instance.ShowRoom(hit.Pose.position);
-
-            // Look at camera but still be flush with the plane.
-            if ((hit.Flags & TrackableHitFlags.PlaneWithinPolygon) != TrackableHitFlags.None)
+            // Check if the mouse was clicked over a UI element
+            if (!EventSystem.current.IsPointerOverGameObject(touch.fingerId))
             {
-                // Get the camera position and match the y-component with the hit position.
-                var pos = FirstPersonCamera.transform.position;
-                pos.y = hit.Pose.position.y;
+                print("Repositioning room...");
+                //var roomPrefab = Instantiate(RoomPrefab, hit.Pose.position, hit.Pose.rotation);
 
-                RoomPrefab.transform.LookAt(pos, RoomPrefab.transform.up);
-                RoomPrefab.transform.rotation = Quaternion.Euler(0.0f, RoomPrefab.transform.rotation.eulerAngles.y, RoomPrefab.transform.rotation.z);
+                // Set room
+                RoomController.Instance.Room = RoomPrefab;
+                RoomPrefab.transform.position = hit.Pose.position;
+                RoomPrefab.transform.rotation = hit.Pose.rotation;
+                RoomPrefab.SetActive(true);
+
+                GameController.Instance.Spawn(GameController.PremadeTypes.GIRAFFE, true);
+
+                // Position room 5 units in front of the camera
+                //var pos = FirstPersonCamera.transform.forward * 10f;
+                //pos.y = -5f;
+                //RoomController.Instance.ShowRoom(hit.Pose.position);
+
+                // Look at camera but still be flush with the plane.
+                if ((hit.Flags & TrackableHitFlags.PlaneWithinPolygon) != TrackableHitFlags.None)
+                {
+                    // Get the camera position and match the y-component with the hit position.
+                    Vector3 pos = FirstPersonCamera.transform.position;
+                    pos.y = hit.Pose.position.y;
+
+                    RoomPrefab.transform.LookAt(pos, RoomPrefab.transform.up);
+                    //RoomPrefab.transform.rotation = Quaternion.Euler(0.0f, RoomPrefab.transform.rotation.eulerAngles.y, RoomPrefab.transform.rotation.z);
+                }
+
+                // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical world evolves.
+                if (!anchor)
+                {
+                    anchor = hit.Trackable.CreateAnchor(hit.Pose);
+                    RoomPrefab.transform.parent = anchor.transform;
+                }
+
+                // Hide plane visualizer
+                TogglePlaneVisualizer(false);
             }
-
-            // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical world evolves.
-            if (!anchor)
-            {
-                anchor = hit.Trackable.CreateAnchor(hit.Pose);
-                RoomPrefab.transform.parent = anchor.transform;
-            }
-
-            // Hide plane visualizer
-            TogglePlaneVisualizer(false);
         }
     }
 

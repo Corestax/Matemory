@@ -19,6 +19,7 @@ public class RoomController : Singleton<RoomController>
     void Start()
     {
         maxDraggableBoundaries = Vector3.zero;
+        BoundaryColliders.SetActive(true);
         FindLocalBoundaries();
     }
 
@@ -69,6 +70,10 @@ public class RoomController : Singleton<RoomController>
 
     private IEnumerator EnableInnerColliderTemporarily(float duration)
     {
+        // Disable Outer Boundary Colliders to allow raycasting for grabbing items
+        BoundaryColliders.SetActive(false);
+
+        // Quickly toggle inner boundary colliders to disperse exploded items outwards
         EnableInnerBoundaryCollider();
         yield return new WaitForSeconds(duration);
         DisableInnerBoundaryCollider();

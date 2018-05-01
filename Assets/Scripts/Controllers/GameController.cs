@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using GoogleARCore;
 using UnityEngine.SceneManagement;
 
@@ -22,7 +23,7 @@ public class GameController : Singleton<GameController>
     }
 
     [SerializeField]
-    private bool isInstantPreview;
+    private bool enableAR;
     [SerializeField]
     private ARCoreController arCoreController;
     [SerializeField]
@@ -62,7 +63,12 @@ public class GameController : Singleton<GameController>
             Items.Add(name, go);
         }
 
-        if(isInstantPreview)
+        // Force AR on builds
+#if !UNITY_EDITOR && UNITY_ANDROID
+        enableAR = true;
+#endif
+
+        if (enableAR)
         {
             arCoreController.gameObject.SetActive(true);
             arCoreSession.gameObject.SetActive(true);
@@ -96,7 +102,7 @@ public class GameController : Singleton<GameController>
     }
 
 
-    #region DRAGGABLE
+#region DRAGGABLE
     private Vector3 screenPos;
     private Vector3 vOffset;
     private RaycastHit hit;
@@ -108,7 +114,8 @@ public class GameController : Singleton<GameController>
         if (!IsGameRunning)
             return;
 
-        if (!isInstantPreview)
+        // Mouse input
+        if (!enableAR)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -168,57 +175,61 @@ public class GameController : Singleton<GameController>
                 }
             }
         }
+        // Touch input
         else
         {
-            foreach (var t in Input.touches)
+            foreach (var touch in Input.touches)
             {
-                if (t.phase == TouchPhase.Began)
+                if (!EventSystem.current.IsPointerOverGameObject(touch.fingerId))
                 {
-                    ray = Camera.main.ScreenPointToRay(t.position);
-                    if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+                    if (touch.phase == TouchPhase.Began)
                     {
-                        if (hit.collider.tag == "Draggable")
+                        ray = Camera.main.ScreenPointToRay(touch.position);
+                        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
                         {
-                            //print("*********** START!");
-                            dragItem = hit.collider.transform;
-                            dragItem.GetComponent<FruitItem>().SetGrabbed(true);
+                            if (hit.collider.tag == "Draggable")
+                            {
+                                //print("*********** START!");
+                                dragItem = hit.collider.transform;
+                                dragItem.GetComponent<FruitItem>().SetGrabbed(true);
 
-                            // Convert world position to screen position.
-                            screenPos = Camera.main.WorldToScreenPoint(dragItem.position);
-                            vOffset = dragItem.position - Camera.main.ScreenToWorldPoint(new Vector3(t.position.x, t.position.y, screenPos.z));
+                                // Convert world position to screen position.
+                                screenPos = Camera.main.WorldToScreenPoint(dragItem.position);
+                                vOffset = dragItem.position - Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, screenPos.z));
+                            }
                         }
                     }
-                }
-                else if (t.phase == TouchPhase.Moved)
-                {
-                    if (dragItem)
+                    else if (touch.phase == TouchPhase.Moved)
                     {
-                        // Touch screen position
-                        Vector3 touchPos = new Vector3(t.position.x, t.position.y, screenPos.z);
+                        if (dragItem)
+                        {
+                            // Touch screen position
+                            Vector3 touchPos = new Vector3(touch.position.x, touch.position.y, screenPos.z);
 
-                        // Convert screen position to world position with offset changes.
-                        Vector3 worldPos = Camera.main.ScreenToWorldPoint(touchPos) + vOffset;
+                            // Convert screen position to world position with offset changes.
+                            Vector3 worldPos = Camera.main.ScreenToWorldPoint(touchPos) + vOffset;
 
-                        // Drag object
-                        dragItem.position = worldPos;
+                            // Drag object
+                            dragItem.position = worldPos;
+                        }
                     }
-                }
-                else if (t.phase == TouchPhase.Ended)
-                {
-                    if (dragItem)
+                    else if (touch.phase == TouchPhase.Ended)
                     {
-                        //print("*********** ENDED!");
-                        dragItem.GetComponent<FruitItem>().SetGrabbed(false);
-                        dragItem = null;
+                        if (dragItem)
+                        {
+                            //print("*********** ENDED!");
+                            dragItem.GetComponent<FruitItem>().SetGrabbed(false);
+                            dragItem = null;
+                        }
                     }
                 }
             }
         }
     }
-    #endregion
+#endregion
 
 
-    #region LOAD GAME    
+#region LOAD GAME    
     public void Spawn(PremadeTypes _type, bool startGame)
     {
         // Stop game first before starting a new game
@@ -281,10 +292,10 @@ public class GameController : Singleton<GameController>
             StartGame();
         }
     }
-    #endregion
+#endregion
 
 
-    #region PLATFORM ROTATION
+#region PLATFORM ROTATION
     private void RotatePlatform(Action<bool> callback = null, float delay = 0f, bool startGame = true)
     {
         if (CR_RotatePlatform != null)
@@ -325,10 +336,10 @@ public class GameController : Singleton<GameController>
             CR_RotatePlatform = null;
         }
     }
-    #endregion
+#endregion
 
 
-    #region START/STOP GAME
+#region START/STOP GAME
     public void StartGame(bool showStatusText = true)
     {
         if (IsGameRunning)
@@ -350,13 +361,13 @@ public class GameController : Singleton<GameController>
 
         StopPlatformRotation();
     }
-    #endregion
+#endregion
 
 
-    #region EXTRAS
+#region EXTRAS
     private void HideIndicators()
     {
         visualIndicator.HideIndicators();
     }
-    #endregion
+#endregion
 }
