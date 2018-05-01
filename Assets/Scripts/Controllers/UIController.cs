@@ -9,7 +9,9 @@ public class UIController : Singleton<UIController>
     private GameController game;
     [SerializeField]
     private Text text_status;
-    
+    [SerializeField]
+    private GameObject Panel_RotatePlatform;
+
     private Coroutine CR_HideText;
 
     void Start()
@@ -41,6 +43,7 @@ public class UIController : Singleton<UIController>
             return;
 
         text_status.text = "START!";
+        Panel_RotatePlatform.SetActive(true);
 
         if (CR_HideText != null)
             StopCoroutine(CR_HideText);
@@ -53,6 +56,7 @@ public class UIController : Singleton<UIController>
             return;
 
         text_status.text = "GAME OVER!";
+        Panel_RotatePlatform.SetActive(false);
 
         if (CR_HideText != null)
             StopCoroutine(CR_HideText);
