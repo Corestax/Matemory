@@ -10,6 +10,8 @@ public class UIController : Singleton<UIController>
     [SerializeField]
     private Text text_status;
     [SerializeField]
+    private Text text_console;
+    [SerializeField]
     private GameObject Panel_RotatePlatform;
 
     private Coroutine CR_HideText;
@@ -68,4 +70,9 @@ public class UIController : Singleton<UIController>
         yield return new WaitForSeconds(1f);
         text_status.text = "";
     }    
+
+    public void ShowConsoleText(string text)
+    {
+        text_console.text += "\n" + text;
+    }
 }

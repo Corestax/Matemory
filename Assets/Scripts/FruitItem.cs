@@ -47,6 +47,7 @@ public class FruitItem : MonoBehaviour
 
     public void SetGrabbed(bool state)
     {
+        UIController.Instance.ShowConsoleText("Grabbed " + gameObject.name + ": " + state);
         isGrabbed = state;
         rigidBody.isKinematic = state;
     }

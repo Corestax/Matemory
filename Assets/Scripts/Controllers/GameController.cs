@@ -53,7 +53,7 @@ public class GameController : Singleton<GameController>
     void Start()
     {
         visualIndicator = VisualIndicatorController.Instance;
-        Items = new Dictionary<string, GameObject>();
+        Items = new Dictionary<string, GameObject>();        
 
         // Populate dictionary of premade items from inspector
         foreach (var item in PremadeItems)
@@ -82,10 +82,13 @@ public class GameController : Singleton<GameController>
             arCoreEnvironmentalLight.gameObject.SetActive(false);
             camEditor.gameObject.SetActive(true);
         }
+
+        Screen.orientation = ScreenOrientation.Landscape;
     }
 
     void Update()
     {
+#if UNITY_EDITOR
         if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha1))
             Spawn(PremadeTypes.GIRAFFE, true);
         if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha2))
@@ -97,12 +100,26 @@ public class GameController : Singleton<GameController>
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.Escape))
             SceneManager.LoadScene(0);
+#endif
 
         DragItem();
     }
 
 
-#region DRAGGABLE
+    #region DEBUG BUTTON CLICKS
+    public void ReSpawn()
+    {
+        Spawn(PremadeTypes.GIRAFFE, true);
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(0);
+    }
+    #endregion
+
+
+    #region DRAGGABLE
     private Vector3 screenPos;
     private Vector3 vOffset;
     private RaycastHit hit;
