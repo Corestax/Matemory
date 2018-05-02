@@ -45,23 +45,36 @@ public class FruitItem : MonoBehaviour
             GameController.OnGameStarted -= OnGameStarted;
     }
 
+    private void OnGameStarted(bool showStatusText)
+    {
+        HighlightStartPositions();
+    }
+
+    private void HighlightStartPositions()
+    {
+        if (!showStartPosition)
+            return;
+
+        VisualIndicatorController.Instance.ShowIndicator(this, PositionToSnap);
+    }
+
+    private void CheckShowStartPosition()
+    {
+        foreach (int i in Order)
+        {
+            if (i == 1)
+            {
+                showStartPosition = true;
+                return;
+            }
+        }
+    }
+
     void Update()
     {
         // Constaint positions within boundaries
         StayWithinBoundaries();
-    }
-
-    public void SetGrabbed(bool state)
-    {
-        // Outline
-        if(state)
-            material.SetFloat("_OutlineAlpha", 1f);
-        else
-            material.SetFloat("_OutlineAlpha", 0f);
-
-        isGrabbed = state;
-        rigidBody.isKinematic = state;
-    }
+    }    
 
     private void StayWithinBoundaries()
     {
@@ -117,25 +130,30 @@ public class FruitItem : MonoBehaviour
         //    // Set position
         //    transform.position = new Vector3(x, y, z);
         //}
-    }
-
-    private void CheckShowStartPosition()
-    {
-        foreach (int i in Order)
-        {
-            if (i == 1)
-            {
-                showStartPosition = true;
-                return;
-            }
-        }
-    }
+    }           
 
     public void Explode()
     {
         rigidBody = GetComponent<Rigidbody>();
         rigidBody.isKinematic = false;
         rigidBody.AddRelativeForce(Random.onUnitSphere * explosionForce, ForceMode.Impulse);
+    }
+
+    public void SetGrabbed(bool state)
+    {
+        // Outline
+        if (state)
+            material.SetFloat("_OutlineAlpha", 1f);
+        else
+            material.SetFloat("_OutlineAlpha", 0f);
+
+        isGrabbed = state;
+        rigidBody.isKinematic = state;
+    }
+
+    public void Rotate(bool clockwise)
+    {
+
     }
 
     //private void OnCollisionEnter(Collision collision)
@@ -148,20 +166,7 @@ public class FruitItem : MonoBehaviour
     //            //print(gameObject.name + " collided with " + collision.collider.name);
     //        }
     //    }
-    //}
-
-    private void OnGameStarted(bool showStatusText)
-    {
-        HighlightStartPositions();
-    }
-
-    private void HighlightStartPositions()
-    {
-        if (!showStartPosition)
-            return;
-
-        VisualIndicatorController.Instance.ShowIndicator(this, PositionToSnap);
-    }
+    //}       
 
     //public void CheckDistance()
     //{
