@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Platform : MonoBehaviour
 {
@@ -16,11 +17,11 @@ public class Platform : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q))
-            StartRotation(true);
+            Rotate(true);
         else if (Input.GetKeyDown(KeyCode.W))
-            StartRotation(false);
+            Rotate(false);
         else if (Input.GetKeyDown(KeyCode.E))
-            StopRotation();
+            StopRotate();
 
         if (!isRotate)
             return;
@@ -32,13 +33,13 @@ public class Platform : MonoBehaviour
             transform.Rotate(-Vector3.up, Time.deltaTime * speed, Space.World);
     }
 
-    public void StartRotation(bool clockwise)
+    public void Rotate(bool clockwise)
     {
         isRotate = true;
         isClockwise = clockwise;
     }
 
-    public void StopRotation()
+    public void StopRotate()
     {
         isRotate = false;
     }
