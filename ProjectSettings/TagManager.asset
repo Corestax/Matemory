@@ -6,7 +6,6 @@ TagManager:
   tags:
   - Platform
   - Draggable
-  - PlaneVisualizer
   layers:
   - Default
   - TransparentFX

@@ -43,14 +43,15 @@ public class PinchZoom : MonoBehaviour
                 float currDelta = Vector2.Distance(touch0.position, touch1.position);
                 float currScale = currDelta / startDelta;
 
-                if (scale == currScale)
-                    StopZoom();
-                else if (scale > currScale)
+                if (scale > currScale)
                     Zoom(false);
                 else if (scale < currScale)
                     Zoom(true);
 
-                scale = currScale;                
+                scale = currScale;
+
+                if (touch0.phase == TouchPhase.Ended || touch1.phase == TouchPhase.Ended)
+                    StopZoom();
             }            
         }
 

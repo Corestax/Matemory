@@ -167,12 +167,10 @@ public class ARCoreController : MonoBehaviour
 
     public void TogglePlaneVisualizer(bool flag)
     {
-        foreach (GameObject plane in GameObject.FindGameObjectsWithTag("PlaneVisualizer"))
+        foreach (TrackedPlaneVisualizer tpv in Resources.FindObjectsOfTypeAll(typeof(TrackedPlaneVisualizer)) as TrackedPlaneVisualizer[])
         {
-            TrackedPlaneVisualizer t = plane.GetComponent<TrackedPlaneVisualizer>();
-            Renderer r = plane.GetComponent<Renderer>();
-            r.enabled = flag;
-            t.enabled = flag;
+            tpv.GetComponent<Renderer>().enabled = flag;
+            tpv.enabled = flag;
         }
     }
     
