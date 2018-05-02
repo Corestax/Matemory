@@ -24,6 +24,8 @@ public class GameController : Singleton<GameController>
 
     [SerializeField]
     private bool enableAR;
+    public bool EnableAR { get { return enableAR; } }
+
     [SerializeField]
     private ARCoreController arCoreController;
     [SerializeField]
@@ -32,12 +34,16 @@ public class GameController : Singleton<GameController>
     private EnvironmentalLight arCoreEnvironmentalLight;
     [SerializeField]
     private Camera camEditor;
+    [SerializeField]
+    private Camera camAR;
+    [SerializeField]
+    private PinchZoom pinchZoom;
 
     [SerializeField]
     private Premades[] PremadeItems;
 
     public Transform Platform;
-
+    
     public Dictionary<string, GameObject> Items { get; private set; }
     public bool IsGameRunning { get; private set; }
 
@@ -73,14 +79,18 @@ public class GameController : Singleton<GameController>
             arCoreController.gameObject.SetActive(true);
             arCoreSession.gameObject.SetActive(true);
             arCoreEnvironmentalLight.gameObject.SetActive(true);
+            camAR.gameObject.SetActive(true);
             camEditor.gameObject.SetActive(false);
+            pinchZoom.MainCamera = camAR;
         }
         else
         {
             arCoreController.gameObject.SetActive(false);
             arCoreSession.gameObject.SetActive(false);
             arCoreEnvironmentalLight.gameObject.SetActive(false);
+            camAR.gameObject.SetActive(false);
             camEditor.gameObject.SetActive(true);
+            pinchZoom.MainCamera = camEditor;
         }
 
         Screen.orientation = ScreenOrientation.Landscape;

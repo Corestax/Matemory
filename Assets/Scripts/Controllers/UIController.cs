@@ -12,7 +12,9 @@ public class UIController : Singleton<UIController>
     [SerializeField]
     private Text text_console;
     [SerializeField]
-    private GameObject Panel_RotatePlatform;
+    private GameObject RotatePlatformButtons;
+    [SerializeField]
+    private GameObject ZoomButtons;
 
     private Coroutine CR_HideText;
 
@@ -45,7 +47,8 @@ public class UIController : Singleton<UIController>
             return;
 
         text_status.text = "START!";
-        Panel_RotatePlatform.SetActive(true);
+        RotatePlatformButtons.SetActive(true);
+        ZoomButtons.SetActive(true);
 
         if (CR_HideText != null)
             StopCoroutine(CR_HideText);
@@ -58,7 +61,8 @@ public class UIController : Singleton<UIController>
             return;
 
         text_status.text = "GAME OVER!";
-        Panel_RotatePlatform.SetActive(false);
+        RotatePlatformButtons.SetActive(false);
+        ZoomButtons.SetActive(false);
 
         if (CR_HideText != null)
             StopCoroutine(CR_HideText);

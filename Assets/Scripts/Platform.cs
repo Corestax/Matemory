@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class Platform : MonoBehaviour
@@ -16,16 +14,8 @@ public class Platform : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
-            Rotate(true);
-        else if (Input.GetKeyDown(KeyCode.W))
-            Rotate(false);
-        else if (Input.GetKeyDown(KeyCode.E))
-            StopRotate();
-
         if (!isRotate)
             return;
-
 
         if (isClockwise)
             transform.Rotate(Vector3.up * Time.deltaTime * speed, Space.World);
