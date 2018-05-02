@@ -48,7 +48,7 @@ public class UIController : Singleton<UIController>
 
         text_status.text = "START!";
         RotatePlatformButtons.SetActive(true);
-        ZoomButtons.SetActive(true);
+        //ZoomButtons.SetActive(true);
 
         if (CR_HideText != null)
             StopCoroutine(CR_HideText);
@@ -62,7 +62,7 @@ public class UIController : Singleton<UIController>
 
         text_status.text = "GAME OVER!";
         RotatePlatformButtons.SetActive(false);
-        ZoomButtons.SetActive(false);
+        //ZoomButtons.SetActive(false);
 
         if (CR_HideText != null)
             StopCoroutine(CR_HideText);

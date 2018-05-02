@@ -25,12 +25,39 @@ public class PinchZoom : MonoBehaviour
         scale = 1f;
     }
 
+    private Touch touch0;
+    private Touch touch1;
     void Update()
     {
+        if (Input.touches.Length == 2)
+        {
+            touch0 = Input.touches[0];
+            touch1 = Input.touches[1];
+            UIController.Instance.ShowConsoleText(touch0.phase + " -- " + touch1.phase);
+            if (touch1.phase == TouchPhase.Began)
+            {
+                startDelta = Vector2.Distance(touch0.position, touch1.position);
+            }
+            else
+            {
+                float currDelta = Vector2.Distance(touch0.position, touch1.position);
+                float currScale = currDelta / startDelta;
+
+                if (scale == currScale)
+                    StopZoom();
+                else if (scale > currScale)
+                    Zoom(false);
+                else if (scale < currScale)
+                    Zoom(true);
+
+                scale = currScale;                
+            }            
+        }
+
         if (!isAnimating)
             return;
 
-        // Find position to move to 
+        // Zoom in/out (move platform towards player camera - ignore y axis)
         Vector3 targetPos =  new Vector3(MainCamera.transform.position.x, Platform.position.y, MainCamera.transform.position.z); 
         Vector3 distance = Platform.position - targetPos;
         Vector3 direction = distance.normalized;
@@ -38,28 +65,7 @@ public class PinchZoom : MonoBehaviour
         if(isZoomIn && distance.magnitude > 0.1f)
             Platform.position -= direction * speed * Time.deltaTime;
         else if (!isZoomIn && distance.magnitude < 1.5f)
-            Platform.position += direction * speed * Time.deltaTime;
-
-        //if (Input.touches.Length == 2)
-        //{
-        //    print("2 TOUCHES!" + Input.GetTouch(0).phase + " -- " + Input.GetTouch(1).phase);
-        //    if (Input.GetTouch(1).phase == TouchPhase.Began)
-        //    {
-        //        startDelta = Vector2.Distance(Input.touches[0].position, Input.touches[1].position);
-        //    }
-        //    else
-        //    {
-        //        float currDelta = Vector2.Distance(Input.touches[0].position, Input.touches[1].position);
-        //        float currScale = currDelta / startDelta;
-
-        //        if (scale > currScale)
-        //            Zoom(true);
-        //        else if (scale < currScale)
-        //            Zoom(false);
-
-        //        scale = currScale;
-        //    }
-        //}
+            Platform.position += direction * speed * Time.deltaTime;        
     }
 
     public void Zoom(bool zoomIn)
