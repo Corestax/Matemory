@@ -78,7 +78,7 @@
             fixed diff = max (0, dot (s.Normal, lightDir));
 
             fixed4 c;
-            c.rgb = (s.Albedo * _LightColor0.rgb * diff + _LightColor0.rgb) * atten;
+            c.rgb = (s.Albedo * _LightColor0.rgb * diff) * atten;
             UNITY_OPAQUE_ALPHA(c.a);
             return c;
             }
