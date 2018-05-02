@@ -32,12 +32,13 @@ public class PinchZoom : MonoBehaviour
 
         // Find position to move to 
         Vector3 targetPos =  new Vector3(MainCamera.transform.position.x, Platform.position.y, MainCamera.transform.position.z); 
-        float step = speed * Time.deltaTime;
+        Vector3 distance = Platform.position - targetPos;
+        Vector3 direction = distance.normalized;
 
-        if (isZoomIn)
-            Platform.position =  Vector3.MoveTowards(Platform.position, targetPos, step);
-        else
-            Platform.position = Vector3.MoveTowards(Platform.position, -targetPos, step);
+        if(isZoomIn && distance.magnitude > 0.1f)
+            Platform.position -= direction * speed * Time.deltaTime;
+        else if (!isZoomIn && distance.magnitude < 1.5f)
+            Platform.position += direction * speed * Time.deltaTime;
 
         //if (Input.touches.Length == 2)
         //{
