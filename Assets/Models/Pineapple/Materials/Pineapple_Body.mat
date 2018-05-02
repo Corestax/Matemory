@@ -7,12 +7,12 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Pineapple_Body
-  m_Shader: {fileID: 4800000, guid: c4790e12ed76c486d9fd9d9ccefecb25, type: 3}
+  m_Shader: {fileID: 4800000, guid: 295896ae29123b3419b46567a595c519, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3001
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -65,6 +65,8 @@ Material:
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
+    - _OutlineAlpha: 0
+    - _OutlineOffset: 0.03
     - _Parallax: 0.02
     - _PointSize: 5
     - _Shininess: 0.078125
@@ -75,7 +77,7 @@ Material:
     - _UvRotation: 30
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.6, g: 0.6, b: 0.6, a: 1}
+    - _Color: {r: 1, g: 0.6413793, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     - _GridColor: {r: 1, g: 1, b: 0, a: 1}
     - _UvBottomLeftRight: {r: 0, g: 0, b: 1, a: 0}

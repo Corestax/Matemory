@@ -15,12 +15,18 @@ public class FruitItem : MonoBehaviour
     private bool isGrabbed;
     private float explosionForce;
     private bool showStartPosition;
+    private Material material;
 
     void Start()
     {
         roomController = RoomController.Instance;
         rigidBody = GetComponent<Rigidbody>();
         fruitCollider = GetComponent<Collider>();
+
+        // Clone material
+        material = GetComponentInChildren<MeshRenderer>().material;
+        material.CopyPropertiesFromMaterial(new Material(material));
+
         rigidBody.isKinematic = true;
         PositionToSnap = transform.position;
         explosionForce = 10f;
@@ -47,7 +53,12 @@ public class FruitItem : MonoBehaviour
 
     public void SetGrabbed(bool state)
     {
-        UIController.Instance.ShowConsoleText("Grabbed " + gameObject.name + ": " + state);
+        // Outline
+        if(state)
+            material.SetFloat("_OutlineAlpha", 1f);
+        else
+            material.SetFloat("_OutlineAlpha", 0f);
+
         isGrabbed = state;
         rigidBody.isKinematic = state;
     }
