@@ -148,7 +148,17 @@ public class FruitItem : MonoBehaviour
             material.SetFloat("_OutlineAlpha", 0f);
 
         isGrabbed = state;
+        if(state)
+            SetLayerRecursively(gameObject, 8);
+        else
+            SetLayerRecursively(gameObject, 0);
         rigidBody.isKinematic = state;
+    }
+
+    public static void SetLayerRecursively(GameObject go, int layerNumber)
+    {
+        foreach (Transform trans in go.GetComponentsInChildren<Transform>(true))
+            trans.gameObject.layer = layerNumber;
     }
 
     //public void CheckDistance()

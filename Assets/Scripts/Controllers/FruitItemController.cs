@@ -8,6 +8,8 @@ using Input = GoogleARCore.InstantPreviewInput;
 public class FruitItemController : Singleton<FruitItemController>
 {
     [SerializeField]
+    private Camera cameraFruitControl;
+    [SerializeField]
     private GameObject buttons_rotateItem;
     [SerializeField]
     private GameObject panel_controls;
@@ -15,7 +17,7 @@ public class FruitItemController : Singleton<FruitItemController>
     public enum ROTATIONS { NONE, X, Y, Z }
     private ROTATIONS activeRotation;
 
-    private GameObject clonedFruitControl;
+    private GameObject clonedFruit;
     private FruitItem selectedFruit;
     private bool isClockwise;
     private const float SPEED = 100f;
@@ -59,6 +61,7 @@ public class FruitItemController : Singleton<FruitItemController>
                     selectedFruit.transform.Rotate(Vector3.right * Time.deltaTime * SPEED, Space.World);
                 else
                     selectedFruit.transform.Rotate(-Vector3.right, Time.deltaTime * SPEED, Space.World);
+                clonedFruit.transform.rotation = selectedFruit.transform.rotation;
                 break;
 
             case ROTATIONS.Y:
@@ -66,6 +69,7 @@ public class FruitItemController : Singleton<FruitItemController>
                     selectedFruit.transform.Rotate(Vector3.up * Time.deltaTime * SPEED, Space.World);
                 else
                     selectedFruit.transform.Rotate(-Vector3.up, Time.deltaTime * SPEED, Space.World);
+                clonedFruit.transform.rotation = selectedFruit.transform.rotation;
                 break;
 
             case ROTATIONS.Z:
@@ -73,6 +77,7 @@ public class FruitItemController : Singleton<FruitItemController>
                     selectedFruit.transform.Rotate(Vector3.forward * Time.deltaTime * SPEED, Space.World);
                 else
                     selectedFruit.transform.Rotate(-Vector3.forward, Time.deltaTime * SPEED, Space.World);
+                clonedFruit.transform.rotation = selectedFruit.transform.rotation;
                 break;
 
             default:
@@ -86,34 +91,20 @@ public class FruitItemController : Singleton<FruitItemController>
         selectedFruit.SetGrabbed(true);
         buttons_rotateItem.SetActive(true);
         panel_controls.SetActive(true);
+        cameraFruitControl.gameObject.SetActive(true);
 
-        // Clone fruit control object
-        clonedFruitControl = Instantiate(selectedFruit.gameObject, panel_controls.transform, false);
-        Destroy(clonedFruitControl.GetComponent<Rigidbody>());
-        Destroy(clonedFruitControl.GetComponent<FruitItem>());
-        Destroy(clonedFruitControl.GetComponent<Collider>());
-        //clonedFruitControl = Instantiate(selectedFruit.GetComponentInChildren<MeshRenderer>().gameObject, panel_controls.transform, false);
+        // Clone grabbed fruit for render texture
+        clonedFruit = Instantiate(selectedFruit.gameObject, new Vector3(-100, -100, -100), selectedFruit.transform.rotation);
+        Destroy(clonedFruit.GetComponent<Rigidbody>());
+        Destroy(clonedFruit.GetComponent<FruitItem>());
+        Destroy(clonedFruit.GetComponent<Collider>());
 
-        // Scale down
-        clonedFruitControl.transform.localScale = new Vector3(clonedFruitControl.transform.localScale.x, clonedFruitControl.transform.localScale.y, clonedFruitControl.transform.localScale.z);
-
-        //Vector2 ViewportPosition = Camera.main.WorldToViewportPoint(clonedFruitControl.transform.position);
-        //Vector2 WorldObject_ScreenPosition = new Vector2( ((ViewportPosition.x * rtCanvas.sizeDelta.x) - (rtCanvas.sizeDelta.x * 0.5f)), ((ViewportPosition.y * rtCanvas.sizeDelta.y) - (rtCanvas.sizeDelta.y * 0.5f)));
-
-        //now you can set the position of the ui element
-        //UI_Element.anchoredPosition = WorldObject_ScreenPosition;
-
-
-        //print("panel_controls.transform.position: " + panel_controls.transform.localPosition);
-        //Vector3 screenPos = panel_controls.GetComponent<RectTransform>().rect.position;
-        Vector3 worldPos;
-        RectTransformUtility.ScreenPointToWorldPointInRectangle(rtTest, rtTest.position, Camera.main, out worldPos);
-        clonedFruitControl.transform.position = worldPos;
-        print(worldPos);
+        // Set render texture camera to look at cloned fruit
+        Vector3 camPos = clonedFruit.transform.position;
+        camPos.z -= 0.3f;
+        cameraFruitControl.transform.position = camPos;
+        cameraFruitControl.transform.LookAt(clonedFruit.transform.position);
     }
-
-    [SerializeField]
-    private RectTransform rtTest;
 
     public void SetDropped()
     {
@@ -123,11 +114,13 @@ public class FruitItemController : Singleton<FruitItemController>
         selectedFruit.SetGrabbed(false);
         selectedFruit = null;
         buttons_rotateItem.SetActive(false);
-        panel_controls.SetActive(true);
+        panel_controls.SetActive(false);
+        cameraFruitControl.gameObject.SetActive(false);
+        cameraFruitControl.transform.SetParent(transform.root.parent);
 
-        // Destroy cloned fruit control object
-        //if (clonedFruitControl)
-        //    Destroy(clonedFruitControl);
+        // Destroy cloned fruit
+        if (clonedFruit)
+            Destroy(clonedFruit);
 
         StopRotate();
     }

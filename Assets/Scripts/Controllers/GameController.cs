@@ -167,7 +167,6 @@ public class GameController : Singleton<GameController>
 
                     // Convert screen position to world position with offset changes.
                     Vector3 worldPos = Camera.main.ScreenToWorldPoint(touchPos) + vOffset;
-
                     //var fruitCollider = dragItem.GetComponent<Collider>();
 
                     //// Offset X
