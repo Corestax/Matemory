@@ -12,25 +12,27 @@ public class PinchZoom : MonoBehaviour
 
     public Camera MainCamera { get; set; }
 
+    private const float SPEED = 1f;
+
     private bool isAnimating;
     private bool isZoomIn;
-    private float speed;
-
     private float startDelta;
     private float scale;
+    private Touch touch0;
+    private Touch touch1;
 
     void Start()
     {
-        speed = 1f;
         scale = 1f;
     }
-
-    private Touch touch0;
-    private Touch touch1;
+    
     void Update()
-    {
+    {                 
         if (Input.touches.Length == 2)
         {
+            if (FruitItemController.Instance.IsControlEnabled)
+                return;
+
             touch0 = Input.touches[0];
             touch1 = Input.touches[1];
             UIController.Instance.ShowConsoleText(touch0.phase + " -- " + touch1.phase);
@@ -64,9 +66,9 @@ public class PinchZoom : MonoBehaviour
         Vector3 direction = distance.normalized;
 
         if(isZoomIn && distance.magnitude > 0.1f)
-            Platform.position -= direction * speed * Time.deltaTime;
+            Platform.position -= direction * SPEED * Time.deltaTime;
         else if (!isZoomIn && distance.magnitude < 1.5f)
-            Platform.position += direction * speed * Time.deltaTime;        
+            Platform.position += direction * SPEED * Time.deltaTime;        
     }
 
     public void Zoom(bool zoomIn)

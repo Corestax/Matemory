@@ -50,6 +50,7 @@ public class GameController : Singleton<GameController>
     public static event Action<bool> OnGameStarted;
     public static event Action<bool> OnGameEnded;
 
+    private Touch touch;
     private VisualIndicatorController visualIndicator;
     private GameObject activeModel;
     private Coroutine CR_RotatePlatform;
@@ -201,48 +202,46 @@ public class GameController : Singleton<GameController>
         // Touch input
         else
         {
-            foreach (var touch in Input.touches)
+            if(Input.touchCount > 0)
             {
-                if (!EventSystem.current.IsPointerOverGameObject(touch.fingerId))
+                touch = Input.GetTouch(0);
+                if (touch.phase == TouchPhase.Began)
                 {
-                    if (touch.phase == TouchPhase.Began)
+                    ray = Camera.main.ScreenPointToRay(touch.position);
+                    if (Physics.Raycast(ray, out hit, Mathf.Infinity))
                     {
-                        ray = Camera.main.ScreenPointToRay(touch.position);
-                        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+                        if (hit.collider.tag == "Draggable")
                         {
-                            if (hit.collider.tag == "Draggable")
-                            {
-                                dragItem = hit.collider.transform;
-                                var fruitItem = dragItem.GetComponent<FruitItem>();
-                                FruitItemController.Instance.SetGrabbed(fruitItem);
+                            dragItem = hit.collider.transform;
+                            var fruitItem = dragItem.GetComponent<FruitItem>();
+                            FruitItemController.Instance.SetGrabbed(fruitItem);
 
-                                // Convert world position to screen position.
-                                screenPos = Camera.main.WorldToScreenPoint(dragItem.position);
-                                vOffset = dragItem.position - Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, screenPos.z));
-                            }
+                            // Convert world position to screen position.
+                            screenPos = Camera.main.WorldToScreenPoint(dragItem.position);
+                            vOffset = dragItem.position - Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, screenPos.z));
                         }
                     }
-                    else if (touch.phase == TouchPhase.Moved)
+                }
+                else if (touch.phase == TouchPhase.Moved)
+                {
+                    if (dragItem)
                     {
-                        if (dragItem)
-                        {
-                            // Touch screen position
-                            Vector3 touchPos = new Vector3(touch.position.x, touch.position.y, screenPos.z);
+                        // Touch screen position
+                        Vector3 touchPos = new Vector3(touch.position.x, touch.position.y, screenPos.z);
 
-                            // Convert screen position to world position with offset changes.
-                            Vector3 worldPos = Camera.main.ScreenToWorldPoint(touchPos) + vOffset;
+                        // Convert screen position to world position with offset changes.
+                        Vector3 worldPos = Camera.main.ScreenToWorldPoint(touchPos) + vOffset;
 
-                            // Drag object
-                            dragItem.position = worldPos;
-                        }
+                        // Drag object
+                        dragItem.position = worldPos;
                     }
-                    else if (touch.phase == TouchPhase.Ended)
+                }
+                else if (touch.phase == TouchPhase.Ended)
+                {
+                    if (dragItem)
                     {
-                        if (dragItem)
-                        {
-                            FruitItemController.Instance.SetDropped();
-                            dragItem = null;
-                        }
+                        FruitItemController.Instance.SetDropped();
+                        dragItem = null;
                     }
                 }
             }
