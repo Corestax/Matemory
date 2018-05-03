@@ -34,6 +34,8 @@ public class UIController : Singleton<UIController>
     {
         GameController.OnGameStarted += OnGameStarted;
         GameController.OnGameEnded += OnGameEnded;
+        ARCoreController.OnTrackingActive += ShowUI;
+        ARCoreController.OnTrackingLost += HideUI;
     }
 
     void OnDisable()
@@ -41,6 +43,29 @@ public class UIController : Singleton<UIController>
 
         GameController.OnGameStarted -= OnGameStarted;
         GameController.OnGameEnded -= OnGameEnded;
+        ARCoreController.OnTrackingActive -= ShowUI;
+        ARCoreController.OnTrackingLost -= HideUI;
+    }
+
+    private void ShowUI()
+    {
+        if (!GameController.Instance.IsGameRunning)
+            return;
+
+        buttons_rotatePlatform.SetActive(true);
+        if (GameController.Instance.EnableAR)
+            text_pinchZoom.gameObject.SetActive(true);
+        else
+            buttons_zoom.SetActive(true);
+    }
+
+    private void HideUI()
+    {
+        buttons_rotatePlatform.SetActive(false);
+        if (GameController.Instance.EnableAR)
+            text_pinchZoom.gameObject.SetActive(false);
+        else
+            buttons_zoom.SetActive(false);
     }
 
     private void OnGameStarted(bool showStatusText)
@@ -48,13 +73,9 @@ public class UIController : Singleton<UIController>
         if (!showStatusText)
             return;
 
-        text_status.text = "START!";
-        buttons_rotatePlatform.SetActive(true);
-        if (GameController.Instance.EnableAR)
-            text_pinchZoom.gameObject.SetActive(true);
-        else
-            buttons_zoom.SetActive(true);
+        ShowUI();
 
+        text_status.text = "START!";
         if (CR_HideText != null)
             StopCoroutine(CR_HideText);
         CR_HideText = StartCoroutine(HideStatusTextCR());
@@ -65,13 +86,9 @@ public class UIController : Singleton<UIController>
         if (!showStatusText)
             return;
 
-        text_status.text = "GAME OVER!";
-        buttons_rotatePlatform.SetActive(false);
-        if (GameController.Instance.EnableAR)
-            text_pinchZoom.gameObject.SetActive(false);
-        else
-            buttons_zoom.SetActive(false);
+        HideUI();
 
+        text_status.text = "GAME OVER!";
         if (CR_HideText != null)
             StopCoroutine(CR_HideText);
         CR_HideText = StartCoroutine(HideStatusTextCR());

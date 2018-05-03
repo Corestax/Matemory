@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GoogleARCore;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -51,6 +52,10 @@ public class ARCoreController : MonoBehaviour
 
     private Anchor anchor;
 
+    private bool isTrackingLost;
+    public static event Action OnTrackingActive;
+    public static event Action OnTrackingLost;
+
     /// <summary>
     /// The Unity Update() method.
     /// </summary>
@@ -71,7 +76,18 @@ public class ARCoreController : MonoBehaviour
             if (!m_IsQuitting && Session.Status.IsValid())
                 Text_DetectingPlane.SetActive(true);
 
+            isTrackingLost = true;
+            if (OnTrackingLost != null)
+                OnTrackingLost();
+
             return;
+        }
+
+        if (isTrackingLost)
+        {
+            isTrackingLost = false;
+            if (OnTrackingActive != null)
+                OnTrackingActive();
         }
 
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
