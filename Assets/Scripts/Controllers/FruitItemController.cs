@@ -68,7 +68,16 @@ public class FruitItemController : Singleton<FruitItemController>
 
         // Set render texture camera to look at cloned item
         Vector3 camPos = clonedFruit.transform.position;
-        camPos.z -= 0.3f;
+
+        // Find largest side
+        float distance = clonedFruit.transform.localScale.x;
+        if (clonedFruit.transform.localScale.y > distance)
+            distance = clonedFruit.transform.localScale.y;
+        if (clonedFruit.transform.localScale.z > distance)
+            distance = clonedFruit.transform.localScale.z;
+
+        // Set camera to look at cloned item
+        camPos.z -= distance;
         cameraFruitControl.transform.position = camPos;
         cameraFruitControl.transform.LookAt(clonedFruit.transform.position);
     }
