@@ -151,23 +151,6 @@ public class FruitItem : MonoBehaviour
         rigidBody.isKinematic = state;
     }
 
-    public void Rotate(bool clockwise)
-    {
-
-    }
-
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    if (gameObject.name == "2/3")
-    //    {
-    //        if (collision.collider.tag == "Wall")
-    //        {
-    //            print(rigidBody.velocity + " -- " + rigidBody.angularVelocity);
-    //            //print(gameObject.name + " collided with " + collision.collider.name);
-    //        }
-    //    }
-    //}       
-
     //public void CheckDistance()
     //{
 

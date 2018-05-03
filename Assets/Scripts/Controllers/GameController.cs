@@ -13,12 +13,12 @@ using Input = GoogleARCore.InstantPreviewInput;
 
 public class GameController : Singleton<GameController>
 {
-    public enum PremadeTypes { NONE, GIRAFFE, DOG }
+    public enum ModelTypes { NONE, GIRAFFE, TREE }
 
     [Serializable]
-    public struct Premades
+    public struct Model
     {
-        public PremadeTypes Type;
+        public ModelTypes Type;
         public GameObject Prefab;
     }
 
@@ -37,21 +37,21 @@ public class GameController : Singleton<GameController>
     [SerializeField]
     private Camera camAR;
     [SerializeField]
-    private PinchZoom pinchZoom;
+    private PinchZoom pinchZoom;    
 
     [SerializeField]
-    private Premades[] PremadeItems;
+    private Model[] modelPrefabs;
 
     public Transform Platform;
     
-    public Dictionary<string, GameObject> Items { get; private set; }
+    public Dictionary<string, GameObject> Models { get; private set; }
     public bool IsGameRunning { get; private set; }
 
     public static event Action<bool> OnGameStarted;
     public static event Action<bool> OnGameEnded;
 
     private VisualIndicatorController visualIndicator;
-    private GameObject activeItem;
+    private GameObject activeModel;
     private Coroutine CR_RotatePlatform;
 
     private const float PLATFORM_ROTATION_INCREMENT = 1f;
@@ -59,14 +59,14 @@ public class GameController : Singleton<GameController>
     void Start()
     {
         visualIndicator = VisualIndicatorController.Instance;
-        Items = new Dictionary<string, GameObject>();        
+        Models = new Dictionary<string, GameObject>();        
 
-        // Populate dictionary of premade items from inspector
-        foreach (var item in PremadeItems)
+        // Populate dictionary of model items from inspector
+        foreach (var item in modelPrefabs)
         {
             string name = item.Type.ToString();
             GameObject go = item.Prefab;
-            Items.Add(name, go);
+            Models.Add(name, go);
         }
 
         // Force AR on builds
@@ -100,13 +100,9 @@ public class GameController : Singleton<GameController>
     {
 #if UNITY_EDITOR
         if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha1))
-            Spawn(PremadeTypes.GIRAFFE, true);
+            Spawn(ModelTypes.GIRAFFE, true);
         if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha2))
-            Spawn(PremadeTypes.DOG, true);
-        if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha3))
-            Spawn(PremadeTypes.GIRAFFE, false);
-        if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha4))
-            Spawn(PremadeTypes.DOG, false);
+            Spawn(ModelTypes.TREE, true);
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.Escape))
             SceneManager.LoadScene(0);
@@ -119,7 +115,7 @@ public class GameController : Singleton<GameController>
     #region DEBUG BUTTON CLICKS
     public void ReSpawn()
     {
-        Spawn(PremadeTypes.GIRAFFE, true);
+        Spawn(ModelTypes.GIRAFFE, true);
     }
 
     public void Restart()
@@ -153,7 +149,8 @@ public class GameController : Singleton<GameController>
                     if (hit.collider.tag == "Draggable")
                     {
                         dragItem = hit.collider.transform;
-                        dragItem.GetComponent<FruitItem>().SetGrabbed(true);
+                        var fruitItem = dragItem.GetComponent<FruitItem>();
+                        FruitItemController.Instance.SetGrabbed(fruitItem);
 
                         // Convert world position to screen position.
                         screenPos = Camera.main.WorldToScreenPoint(dragItem.position);
@@ -197,7 +194,7 @@ public class GameController : Singleton<GameController>
             {
                 if (dragItem)
                 {
-                    dragItem.GetComponent<FruitItem>().SetGrabbed(false);
+                    FruitItemController.Instance.SetDropped();
                     dragItem = null;
                 }
             }
@@ -216,9 +213,9 @@ public class GameController : Singleton<GameController>
                         {
                             if (hit.collider.tag == "Draggable")
                             {
-                                //print("*********** START!");
                                 dragItem = hit.collider.transform;
-                                dragItem.GetComponent<FruitItem>().SetGrabbed(true);
+                                var fruitItem = dragItem.GetComponent<FruitItem>();
+                                FruitItemController.Instance.SetGrabbed(fruitItem);
 
                                 // Convert world position to screen position.
                                 screenPos = Camera.main.WorldToScreenPoint(dragItem.position);
@@ -244,8 +241,7 @@ public class GameController : Singleton<GameController>
                     {
                         if (dragItem)
                         {
-                            //print("*********** ENDED!");
-                            dragItem.GetComponent<FruitItem>().SetGrabbed(false);
+                            FruitItemController.Instance.SetDropped();
                             dragItem = null;
                         }
                     }
@@ -257,7 +253,7 @@ public class GameController : Singleton<GameController>
 
 
 #region LOAD GAME    
-    public void Spawn(PremadeTypes _type, bool startGame)
+    public void Spawn(ModelTypes _type, bool startGame)
     {
         // Stop game first before starting a new game
         if (startGame)
@@ -268,23 +264,23 @@ public class GameController : Singleton<GameController>
         RotatePlatform(Explode, 1.5f, startGame);
     }
 
-    private void SpawnItem(PremadeTypes _type)
+    private void SpawnItem(ModelTypes _type)
     {
         RemoveActiveType();
 
         // Reset platform rotation
         Platform.rotation = Quaternion.identity;
 
-        // Instantiate premade item
-        GameObject go = Instantiate(Items[_type.ToString()], Platform);
-        activeItem = go;
+        // Instantiate model
+        GameObject go = Instantiate(Models[_type.ToString()], Platform);
+        activeModel = go;
 
         //switch (_type)
         //{
-        //    case PremadeTypes.GIRAFFE:
+        //    case ModelTypes.GIRAFFE:
         //        //GameObject go = Instantiate(Items[_type.ToString()]);
         //        break;
-        //    case PremadeTypes.DOG:
+        //    case ModelTypes.DOG:
         //        break;
         //    default:
         //        break;
@@ -293,10 +289,10 @@ public class GameController : Singleton<GameController>
 
     private void RemoveActiveType()
     {
-        if (!activeItem)
+        if (!activeModel)
             return;
 
-        DestroyImmediate(activeItem);
+        DestroyImmediate(activeModel);
     }
 
     private void Explode(bool startGame)
@@ -308,7 +304,7 @@ public class GameController : Singleton<GameController>
     {
         // Explode
         yield return new WaitForSeconds(1.5f);
-        FruitItem[] fruitItems = activeItem.GetComponentsInChildren<FruitItem>(true);
+        FruitItem[] fruitItems = activeModel.GetComponentsInChildren<FruitItem>(true);
         foreach (var fi in fruitItems)
             fi.Explode();
 

@@ -12,9 +12,11 @@ public class UIController : Singleton<UIController>
     [SerializeField]
     private Text text_console;
     [SerializeField]
-    private GameObject RotatePlatformButtons;
+    private Text text_pinchZoom;
     [SerializeField]
-    private GameObject ZoomButtons;
+    private GameObject buttons_zoom;
+    [SerializeField]
+    private GameObject buttons_rotatePlatform;
 
     private Coroutine CR_HideText;
 
@@ -47,8 +49,11 @@ public class UIController : Singleton<UIController>
             return;
 
         text_status.text = "START!";
-        RotatePlatformButtons.SetActive(true);
-        //ZoomButtons.SetActive(true);
+        buttons_rotatePlatform.SetActive(true);
+        if (GameController.Instance.EnableAR)
+            text_pinchZoom.gameObject.SetActive(true);
+        else
+            buttons_zoom.SetActive(true);
 
         if (CR_HideText != null)
             StopCoroutine(CR_HideText);
@@ -61,8 +66,11 @@ public class UIController : Singleton<UIController>
             return;
 
         text_status.text = "GAME OVER!";
-        RotatePlatformButtons.SetActive(false);
-        //ZoomButtons.SetActive(false);
+        buttons_rotatePlatform.SetActive(false);
+        if (GameController.Instance.EnableAR)
+            text_pinchZoom.gameObject.SetActive(false);
+        else
+            buttons_zoom.SetActive(false);
 
         if (CR_HideText != null)
             StopCoroutine(CR_HideText);

@@ -5,7 +5,7 @@ public class Platform : MonoBehaviour
 {
     private bool isRotate;
     private bool isClockwise;
-    private float speed = 100f;
+    private const float SPEED = 100f;
 
     void Start()
     {
@@ -18,9 +18,9 @@ public class Platform : MonoBehaviour
             return;
 
         if (isClockwise)
-            transform.Rotate(Vector3.up * Time.deltaTime * speed, Space.World);
+            transform.Rotate(Vector3.up * Time.deltaTime * SPEED, Space.World);
         else
-            transform.Rotate(-Vector3.up, Time.deltaTime * speed, Space.World);
+            transform.Rotate(-Vector3.up, Time.deltaTime * SPEED, Space.World);
     }
 
     public void Rotate(bool clockwise)
