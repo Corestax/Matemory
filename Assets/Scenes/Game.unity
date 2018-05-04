@@ -1565,7 +1565,7 @@ MonoBehaviour:
   pinchZoom: {fileID: 1333504877}
   modelPrefabs:
   - Type: 1
-    Prefab: {fileID: 1712979250053128, guid: 4cd2444bbeb020445934c9877c187bd0, type: 2}
+    Prefab: {fileID: 1712979250053128, guid: 19c04ebf94fa9c148b9f0978cecebb73, type: 2}
   - Type: 2
     Prefab: {fileID: 1044374013763558, guid: 08b74e02954d93049ae6a84a404e4732, type: 2}
   Platform: {fileID: 2081891067}
