@@ -167,21 +167,8 @@ public class FruitItem : MonoBehaviour
         else
         {
             SnapController.Instance.DisableColliders();
-            CheckIfSnapped();
+            SnapController.Instance.Snap(this);
         }
-    }
-
-    public void CheckIfSnapped()
-    {        
-        if (!SnapController.Instance.ActiveSnapCollider || (SnapController.Instance.ActiveSnapCollider && SnapController.Instance.ActiveSnapCollider.IsTaken))
-            return;
-
-        // Snap
-        rigidBody.isKinematic = true;
-        transform.localPosition = SnapController.Instance.ActiveSnapCollider.PositionToSnap;
-        transform.localRotation = SnapController.Instance.ActiveSnapCollider.RotiationToSnap;
-        tag = "Untagged";
-        SnapController.Instance.ActiveSnapCollider.SetTaken();
     }
 
     public static void SetLayerRecursively(GameObject go, int layerNumber)

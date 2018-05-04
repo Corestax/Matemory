@@ -6,22 +6,22 @@ public class SnapController : Singleton<SnapController>
     [SerializeField]
     private GameObject Prefab_SnapCollider;
     [SerializeField]
-    private Transform SnapColliders;
+    private Transform Container;
 
     public SnapCollider ActiveSnapCollider { get; set; }
 
-    private List<Collider> Colliders;
+    private List<SnapCollider> SnapColliders;
 
 	void Start ()
     {
-        Colliders = new List<Collider>();
+        SnapColliders = new List<SnapCollider>();
     }
 
     public void CreateSnapCollider(FruitItem fruitItem, Vector3 pos, Quaternion rot)
     {
-        var go = Instantiate(Prefab_SnapCollider, pos, rot, SnapColliders);
+        var go = Instantiate(Prefab_SnapCollider, pos, rot, Container);
         var snapCollider = go.GetComponent<SnapCollider>();
-        Colliders.Add(snapCollider.GetComponent<Collider>());
+        SnapColliders.Add(snapCollider);
 
         // Copy data to collider
         snapCollider.FruitType = fruitItem.Fruit;
@@ -30,33 +30,65 @@ public class SnapController : Singleton<SnapController>
         snapCollider.Order = fruitItem.Order;
     }
 
+    public void Snap(FruitItem fruitItem)
+    {
+        if (!ActiveSnapCollider || (ActiveSnapCollider && ActiveSnapCollider.IsSnapped))
+            return;
+
+        // Mark collider as snapped
+        ActiveSnapCollider.Snap();
+
+        // Snap to position
+        fruitItem.GetComponent<Rigidbody>().isKinematic = true;
+        fruitItem.transform.localPosition = ActiveSnapCollider.PositionToSnap;
+        fruitItem.transform.localRotation = ActiveSnapCollider.RotiationToSnap;
+        fruitItem.tag = "Untagged";
+
+        // Check if game won
+        CheckIfAllSnapped();
+    }
+
+    public void CheckIfAllSnapped()
+    {
+        int count = 0;
+        foreach(var sc in SnapColliders)
+        {
+            if (sc.IsSnapped)
+                count++;
+        }
+
+        // If game won
+        if (SnapColliders.Count == count)
+            GameController.Instance.StopGame(true);
+    }
+
     public void ResetAllColliderColorsToIdle()
     {
-        foreach(var c in Colliders)
-            c.GetComponent<SnapCollider>().ShowIdle();
+        foreach(var sc in SnapColliders)
+            sc.ShowIdle();
     }
 
     public void EnableColliders()
     {
-        foreach (var c in Colliders)
+        foreach (var sc in SnapColliders)
         {
-            if(!c.GetComponent<SnapCollider>().IsTaken)
-                c.enabled = true;
+            if(!sc.IsSnapped)
+                sc.GetComponent<Collider>().enabled = true;
         }
     }
 
     public void DisableColliders()
     {
-        foreach (var c in Colliders)
-            c.enabled = false;
+        foreach (var sc in SnapColliders)
+            sc.GetComponent<Collider>().enabled = false;
     }
 
     public void ClearSnapColliders()
     {
-        foreach(var c in Colliders)
-            Destroy(c.gameObject);
+        foreach(var sc in SnapColliders)
+            Destroy(sc.gameObject);
 
-        Colliders.Clear();
+        SnapColliders.Clear();
         ActiveSnapCollider = null;
     }
 }

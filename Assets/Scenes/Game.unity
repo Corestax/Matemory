@@ -1365,7 +1365,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefab_SnapCollider: {fileID: 1575623182620316, guid: 241a9a0852daed74faf42e8702ecbbf7,
     type: 2}
-  SnapColliders: {fileID: 1120796240}
+  Container: {fileID: 1120796240}
 --- !u!1 &714930230
 GameObject:
   m_ObjectHideFlags: 0

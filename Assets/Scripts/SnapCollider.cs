@@ -7,7 +7,7 @@ public class SnapCollider : MonoBehaviour
     public Vector3 PositionToSnap;
     public Quaternion RotiationToSnap;
 
-    public bool IsTaken { get; private set; }
+    public bool IsSnapped { get; private set; }
 
     private Material material;
     private Color colorIdle;
@@ -47,7 +47,7 @@ public class SnapCollider : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (IsTaken)
+        if (IsSnapped)
             return;
 
         if (other.tag == "Draggable")
@@ -91,9 +91,9 @@ public class SnapCollider : MonoBehaviour
         material.SetColor("_GridColor", colorIdle);
     }
 
-    public void SetTaken()
+    public void Snap()
     {
-        IsTaken = true;
-        meshRenderer.enabled = false;
+        IsSnapped = true;
+        meshRenderer.enabled = false;        
     }        
 }
