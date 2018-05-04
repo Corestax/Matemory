@@ -34,7 +34,6 @@
             struct v2f
             {
                 fixed4 vertex : SV_POSITION;
-                fixed3 normal : NORMAL;
             };
             
             fixed _OutlineOffset;
