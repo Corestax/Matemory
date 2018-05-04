@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections;
+using System.Linq;
 
 [DisallowMultipleComponent]
 public class FruitItem : MonoBehaviour
@@ -8,28 +10,33 @@ public class FruitItem : MonoBehaviour
 
     public int[] Order;
     public Vector3 PositionToSnap { get; private set; }
+    public Quaternion RotationToSnap { get; private set; }
 
     private RoomController roomController;
     private Rigidbody rigidBody;
     private Collider fruitCollider;
+    private Material material;
     private bool isGrabbed;
     private float explosionForce;
     private bool showStartPosition;
-    private Material material;
+    private Vector3 posVisualIndicator;
 
     void Start()
     {
         roomController = RoomController.Instance;
         rigidBody = GetComponent<Rigidbody>();
         fruitCollider = GetComponent<Collider>();
+        rigidBody.isKinematic = true;
+        explosionForce = 10f;
+
+        // Cache start values
+        PositionToSnap = transform.localPosition;
+        RotationToSnap = transform.localRotation;
+        posVisualIndicator = transform.position;
 
         // Clone material
         material = GetComponentInChildren<MeshRenderer>().material;
         material.CopyPropertiesFromMaterial(new Material(material));
-
-        rigidBody.isKinematic = true;
-        PositionToSnap = transform.position;
-        explosionForce = 10f;
     }
 
     void OnEnable()
@@ -45,19 +52,6 @@ public class FruitItem : MonoBehaviour
             GameController.OnGameStarted -= OnGameStarted;
     }
 
-    private void OnGameStarted(bool showStatusText)
-    {
-        HighlightStartPositions();
-    }
-
-    private void HighlightStartPositions()
-    {
-        if (!showStartPosition)
-            return;
-
-        VisualIndicatorController.Instance.ShowIndicator(this, PositionToSnap);
-    }
-
     private void CheckShowStartPosition()
     {
         foreach (int i in Order)
@@ -69,6 +63,19 @@ public class FruitItem : MonoBehaviour
             }
         }
     }
+
+    private void OnGameStarted(bool showStatusText)
+    {
+        HighlightStartPositions();
+    }
+
+    private void HighlightStartPositions()
+    {
+        if (!showStartPosition)
+            return;
+
+        VisualIndicatorController.Instance.ShowIndicator(this, posVisualIndicator);
+    }    
 
     void Update()
     {
@@ -153,16 +160,48 @@ public class FruitItem : MonoBehaviour
         else
             SetLayerRecursively(gameObject, 0);
         rigidBody.isKinematic = state;
+
+        // Check distance to snap
+        if (!state)
+            CheckIfSnapped();
+    }
+
+    public void CheckIfSnapped()
+    {
+        //// Check if next item in order
+        //bool isOrderCorrect = false;
+        //foreach (var i in Order)
+        //{
+        //    if (FruitItemController.Instance.CurrentOrder.ToList().Contains(i))
+        //    {
+        //        isOrderCorrect = true;
+        //        break;
+        //    }
+        //}
+
+        //if (isOrderCorrect)
+        //    print("Correct!");
+        //else
+        //    print("Wrong!");
+
+        //if (!isOrderCorrect)
+        //    return;
+
+        var distance = PositionToSnap - transform.localPosition;
+        if (distance.magnitude < 1f)
+        {
+            rigidBody.isKinematic = true;
+            transform.localPosition = PositionToSnap;
+            transform.localRotation = RotationToSnap;
+            tag = "Untagged";
+            print("SNAP!!!!!!!");
+            //FruitItemController.Instance.CurrentOrder = Order;
+        }
     }
 
     public static void SetLayerRecursively(GameObject go, int layerNumber)
     {
         foreach (Transform trans in go.GetComponentsInChildren<Transform>(true))
             trans.gameObject.layer = layerNumber;
-    }
-
-    //public void CheckDistance()
-    //{
-
-    //}
+    }    
 }
