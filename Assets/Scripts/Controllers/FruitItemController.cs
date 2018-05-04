@@ -142,7 +142,7 @@ public class FruitItemController : Singleton<FruitItemController>
     }
 
     public void SetGrabbed(FruitItem item)
-    {
+    {        
         selectedFruit = item;
         selectedFruit.SetGrabbed(true);
         ShowControls();
@@ -173,7 +173,7 @@ public class FruitItemController : Singleton<FruitItemController>
     public void SetDropped()
     {
         if (!selectedFruit)
-            return;
+            return;        
 
         // Drop item
         selectedFruit.SetGrabbed(false);

@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Linq;
 
 [DisallowMultipleComponent]
 public class FruitItem : MonoBehaviour
@@ -33,6 +31,8 @@ public class FruitItem : MonoBehaviour
         PositionToSnap = transform.localPosition;
         RotationToSnap = transform.localRotation;
         posVisualIndicator = transform.position;
+
+        SnapController.Instance.CreateSnapCollider(this, transform.position, transform.rotation);
 
         // Clone material
         material = GetComponentInChildren<MeshRenderer>().material;
@@ -162,41 +162,28 @@ public class FruitItem : MonoBehaviour
         rigidBody.isKinematic = state;
 
         // Check distance to snap
-        if (!state)
+        if (state)
+        {
+            SnapController.Instance.EnableColliders();
+        }
+        else
+        {
+            SnapController.Instance.DisableColliders();
             CheckIfSnapped();
+        }
     }
 
     public void CheckIfSnapped()
-    {
-        //// Check if next item in order
-        //bool isOrderCorrect = false;
-        //foreach (var i in Order)
-        //{
-        //    if (FruitItemController.Instance.CurrentOrder.ToList().Contains(i))
-        //    {
-        //        isOrderCorrect = true;
-        //        break;
-        //    }
-        //}
+    {        
+        if (!SnapController.Instance.ActiveSnapCollider || (SnapController.Instance.ActiveSnapCollider && SnapController.Instance.ActiveSnapCollider.IsTaken))
+            return;
 
-        //if (isOrderCorrect)
-        //    print("Correct!");
-        //else
-        //    print("Wrong!");
-
-        //if (!isOrderCorrect)
-        //    return;
-
-        var distance = PositionToSnap - transform.localPosition;
-        if (distance.magnitude < 1f)
-        {
-            rigidBody.isKinematic = true;
-            transform.localPosition = PositionToSnap;
-            transform.localRotation = RotationToSnap;
-            tag = "Untagged";
-            print("SNAP!!!!!!!");
-            //FruitItemController.Instance.CurrentOrder = Order;
-        }
+        // Snap
+        rigidBody.isKinematic = true;
+        transform.localPosition = SnapController.Instance.ActiveSnapCollider.PositionToSnap;
+        transform.localRotation = SnapController.Instance.ActiveSnapCollider.RotiationToSnap;
+        tag = "Untagged";
+        SnapController.Instance.ActiveSnapCollider.IsTaken = true;
     }
 
     public static void SetLayerRecursively(GameObject go, int layerNumber)
