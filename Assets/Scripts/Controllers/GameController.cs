@@ -253,6 +253,8 @@ public class GameController : Singleton<GameController>
 #region LOAD GAME    
     public void Spawn(ModelTypes _type, bool startGame)
     {
+        SnapController.Instance.ClearSnapColliders();
+
         // Stop game first before starting a new game
         if (startGame)
             StopGame(false);

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class SnapController : Singleton<SnapController>
@@ -29,6 +28,12 @@ public class SnapController : Singleton<SnapController>
         snapCollider.PositionToSnap = fruitItem.PositionToSnap;
         snapCollider.RotiationToSnap = fruitItem.RotationToSnap;
         snapCollider.Order = fruitItem.Order;
+    }
+
+    public void ResetAllColliderColorsToIdle()
+    {
+        foreach(var c in Colliders)
+            c.GetComponent<SnapCollider>().ShowIdle();
     }
 
     public void EnableColliders()
