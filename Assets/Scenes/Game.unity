@@ -198,7 +198,7 @@ GameObject:
   - component: {fileID: 27957442}
   - component: {fileID: 27957441}
   m_Layer: 5
-  m_Name: Timer
+  m_Name: Panel_Timer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -435,7 +435,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: f66655b38428d40769e9e41ee237cbdc, type: 3}
-    m_FontSize: 70
+    m_FontSize: 60
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 4
@@ -2442,7 +2442,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db540787339fdd0429968ecfe3502703, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  game: {fileID: 843580147}
   text_status: {fileID: 485626285}
   text_console: {fileID: 1143966097}
   text_pinchZoom: {fileID: 2082720160}
@@ -3483,7 +3482,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901bc10f2cc4ca140852e756a83a2dc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  game: {fileID: 843580147}
+  totalTime: 180
+  panel_timer: {fileID: 27957439}
   image_timer: {fileID: 968421495}
   text_timer: {fileID: 149618113}
 --- !u!1 &1807129094

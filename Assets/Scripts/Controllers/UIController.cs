@@ -1,12 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIController : Singleton<UIController>
 {
-    [SerializeField]
-    private GameController game;
     [SerializeField]
     private Text text_status;
     [SerializeField]
@@ -18,16 +15,12 @@ public class UIController : Singleton<UIController>
     [SerializeField]
     private GameObject buttons_rotatePlatform;
 
+    private GameController gameController;
     private Coroutine CR_HideText;
 
     void Start()
     {
-
-    }
-
-    void Update()
-    {
-
+        gameController = GameController.Instance;
     }
 
     void OnEnable()
@@ -49,11 +42,11 @@ public class UIController : Singleton<UIController>
 
     private void ShowUI()
     {
-        if (!GameController.Instance.IsGameRunning)
+        if (!gameController.IsGameRunning)
             return;
 
         buttons_rotatePlatform.SetActive(true);
-        if (GameController.Instance.EnableAR)
+        if (gameController.EnableAR)
             text_pinchZoom.gameObject.SetActive(true);
         else
             buttons_zoom.SetActive(true);
@@ -62,7 +55,7 @@ public class UIController : Singleton<UIController>
     private void HideUI()
     {
         buttons_rotatePlatform.SetActive(false);
-        if (GameController.Instance.EnableAR)
+        if (gameController.EnableAR)
             text_pinchZoom.gameObject.SetActive(false);
         else
             buttons_zoom.SetActive(false);

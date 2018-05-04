@@ -35,7 +35,7 @@ public class PinchZoom : MonoBehaviour
 
             touch0 = Input.touches[0];
             touch1 = Input.touches[1];
-            UIController.Instance.ShowConsoleText(touch0.phase + " -- " + touch1.phase);
+
             if (touch1.phase == TouchPhase.Began)
             {
                 startDelta = Vector2.Distance(touch0.position, touch1.position);

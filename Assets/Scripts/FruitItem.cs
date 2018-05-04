@@ -14,7 +14,6 @@ public class FruitItem : MonoBehaviour
     private Rigidbody rigidBody;
     private Collider fruitCollider;
     private Material material;
-    private bool isGrabbed;
     private float explosionForce;
     private bool showStartPosition;
     private Vector3 posVisualIndicator;
@@ -154,7 +153,6 @@ public class FruitItem : MonoBehaviour
         else
             material.SetFloat("_OutlineAlpha", 0f);
 
-        isGrabbed = state;
         if(state)
             SetLayerRecursively(gameObject, 8);
         else
@@ -183,7 +181,7 @@ public class FruitItem : MonoBehaviour
         transform.localPosition = SnapController.Instance.ActiveSnapCollider.PositionToSnap;
         transform.localRotation = SnapController.Instance.ActiveSnapCollider.RotiationToSnap;
         tag = "Untagged";
-        SnapController.Instance.ActiveSnapCollider.IsTaken = true;
+        SnapController.Instance.ActiveSnapCollider.SetTaken();
     }
 
     public static void SetLayerRecursively(GameObject go, int layerNumber)
