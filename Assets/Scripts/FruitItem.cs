@@ -63,7 +63,7 @@ public class FruitItem : MonoBehaviour
         }
     }
 
-    private void OnGameStarted(bool showStatusText)
+    private void OnGameStarted(string statusText)
     {
         HighlightStartPositions();
     }

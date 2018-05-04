@@ -59,7 +59,7 @@ public class SnapController : Singleton<SnapController>
 
         // If game won
         if (SnapColliders.Count == count)
-            GameController.Instance.StopGame(true);
+            GameController.Instance.StopGame("COMPLETE!");
     }
 
     public void ResetAllColliderColorsToIdle()

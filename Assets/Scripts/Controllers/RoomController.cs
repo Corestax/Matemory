@@ -63,7 +63,7 @@ public class RoomController : Singleton<RoomController>
         Room.SetActive(true);
     }    
 
-    private void OnGameStarted(bool showStatusText)
+    private void OnGameStarted(string statusText)
     {
         StartCoroutine(EnableInnerColliderTemporarily(2f));
     }

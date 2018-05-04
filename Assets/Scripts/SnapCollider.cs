@@ -35,12 +35,12 @@ public class SnapCollider : MonoBehaviour
         GameController.OnGameEnded -= Hide;
     }
 
-    private void Show(bool showStatusText)
+    private void Show(string statusText)
     {
         meshRenderer.enabled = true;
     }
 
-    private void Hide(bool showStatusText)
+    private void Hide(string statusText)
     {
         meshRenderer.enabled = false;
 

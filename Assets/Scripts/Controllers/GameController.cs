@@ -47,8 +47,8 @@ public class GameController : Singleton<GameController>
     public Dictionary<string, GameObject> Models { get; private set; }
     public bool IsGameRunning { get; private set; }
 
-    public static event Action<bool> OnGameStarted;
-    public static event Action<bool> OnGameEnded;
+    public static event Action<string> OnGameStarted;
+    public static event Action<string> OnGameEnded;
 
     private Touch touch;
     private VisualIndicatorController visualIndicator;
@@ -257,7 +257,7 @@ public class GameController : Singleton<GameController>
 
         // Stop game first before starting a new game
         if (startGame)
-            StopGame(false);
+            StopGame();
 
         HideIndicators();
         SpawnItem(_type);
@@ -312,7 +312,7 @@ public class GameController : Singleton<GameController>
         if (startGame)
         {
             yield return new WaitForSeconds(1.5f);
-            StartGame();
+            StartGame("START!");
         }
     }
 #endregion
@@ -363,24 +363,24 @@ public class GameController : Singleton<GameController>
 
 
 #region START/STOP GAME
-    public void StartGame(bool showStatusText = true)
+    public void StartGame(string statusText = "")
     {
         if (IsGameRunning)
             return;
 
         IsGameRunning = true;
         if (OnGameStarted != null)
-            OnGameStarted(showStatusText);
+            OnGameStarted(statusText);
     }
 
-    public void StopGame(bool showStatusText = true)
+    public void StopGame(string statusText = "")
     {
         if (!IsGameRunning)
             return;
 
         IsGameRunning = false;
         if (OnGameEnded != null)
-            OnGameEnded(showStatusText);
+            OnGameEnded(statusText);
 
         StopPlatformRotation();
     }

@@ -35,12 +35,12 @@ public class TimerController : MonoBehaviour
         GameController.OnGameEnded -= OnGameEnded;
     }
 
-    private void OnGameStarted(bool showStatusText)
+    private void OnGameStarted(string statusText)
     {        
         StartTimer();
     }
 
-    private void OnGameEnded(bool showStatusText)
+    private void OnGameEnded(string statusText)
     {
         StopTimer();
     }
@@ -70,7 +70,7 @@ public class TimerController : MonoBehaviour
         }
 
         // Stop game
-        gameController.StopGame();
+        gameController.StopGame("TIME'S UP!");
     }
 
     private void SetTimerText(float time)

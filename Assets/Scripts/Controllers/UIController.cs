@@ -61,27 +61,27 @@ public class UIController : Singleton<UIController>
             buttons_zoom.SetActive(false);
     }
 
-    private void OnGameStarted(bool showStatusText)
+    private void OnGameStarted(string statusText)
     {
-        if (!showStatusText)
-            return;
+        //if (string.IsNullOrEmpty(statusText))
+        //    return;
 
         ShowUI();
 
-        text_status.text = "START!";
+        text_status.text = statusText;
         if (CR_HideText != null)
             StopCoroutine(CR_HideText);
         CR_HideText = StartCoroutine(HideStatusTextCR());
     }
 
-    private void OnGameEnded(bool showStatusText)
+    private void OnGameEnded(string statusText)
     {
-        if (!showStatusText)
-            return;
+        //if (string.IsNullOrEmpty(statusText))
+        //    return;
 
         HideUI();
 
-        text_status.text = "GAME OVER!";
+        text_status.text = statusText;
         if (CR_HideText != null)
             StopCoroutine(CR_HideText);
         CR_HideText = StartCoroutine(HideStatusTextCR());
