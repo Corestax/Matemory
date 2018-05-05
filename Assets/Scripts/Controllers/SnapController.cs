@@ -70,7 +70,7 @@ public class SnapController : Singleton<SnapController>
     public void ResetAllColliderColorsToIdle()
     {
         foreach(var sc in SnapColliders)
-            sc.ShowIdle();
+            sc.ShowIdle(false);
     }
 
     public void EnableColliders()

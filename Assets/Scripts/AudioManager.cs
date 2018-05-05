@@ -7,6 +7,7 @@ public class AudioManager : Singleton<AudioManager>
     public AudioClip audio_click;
     public AudioClip audio_complete;
     public AudioClip audio_spawn;
+    public AudioClip audio_spin;
     public AudioClip audio_explode;
     public AudioClip audio_collide;
     public AudioClip audio_snapCorrect;
@@ -18,7 +19,7 @@ public class AudioManager : Singleton<AudioManager>
 
     private AudioSource[] audioSources;
     private int currentIndex;
-    private const int START_INDEX = 2;
+    private const int START_INDEX = 3;
 
     private float fVolumeReductionCoeffient = .5f;
 
@@ -80,6 +81,18 @@ public class AudioManager : Singleton<AudioManager>
     {
         if (!audioSources[1].isPlaying)
             audioSources[1].Play();
+    }
+
+    public void PlaySpinSound()
+    {
+        StopSpinSound();
+        audioSources[2].Play();
+    }
+
+    public void StopSpinSound()
+    {
+        if (audioSources[2].isPlaying)
+            audioSources[2].Stop();
     }
 
     public void SetMusicVolume(float _volume)

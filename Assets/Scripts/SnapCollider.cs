@@ -75,7 +75,7 @@ public class SnapCollider : MonoBehaviour
     {
         if(SnapController.Instance.ActiveSnapCollider == this)
             SnapController.Instance.ActiveSnapCollider = null;
-        ShowIdle();
+        ShowIdle(true);
     }
 
     public void ShowCorrect()
@@ -90,10 +90,11 @@ public class SnapCollider : MonoBehaviour
         audioManager.PlaySound(audioManager.audio_snapIncorrect);
     }
 
-    public void ShowIdle()
+    public void ShowIdle(bool playSound)
     {
         material.SetColor("_GridColor", colorIdle);
-        //audioManager.PlaySound(audioManager.audio_snapIdle);
+        if(playSound)
+            audioManager.PlaySound(audioManager.audio_snapIdle);
     }
 
     public void Snap()

@@ -324,6 +324,7 @@ public class GameController : Singleton<GameController>
     private IEnumerator RotatePlatformCR(Action<bool> callback, float delay, bool startGame)
     {
         yield return new WaitForSeconds(delay);
+        audioManager.PlaySpinSound();
 
         float fElapsed = 0f;
         float fDuration = 1.5f;
@@ -339,6 +340,7 @@ public class GameController : Singleton<GameController>
             yield return null;
         }
         CR_RotatePlatform = null;
+        audioManager.StopSpinSound();
 
         // Trigger start game event
         if (callback != null)

@@ -6,9 +6,12 @@ public class Platform : MonoBehaviour
     private bool isRotate;
     private bool isClockwise;
     private const float SPEED = 100f;
+    private AudioManager audioManager;
 
     void Start()
     {
+        audioManager = AudioManager.Instance;
+
 #if UNITY_EDITOR
         var material = GetComponentInChildren<MeshRenderer>().material;
         material.CopyPropertiesFromMaterial(new Material(material));
@@ -29,12 +32,14 @@ public class Platform : MonoBehaviour
 
     public void Rotate(bool clockwise)
     {
+        audioManager.PlaySpinSound();
         isRotate = true;
         isClockwise = clockwise;
     }
 
     public void StopRotate()
     {
+        audioManager.StopSpinSound();
         isRotate = false;
     }
 }
