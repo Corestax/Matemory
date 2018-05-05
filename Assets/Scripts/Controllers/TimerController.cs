@@ -2,10 +2,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TimerController : MonoBehaviour
+public class TimerController : Singleton<TimerController>
 {
-    [SerializeField]
-    private float totalTime = 180f;
+    public float TimeTotal = 180f;
+
     [SerializeField]
     private GameObject panel_timer;
     [SerializeField]
@@ -13,8 +13,9 @@ public class TimerController : MonoBehaviour
     [SerializeField]
     private Text text_timer;
 
+    public float TimeLeft { get; private set; }
+
     private GameController gameController;
-    private float timeLeft;
     private Coroutine CR_Timer;
 
     private void Start()
@@ -56,16 +57,16 @@ public class TimerController : MonoBehaviour
     private IEnumerator StartTimerCR()
     {
         panel_timer.SetActive(true);
-        SetTimerText(totalTime);
+        SetTimerText(TimeTotal);
 
-        timeLeft = totalTime;
+        TimeLeft = TimeTotal;
         image_timer.fillAmount = 1f;
 
-        while (timeLeft > 0)
+        while (TimeLeft > 0)
         {
-            timeLeft -= Time.deltaTime;
-            SetTimerText(timeLeft);
-            image_timer.fillAmount = (timeLeft / totalTime);
+            TimeLeft -= Time.deltaTime;
+            SetTimerText(TimeLeft);
+            image_timer.fillAmount = (TimeLeft / TimeTotal);
             yield return null;
         }
 
@@ -88,7 +89,7 @@ public class TimerController : MonoBehaviour
         }
 
         panel_timer.SetActive(false);
-        timeLeft = 0;
+        TimeLeft = 0;
         image_timer.fillAmount = 0f;
         text_timer.text = "";
     }
