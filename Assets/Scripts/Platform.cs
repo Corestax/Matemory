@@ -9,7 +9,11 @@ public class Platform : MonoBehaviour
 
     void Start()
     {
-
+#if UNITY_EDITOR
+        var material = GetComponentInChildren<MeshRenderer>().material;
+        material.CopyPropertiesFromMaterial(new Material(material));
+        material.shader = Shader.Find("Mobile/Diffuse");
+#endif
     }
 
     void Update()

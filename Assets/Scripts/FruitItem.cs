@@ -36,6 +36,10 @@ public class FruitItem : MonoBehaviour
         // Clone material
         material = GetComponentInChildren<MeshRenderer>().material;
         material.CopyPropertiesFromMaterial(new Material(material));
+
+#if UNITY_EDITOR
+        material.shader = Shader.Find("Mobile/Diffuse");
+#endif
     }
 
     void OnEnable()
