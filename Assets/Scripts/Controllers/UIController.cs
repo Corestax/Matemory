@@ -9,8 +9,6 @@ public class UIController : Singleton<UIController>
     [SerializeField]
     private CanvasFader fader_complete;
     [SerializeField]
-    private Text text_status;
-    [SerializeField]
     private Text text_console;
     [SerializeField]
     private Text text_pinchZoom;
@@ -19,13 +17,19 @@ public class UIController : Singleton<UIController>
     [SerializeField]
     private GameObject buttons_rotatePlatform;
 
+    [SerializeField]
+    private Text text_results;
+    [SerializeField]
+    private Image[] images_starFill;
+    [SerializeField]
+    private Button button_resultsNext;
+
     private GameController gameController;
     private TimerController timeController;
     private AudioManager audioManager;
-    private Coroutine CR_HideText;
 
-    [Serializable] public enum PANELTYPES { NONE, COMPLETE }
-    private PANELTYPES activePanel;
+    public enum PanelTypes { NONE, RESULTS }
+    private PanelTypes activePanel;
 
     private const float FADESPEED = 0.25f;
 
@@ -34,7 +38,7 @@ public class UIController : Singleton<UIController>
         gameController = GameController.Instance;
         timeController = TimerController.Instance;
         audioManager = AudioManager.Instance;
-        activePanel = PANELTYPES.NONE;
+        activePanel = PanelTypes.NONE;
     }
 
     void OnEnable()
@@ -54,7 +58,7 @@ public class UIController : Singleton<UIController>
         ARCoreController.OnTrackingLost -= HideUI;
     }    
 
-    public void ShowPanel(PANELTYPES panel)
+    public void ShowPanel(PanelTypes panel, GameController.EndGameTypes _type)
     {
         // Hide last active panel
         HidePanel(activePanel);
@@ -62,11 +66,11 @@ public class UIController : Singleton<UIController>
         // Show new panel        
         switch (panel)
         {
-            case PANELTYPES.NONE:
+            case PanelTypes.NONE:
                 break;
 
-            case PANELTYPES.COMPLETE:
-                ShowPanelResults();
+            case PanelTypes.RESULTS:
+                ShowPanelResults(_type);
                 break;
 
             default:
@@ -75,49 +79,47 @@ public class UIController : Singleton<UIController>
         activePanel = panel;
     }    
 
-    public void HidePanel(PANELTYPES panel)
+    public void HidePanel(PanelTypes panel)
     {        
         switch (panel)
         {
-            case PANELTYPES.COMPLETE:
+            case PanelTypes.RESULTS:
                 fader_complete.FadeOut(FADESPEED);
                 break;
 
             default:
                 break;
         }
-        activePanel = PANELTYPES.NONE;
+        activePanel = PanelTypes.NONE;
     }
 
-    #region PANEL RESULTS
-    [SerializeField]
-    private Image[] images_starFill;
-    [SerializeField]
-    private Button button_resultsNext;
 
-    private void ShowPanelResults()
+    #region PANEL RESULTS    
+    private void ShowPanelResults(GameController.EndGameTypes _type)
     {
+        if (_type == GameController.EndGameTypes.NONE)
+            return;
+
         ResetPanelResults();
-        StartCoroutine(ShowPanelResultsCR());
+        StartCoroutine(ShowPanelResultsCR(_type));
     }
 
-    private IEnumerator ShowPanelResultsCR()
+    private IEnumerator ShowPanelResultsCR(GameController.EndGameTypes _type)
     {
+        print(timeController.TimeLeft + " / " + timeController.TimeTotal);
+
         // Fade in panel
         fader_complete.FadeIn(FADESPEED);
         while (fader_complete.IsFading)
             yield return null;
 
         // Win scenario
-        if (timeController.TimeLeft > 0)
+        if (_type == GameController.EndGameTypes.WIN)
         {
             audioManager.PlaySound(audioManager.audio_win);
-            float percentUsed = (timeController.TimeLeft / timeController.TimeTotal) * 100f;
+            text_results.text = "COMPLETE!";
 
-            // Fade in star alpha color
-            Color startColor = images_starFill[0].color;
-            Color endColor = startColor;
-            endColor.a = 1f;
+            float percentUsed = (timeController.TimeLeft / timeController.TimeTotal) * 100f;            
 
             int starCount = 0;
             // 1 Star
@@ -130,16 +132,31 @@ public class UIController : Singleton<UIController>
             else
                 starCount = 3;
 
-            // Show stars
+            // Star alpha color
+            Color startColor = images_starFill[0].color;
+            Color endColor = startColor;
+            endColor.a = 1f;
+
+            // Fade in stars consecutively
+            yield return new WaitForSeconds(2f);
             for (int i = 0; i < starCount; i++)
-            {
-                images_starFill[i].color = Color.Lerp(startColor, endColor, FADESPEED);
-                yield return new WaitForSeconds(FADESPEED + 1f);
+            {                
+                float fElapsed = 0.0f;
+                float fDuration = FADESPEED;
+                while (fElapsed < fDuration)
+                {
+                    fElapsed += Time.deltaTime;
+                    images_starFill[i].color = Color.Lerp(startColor, endColor, (fElapsed / fDuration));
+                    yield return null;
+                }
+                audioManager.PlaySound(audioManager.audio_star);
+                yield return new WaitForSeconds(1f);
             }
         }
         // Lose scenario
-        else
+        else if(_type == GameController.EndGameTypes.LOSE)
         {
+            text_results.text = "TIME'S UP!";
             audioManager.PlaySound(audioManager.audio_lose);
         }
         button_resultsNext.gameObject.SetActive(true);
@@ -187,38 +204,16 @@ public class UIController : Singleton<UIController>
             buttons_zoom.SetActive(false);
     }
 
-    private void OnGameStarted(string statusText)
+    private void OnGameStarted()
     {
-        //if (string.IsNullOrEmpty(statusText))
-        //    return;
-
         ShowUI();
-
-        text_status.text = statusText;
-        if (CR_HideText != null)
-            StopCoroutine(CR_HideText);
-        CR_HideText = StartCoroutine(HideStatusTextCR());
     }
 
-    private void OnGameEnded(string statusText)
+    private void OnGameEnded(GameController.EndGameTypes _type)
     {
-        //if (string.IsNullOrEmpty(statusText))
-        //    return;
-
         HideUI();
-        ShowPanel(PANELTYPES.COMPLETE);
-
-        text_status.text = statusText;
-        if (CR_HideText != null)
-            StopCoroutine(CR_HideText);
-        CR_HideText = StartCoroutine(HideStatusTextCR());
+        ShowPanel(PanelTypes.RESULTS, _type);
     }
-
-    private IEnumerator HideStatusTextCR()
-    {
-        yield return new WaitForSeconds(1f);
-        text_status.text = "";
-    }    
 
     public void ShowConsoleText(string text)
     {

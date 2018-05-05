@@ -36,12 +36,12 @@ public class TimerController : Singleton<TimerController>
         GameController.OnGameEnded -= OnGameEnded;
     }
 
-    private void OnGameStarted(string statusText)
+    private void OnGameStarted()
     {        
         StartTimer();
     }
 
-    private void OnGameEnded(string statusText)
+    private void OnGameEnded(GameController.EndGameTypes _type)
     {
         StopTimer();
     }
@@ -71,7 +71,7 @@ public class TimerController : Singleton<TimerController>
         }
 
         // Stop game
-        gameController.StopGame("TIME'S UP!");
+        gameController.StopGame(GameController.EndGameTypes.LOSE);
     }
 
     private void SetTimerText(float time)

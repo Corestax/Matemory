@@ -67,7 +67,7 @@ public class FruitItem : MonoBehaviour
         }
     }
 
-    private void OnGameStarted(string statusText)
+    private void OnGameStarted()
     {
         HighlightStartPositions();
     }
@@ -179,5 +179,11 @@ public class FruitItem : MonoBehaviour
     {
         foreach (Transform trans in go.GetComponentsInChildren<Transform>(true))
             trans.gameObject.layer = layerNumber;
-    }    
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.tag == "Wall")
+            AudioManager.Instance.PlayCollisionSound();
+    }
 }

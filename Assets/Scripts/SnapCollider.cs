@@ -12,9 +12,11 @@ public class SnapCollider : MonoBehaviour
     private Material material;
     private Color colorIdle;
     private MeshRenderer meshRenderer;
+    private AudioManager audioManager;
 
     private void Start()
     {
+        audioManager = AudioManager.Instance;
         meshRenderer = GetComponent<MeshRenderer>();
 
         // Clone material
@@ -35,12 +37,12 @@ public class SnapCollider : MonoBehaviour
         GameController.OnGameEnded -= Hide;
     }
 
-    private void Show(string statusText)
+    private void Show()
     {
         meshRenderer.enabled = true;
     }
 
-    private void Hide(string statusText)
+    private void Hide(GameController.EndGameTypes _type)
     {
         meshRenderer.enabled = false;
 
@@ -79,16 +81,19 @@ public class SnapCollider : MonoBehaviour
     public void ShowCorrect()
     {
         material.SetColor("_GridColor", Color.green);
+        //audioManager.PlaySound(audioManager.audio_snapCorrect);
     }
 
     public void ShowIncorrect()
     {
         material.SetColor("_GridColor", Color.red);
+        //audioManager.PlaySound(audioManager.audio_snapIncorrect);
     }
 
     public void ShowIdle()
     {
         material.SetColor("_GridColor", colorIdle);
+        //audioManager.PlaySound(audioManager.audio_snapIdle);
     }
 
     public void Snap()

@@ -13,6 +13,7 @@ using Input = GoogleARCore.InstantPreviewInput;
 
 public class GameController : Singleton<GameController>
 {
+    public enum EndGameTypes { NONE, WIN, LOSE }
     public enum ModelTypes { NONE, GIRAFFE, TREE }
 
     [Serializable]
@@ -47,10 +48,11 @@ public class GameController : Singleton<GameController>
     public Dictionary<string, GameObject> Models { get; private set; }
     public bool IsGameRunning { get; private set; }
 
-    public static event Action<string> OnGameStarted;
-    public static event Action<string> OnGameEnded;
+    public static event Action OnGameStarted;
+    public static event Action<EndGameTypes> OnGameEnded;
 
     private Touch touch;
+    private AudioManager audioManager;
     private VisualIndicatorController visualIndicator;
     private GameObject activeModel;
     private Coroutine CR_RotatePlatform;
@@ -60,6 +62,7 @@ public class GameController : Singleton<GameController>
     void Start()
     {
         visualIndicator = VisualIndicatorController.Instance;
+        audioManager = AudioManager.Instance;
         Models = new Dictionary<string, GameObject>();        
 
         // Populate dictionary of model items from inspector
@@ -251,17 +254,17 @@ public class GameController : Singleton<GameController>
 
 
 #region LOAD GAME    
-    public void Spawn(ModelTypes _type, bool startGame)
+    public void Spawn(ModelTypes _type, bool _newGame)
     {
         SnapController.Instance.ClearSnapColliders();
 
         // Stop game first before starting a new game
-        if (startGame)
-            StopGame();
+        if (_newGame)
+            StopGame(EndGameTypes.NONE);
 
         HideIndicators();
         SpawnItem(_type);
-        RotatePlatform(Explode, 1.5f, startGame);
+        RotatePlatform(Explode, 1.5f, _newGame);
     }
 
     private void SpawnItem(ModelTypes _type)
@@ -274,17 +277,7 @@ public class GameController : Singleton<GameController>
         // Instantiate model
         GameObject go = Instantiate(Models[_type.ToString()], Platform);
         activeModel = go;
-
-        //switch (_type)
-        //{
-        //    case ModelTypes.GIRAFFE:
-        //        //GameObject go = Instantiate(Items[_type.ToString()]);
-        //        break;
-        //    case ModelTypes.DOG:
-        //        break;
-        //    default:
-        //        break;
-        //}
+        audioManager.PlaySound(audioManager.audio_spawn);
     }
 
     private void RemoveActiveType()
@@ -307,12 +300,13 @@ public class GameController : Singleton<GameController>
         FruitItem[] fruitItems = activeModel.GetComponentsInChildren<FruitItem>(true);
         foreach (var fi in fruitItems)
             fi.Explode();
+        audioManager.PlaySound(audioManager.audio_explode);
 
         // Start game
         if (startGame)
         {
             yield return new WaitForSeconds(1.5f);
-            StartGame("START!");
+            StartGame();
         }
     }
 #endregion
@@ -360,27 +354,27 @@ public class GameController : Singleton<GameController>
         }
     }
 #endregion
-
+    
 
 #region START/STOP GAME
-    public void StartGame(string statusText = "")
+    public void StartGame()
     {
         if (IsGameRunning)
             return;
 
         IsGameRunning = true;
         if (OnGameStarted != null)
-            OnGameStarted(statusText);
+            OnGameStarted();
     }
 
-    public void StopGame(string statusText = "")
+    public void StopGame(EndGameTypes _type)
     {
         if (!IsGameRunning)
             return;
 
         IsGameRunning = false;
         if (OnGameEnded != null)
-            OnGameEnded(statusText);
+            OnGameEnded(_type);
 
         StopPlatformRotation();
     }

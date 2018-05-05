@@ -10,10 +10,12 @@ public class SnapController : Singleton<SnapController>
 
     public SnapCollider ActiveSnapCollider { get; set; }
 
+    private AudioManager audioManager;
     private List<SnapCollider> SnapColliders;
 
 	void Start ()
     {
+        audioManager = AudioManager.Instance;
         SnapColliders = new List<SnapCollider>();
     }
 
@@ -59,7 +61,10 @@ public class SnapController : Singleton<SnapController>
 
         // If game won
         if (SnapColliders.Count == count)
-            GameController.Instance.StopGame("COMPLETE!");
+        {
+            audioManager.PlaySound(audioManager.audio_complete);
+            GameController.Instance.StopGame(GameController.EndGameTypes.WIN);
+        }
     }
 
     public void ResetAllColliderColorsToIdle()
