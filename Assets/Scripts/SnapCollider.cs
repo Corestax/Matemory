@@ -81,13 +81,13 @@ public class SnapCollider : MonoBehaviour
     public void ShowCorrect()
     {
         material.SetColor("_GridColor", Color.green);
-        //audioManager.PlaySound(audioManager.audio_snapCorrect);
+        audioManager.PlaySound(audioManager.audio_snapCorrect);
     }
 
     public void ShowIncorrect()
     {
         material.SetColor("_GridColor", Color.red);
-        //audioManager.PlaySound(audioManager.audio_snapIncorrect);
+        audioManager.PlaySound(audioManager.audio_snapIncorrect);
     }
 
     public void ShowIdle()
