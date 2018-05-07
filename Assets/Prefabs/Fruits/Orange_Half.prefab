@@ -36,8 +36,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4757213971519660}
-  - component: {fileID: 135626826484951886}
   - component: {fileID: 54345001290987670}
+  - component: {fileID: 135626826484951886}
   m_Layer: 0
   m_Name: Orange_Half
   m_TagString: Untagged
@@ -85,6 +85,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: f60e1656f4a529949a70843c4e2a3260, type: 2}
   m_StaticBatchInfo:
