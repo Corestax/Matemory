@@ -63,7 +63,7 @@
             Name "Diffuse"
             CGPROGRAM
             #pragma surface surf MobileLambert exclude_path:prepass noforwardadd nolightmap finalcolor:lightEstimation
-    
+            #pragma multi_compile LIGHTEST_ON LIGHTEST_OFF
             sampler2D _MainTex;
             fixed3 _GlobalColorCorrection;
     
@@ -84,7 +84,11 @@
     
             void lightEstimation(Input IN, SurfaceOutput o, inout fixed4 color)
             {
+            #if LIGHTEST_ON
                 color.rgb *= _GlobalColorCorrection;
+            #else
+                color.rgb *= 1;
+            #endif
             }
     
             void surf (Input IN, inout SurfaceOutput o)
@@ -94,5 +98,6 @@
             }       
             ENDCG
             }
+            CustomEditor "LightEstToggleInspector"
             Fallback "Mobile/VertexLit"
         }

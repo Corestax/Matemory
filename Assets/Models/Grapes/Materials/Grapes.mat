@@ -7,8 +7,8 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Grapes
-  m_Shader: {fileID: 10705, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
+  m_Shader: {fileID: 4800000, guid: 295896ae29123b3419b46567a595c519, type: 3}
+  m_ShaderKeywords: LIGHTEST_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -65,6 +65,8 @@ Material:
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
+    - _OutlineAlpha: 0
+    - _OutlineOffset: 0.03
     - _Parallax: 0.02
     - _Shininess: 0.194
     - _SmoothnessTextureChannel: 0
@@ -73,5 +75,5 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.6, g: 0.6, b: 0.6, a: 1}
+    - _Color: {r: 1, g: 0.6413793, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
