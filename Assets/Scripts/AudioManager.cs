@@ -13,6 +13,7 @@ public class AudioManager : Singleton<AudioManager>
     public AudioClip audio_snapCorrect;
     public AudioClip audio_snapIncorrect;
     public AudioClip audio_snapIdle;
+    public AudioClip audio_snapComplete;
     public AudioClip audio_star;
     public AudioClip audio_win;
     public AudioClip audio_lose;

@@ -100,6 +100,7 @@ public class SnapCollider : MonoBehaviour
     public void Snap()
     {
         IsSnapped = true;
-        meshRenderer.enabled = false;        
+        meshRenderer.enabled = false;
+        audioManager.PlaySound(audioManager.audio_snapComplete);
     }        
 }
