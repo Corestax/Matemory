@@ -106,8 +106,6 @@ public class UIController : Singleton<UIController>
 
     private IEnumerator ShowPanelResultsCR(GameController.EndGameTypes _type)
     {
-        print(timeController.TimeLeft + " / " + timeController.TimeTotal);
-
         // Fade in panel
         fader_complete.FadeIn(FADESPEED);
         while (fader_complete.IsFading)

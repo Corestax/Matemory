@@ -27,7 +27,7 @@ public class SnapColliderRaycast : MonoBehaviour
 
     void Update()
     {
-        if (!fruitItemController.SelectedFruit)
+        if (!fruitItemController.SelectedFruit || Input.touchCount == 0)
             return;
 
         RayCastSnapColliders();
@@ -35,8 +35,11 @@ public class SnapColliderRaycast : MonoBehaviour
 
     private void RayCastSnapColliders()
     {
-        //Vector3 fwd = transform.TransformDirection(Vector3.forward);
-        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (GameController.Instance.EnableAR)
+            ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+        else
+            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
         if (Physics.Raycast(ray, out hit, 10f, layer))
         {
             // If new snap collider is hit

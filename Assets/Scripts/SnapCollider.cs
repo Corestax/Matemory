@@ -47,42 +47,6 @@ public class SnapCollider : MonoBehaviour
         meshRenderer.enabled = false;
     }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (IsSnapped)
-    //        return;
-
-    //    if (other.tag == "Draggable")
-    //    {
-    //        // Show all colliders as idle
-    //        SnapController.Instance.ResetAllColliderColorsToIdle();
-
-    //        // Show correct/incorrect
-    //        var fruitItem = other.GetComponent<FruitItem>();
-    //        if (fruitItem.Fruit == FruitType)
-    //        {
-    //            SnapController.Instance.ActiveSnapCollider = this;
-    //            ShowCorrect();
-    //        }
-    //        else
-    //        {
-    //            ShowIncorrect();
-    //        }
-    //    }
-    //}
-
-    //public void OnTriggerEnter()
-    //{
-        
-    //}
-
-    //private void OnTriggerExit(Collider other)
-    //{
-    //    if(SnapController.Instance.ActiveSnapCollider == this)
-    //        SnapController.Instance.ActiveSnapCollider = null;
-    //    ShowIdle(true);
-    //}
-
     public void ShowCorrect()
     {
         material.SetColor("_GridColor", Color.green);
