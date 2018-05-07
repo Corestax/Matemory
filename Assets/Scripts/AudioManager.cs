@@ -9,7 +9,7 @@ public class AudioManager : Singleton<AudioManager>
     public AudioClip audio_spawn;
     public AudioClip audio_spin;
     public AudioClip audio_explode;
-    public AudioClip audio_collide;
+    public AudioClip audio_collision;
     public AudioClip audio_snapCorrect;
     public AudioClip audio_snapIncorrect;
     public AudioClip audio_snapIdle;
@@ -27,6 +27,14 @@ public class AudioManager : Singleton<AudioManager>
     void Start()
     {
         audioSources = GetComponentsInChildren<AudioSource>();
+
+        // Preset audiosources
+        audioSources[0].clip = music_bg;
+        if (audioSources[0].playOnAwake)
+            audioSources[0].Play();
+        audioSources[1].clip = audio_collision;
+        audioSources[2].clip = audio_spin;
+
         currentIndex = START_INDEX;
     }
 

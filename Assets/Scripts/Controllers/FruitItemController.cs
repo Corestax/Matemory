@@ -13,6 +13,7 @@ public class FruitItemController : Singleton<FruitItemController>
     private GameObject panel_controls;
 
     public bool IsControlEnabled { get; private set; }
+    public FruitItem SelectedFruit { get; private set; }
 
     private const float SPEED = 0.5f;
 
@@ -23,7 +24,6 @@ public class FruitItemController : Singleton<FruitItemController>
 #endif
 
     private GameObject clonedFruit;
-    private FruitItem selectedFruit;
     private Touch touch;
 
     void Start()
@@ -47,7 +47,7 @@ public class FruitItemController : Singleton<FruitItemController>
 
     private void ShowControls()
     {
-        if (!selectedFruit)
+        if (!SelectedFruit)
             return;
 
         panel_controls.SetActive(true);
@@ -78,7 +78,7 @@ public class FruitItemController : Singleton<FruitItemController>
         if (UnityEngine.Input.GetKeyUp(KeyCode.LeftArrow) || UnityEngine.Input.GetKeyUp(KeyCode.RightArrow) || UnityEngine.Input.GetKeyUp(KeyCode.UpArrow) || UnityEngine.Input.GetKeyUp(KeyCode.DownArrow) || UnityEngine.Input.GetKeyUp(KeyCode.Period) || UnityEngine.Input.GetKeyUp(KeyCode.Comma))
             StopRotate();
 
-        if (!selectedFruit || activeRotation == ROTATIONS.NONE)
+        if (!SelectedFruit || activeRotation == ROTATIONS.NONE)
             return;
 
         switch (activeRotation)
@@ -88,26 +88,26 @@ public class FruitItemController : Singleton<FruitItemController>
 
             case ROTATIONS.X:
                 if (isClockwise)
-                    selectedFruit.transform.Rotate(Vector3.right * Time.deltaTime * 100f, Space.World);
+                    SelectedFruit.transform.Rotate(Vector3.right * Time.deltaTime * 100f, Space.World);
                 else
-                    selectedFruit.transform.Rotate(-Vector3.right, Time.deltaTime * 100f, Space.World);
-                clonedFruit.transform.rotation = selectedFruit.transform.rotation;
+                    SelectedFruit.transform.Rotate(-Vector3.right, Time.deltaTime * 100f, Space.World);
+                clonedFruit.transform.rotation = SelectedFruit.transform.rotation;
                 break;
 
             case ROTATIONS.Y:
                 if (isClockwise)
-                    selectedFruit.transform.Rotate(Vector3.up * Time.deltaTime * 100f, Space.World);
+                    SelectedFruit.transform.Rotate(Vector3.up * Time.deltaTime * 100f, Space.World);
                 else
-                    selectedFruit.transform.Rotate(-Vector3.up, Time.deltaTime * 100f, Space.World);
-                clonedFruit.transform.rotation = selectedFruit.transform.rotation;
+                    SelectedFruit.transform.Rotate(-Vector3.up, Time.deltaTime * 100f, Space.World);
+                clonedFruit.transform.rotation = SelectedFruit.transform.rotation;
                 break;
 
             case ROTATIONS.Z:
                 if (isClockwise)
-                    selectedFruit.transform.Rotate(Vector3.forward * Time.deltaTime * 100f, Space.World);
+                    SelectedFruit.transform.Rotate(Vector3.forward * Time.deltaTime * 100f, Space.World);
                 else
-                    selectedFruit.transform.Rotate(-Vector3.forward, Time.deltaTime * 100f, Space.World);
-                clonedFruit.transform.rotation = selectedFruit.transform.rotation;
+                    SelectedFruit.transform.Rotate(-Vector3.forward, Time.deltaTime * 100f, Space.World);
+                clonedFruit.transform.rotation = SelectedFruit.transform.rotation;
                 break;
 
             default:
@@ -124,8 +124,8 @@ public class FruitItemController : Singleton<FruitItemController>
             touch = Input.GetTouch(1);
             if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
             {
-                selectedFruit.transform.Rotate(touch.deltaPosition.y * SPEED, -touch.deltaPosition.x * SPEED, 0, Space.World);
-                clonedFruit.transform.rotation = selectedFruit.transform.rotation;
+                SelectedFruit.transform.Rotate(touch.deltaPosition.y * SPEED, -touch.deltaPosition.x * SPEED, 0, Space.World);
+                clonedFruit.transform.rotation = SelectedFruit.transform.rotation;
             }
         }
     }
@@ -143,12 +143,12 @@ public class FruitItemController : Singleton<FruitItemController>
 
     public void SetGrabbed(FruitItem item)
     {        
-        selectedFruit = item;
-        selectedFruit.SetGrabbed(true);
+        SelectedFruit = item;
+        SelectedFruit.SetGrabbed(true);
         ShowControls();
 
         // Clone grabbed item (for render texture)
-        clonedFruit = Instantiate(selectedFruit.gameObject, new Vector3(-100, -100, -100), selectedFruit.transform.rotation);
+        clonedFruit = Instantiate(SelectedFruit.gameObject, new Vector3(-100, -100, -100), SelectedFruit.transform.rotation);
         clonedFruit.GetComponentInChildren<MeshRenderer>().material.SetFloat("_OutlineAlpha", 0f);
         Destroy(clonedFruit.GetComponent<Rigidbody>());
         Destroy(clonedFruit.GetComponent<FruitItem>());
@@ -172,12 +172,12 @@ public class FruitItemController : Singleton<FruitItemController>
 
     public void SetDropped()
     {
-        if (!selectedFruit)
+        if (!SelectedFruit)
             return;        
 
         // Drop item
-        selectedFruit.SetGrabbed(false);
-        selectedFruit = null;
+        SelectedFruit.SetGrabbed(false);
+        SelectedFruit = null;
 
         // Disable control
         HideControls();
@@ -191,7 +191,7 @@ public class FruitItemController : Singleton<FruitItemController>
 #if UNITY_EDITOR
     public void Rotate(ROTATIONS rotation, bool clockwise)
     {
-        if (!selectedFruit)
+        if (!SelectedFruit)
             return;
 
         activeRotation = rotation;

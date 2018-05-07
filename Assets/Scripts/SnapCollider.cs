@@ -35,7 +35,7 @@ public class SnapCollider : MonoBehaviour
     {
         GameController.OnGameStarted -= Show;
         GameController.OnGameEnded -= Hide;
-    }
+    }    
 
     private void Show()
     {
@@ -45,38 +45,43 @@ public class SnapCollider : MonoBehaviour
     private void Hide(GameController.EndGameTypes _type)
     {
         meshRenderer.enabled = false;
-
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (IsSnapped)
-            return;
 
-        if (other.tag == "Draggable")
-        {
-            // Show all colliders as idle
-            SnapController.Instance.ResetAllColliderColorsToIdle();
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (IsSnapped)
+    //        return;
 
-            // Show correct/incorrect
-            var fruitItem = other.GetComponent<FruitItem>();
-            if (fruitItem.Fruit == FruitType)
-            {
-                SnapController.Instance.ActiveSnapCollider = this;                
-                ShowCorrect();
-            }
-            else
-            {
-                ShowIncorrect();
-            }
-        }
-    }    
+    //    if (other.tag == "Draggable")
+    //    {
+    //        // Show all colliders as idle
+    //        SnapController.Instance.ResetAllColliderColorsToIdle();
 
-    private void OnTriggerExit(Collider other)
-    {
-        if(SnapController.Instance.ActiveSnapCollider == this)
-            SnapController.Instance.ActiveSnapCollider = null;
-        ShowIdle(true);
-    }
+    //        // Show correct/incorrect
+    //        var fruitItem = other.GetComponent<FruitItem>();
+    //        if (fruitItem.Fruit == FruitType)
+    //        {
+    //            SnapController.Instance.ActiveSnapCollider = this;
+    //            ShowCorrect();
+    //        }
+    //        else
+    //        {
+    //            ShowIncorrect();
+    //        }
+    //    }
+    //}
+
+    //public void OnTriggerEnter()
+    //{
+        
+    //}
+
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if(SnapController.Instance.ActiveSnapCollider == this)
+    //        SnapController.Instance.ActiveSnapCollider = null;
+    //    ShowIdle(true);
+    //}
 
     public void ShowCorrect()
     {
