@@ -14,7 +14,7 @@ using Input = GoogleARCore.InstantPreviewInput;
 public class GameController : Singleton<GameController>
 {
     public enum EndGameTypes { NONE, WIN, LOSE }
-    public enum ModelTypes { NONE, GIRAFFE, TREE }
+    public enum ModelTypes { NONE, GIRAFFE, BUTTERFLY }
 
     [Serializable]
     public struct Model
@@ -106,7 +106,7 @@ public class GameController : Singleton<GameController>
         if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha1))
             Spawn(ModelTypes.GIRAFFE, true);
         if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha2))
-            Spawn(ModelTypes.TREE, true);
+            Spawn(ModelTypes.BUTTERFLY, true);
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.Escape))
             SceneManager.LoadScene(0);
@@ -119,7 +119,7 @@ public class GameController : Singleton<GameController>
     #region DEBUG BUTTON CLICKS
     public void ReSpawn()
     {
-        Spawn(ModelTypes.GIRAFFE, true);
+        Spawn(ModelTypes.BUTTERFLY, true);
     }
 
     public void Restart()
