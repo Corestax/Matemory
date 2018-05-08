@@ -3122,7 +3122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79dec006aeea5f24a81ca13b88c78088, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableAR: 1
+  enableAR: 0
   arCoreController: {fileID: 1665807752}
   arCoreSession: {fileID: 1517634309}
   arCoreEnvironmentalLight: {fileID: 420639478}
@@ -3133,7 +3133,7 @@ MonoBehaviour:
   - Type: 1
     Prefab: {fileID: 1712979250053128, guid: 19c04ebf94fa9c148b9f0978cecebb73, type: 2}
   - Type: 2
-    Prefab: {fileID: 1044374013763558, guid: 08b74e02954d93049ae6a84a404e4732, type: 2}
+    Prefab: {fileID: 1906892639975542, guid: 54fbf937638740c428b74cee1e277f4e, type: 2}
   Platform: {fileID: 2081891067}
 --- !u!1 &920033758
 GameObject:
@@ -3912,6 +3912,13 @@ MonoBehaviour:
   layer:
     serializedVersion: 2
     m_Bits: 512
+--- !u!81 &1087326562
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1087326557}
+  m_Enabled: 1
 --- !u!1 &1111680859
 GameObject:
   m_ObjectHideFlags: 0
