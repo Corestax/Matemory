@@ -1,7 +1,5 @@
 fileFormatVersion: 2
 guid: c92d583c1b531b2489e0d2f2cde9258c
-timeCreated: 1524530213
-licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -53,6 +51,7 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -64,7 +63,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 0.1
+    globalScale: 0.033
     meshCompression: 1
     addColliders: 0
     importVisibility: 1

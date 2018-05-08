@@ -19,8 +19,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4560719146911246}
-  - component: {fileID: 54552148184275054}
   - component: {fileID: 135252683031538470}
+  - component: {fileID: 54552148184275054}
   m_Layer: 0
   m_Name: Watermelon
   m_TagString: Draggable
@@ -51,8 +51,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1988007247902126}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.669, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.112, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4560719146911246}
@@ -85,6 +85,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 2b1b3e76f8550454aaede8dfa83fe2f3, type: 2}
   m_StaticBatchInfo:
@@ -134,9 +135,9 @@ SphereCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1424961106724692}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 0b7f5d54f245bbd4aa8c98a336bbaf2c, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.65
+  m_Radius: 0.11
   m_Center: {x: 0, y: 0, z: 0}

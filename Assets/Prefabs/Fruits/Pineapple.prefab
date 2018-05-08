@@ -19,8 +19,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4846312150989322}
-  - component: {fileID: 54744775890886984}
   - component: {fileID: 65440481476102128}
+  - component: {fileID: 54744775890886984}
   m_Layer: 0
   m_Name: Pineapple
   m_TagString: Draggable
@@ -51,8 +51,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1090758180228402}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.224, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4846312150989322}
@@ -85,6 +85,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 51d029fb82b008f4fb18ad09bb14459d, type: 2}
   - {fileID: 2100000, guid: 39e57a3f3882ab24bbae944a1a114025, type: 2}
@@ -135,9 +136,9 @@ BoxCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1084385401648338}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 0b7f5d54f245bbd4aa8c98a336bbaf2c, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 1, z: 0.5}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.17, y: 0.29, z: 0.5}
+  m_Center: {x: 0, y: 0.06, z: 0}

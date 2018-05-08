@@ -36,7 +36,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4096518569294518}
-  - component: {fileID: 135744747440365132}
+  - component: {fileID: 65986382339941418}
   - component: {fileID: 54366060710727134}
   m_Layer: 0
   m_Name: Pear_Slice
@@ -65,7 +65,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1807400830029438}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -85,6 +85,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 22a9fe3bf6a469f428f128611b0d3e57, type: 2}
   m_StaticBatchInfo:
@@ -128,15 +129,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &135744747440365132
-SphereCollider:
+--- !u!65 &65986382339941418
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1952153741618794}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 0b7f5d54f245bbd4aa8c98a336bbaf2c, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.11
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.055, y: 0.17, z: 0.06}
+  m_Center: {x: 0.028, y: 0.03, z: -0.028}

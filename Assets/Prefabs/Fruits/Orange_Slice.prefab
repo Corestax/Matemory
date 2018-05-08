@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4666004574130914}
-  - component: {fileID: 135157782614468072}
+  - component: {fileID: 65471592129015166}
   - component: {fileID: 54906045856577586}
   m_Layer: 0
   m_Name: Orange_Slice
@@ -65,13 +65,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1846154473225596}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.09784345, z: 0, w: 0.9952018}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4666004574130914}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 11.23, z: 0}
 --- !u!23 &23365097760180348
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -85,6 +85,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: f60e1656f4a529949a70843c4e2a3260, type: 2}
   m_StaticBatchInfo:
@@ -128,15 +129,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &135157782614468072
-SphereCollider:
+--- !u!65 &65471592129015166
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1183204547043092}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 0b7f5d54f245bbd4aa8c98a336bbaf2c, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.14
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.062, y: 0.12, z: 0.06}
+  m_Center: {x: 0.03, y: 0, z: 0.03}

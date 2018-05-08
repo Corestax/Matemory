@@ -36,8 +36,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4082118844921208}
-  - component: {fileID: 54503399480052330}
   - component: {fileID: 65877248718403644}
+  - component: {fileID: 54503399480052330}
   m_Layer: 0
   m_Name: Watermelon_Hemisphere
   m_TagString: Draggable
@@ -65,8 +65,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1046257212159314}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.665, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.112, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4082118844921208}
@@ -85,6 +85,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 2b1b3e76f8550454aaede8dfa83fe2f3, type: 2}
   m_StaticBatchInfo:
@@ -134,9 +135,9 @@ BoxCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1382972428053612}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 0b7f5d54f245bbd4aa8c98a336bbaf2c, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.2, y: 0.6, z: 1.2}
-  m_Center: {x: 0, y: -0.25, z: 0}
+  m_Size: {x: 0.21, y: 0.11, z: 0.19}
+  m_Center: {x: 0, y: -0.05, z: 0}
