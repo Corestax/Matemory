@@ -11,12 +11,12 @@
     SubShader 
     {
         LOD 150
+        Tags { "RenderType"="Geometry+1" }
                 
         pass
         {
-            Tags { "RenderType"="Transparent" }
             Blend SrcAlpha OneMinusSrcAlpha
-            Cull Off
+            Cull Back
             ZWrite Off
             Name "Outline"   
             CGPROGRAM
@@ -58,8 +58,6 @@
             }
             ENDCG
             }
-            
-            Tags { "RenderType"="Opaque" }
             Name "Diffuse"
             CGPROGRAM
             #pragma surface surf MobileLambert exclude_path:prepass noforwardadd nolightmap finalcolor:lightEstimation
