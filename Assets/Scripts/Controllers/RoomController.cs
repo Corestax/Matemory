@@ -15,6 +15,7 @@ public class RoomController : Singleton<RoomController>
     //private Vector3 minDraggableBoundaries;
 
     public GameObject Room;
+    public GameObject PlatePlane;
 
     void Start()
     {

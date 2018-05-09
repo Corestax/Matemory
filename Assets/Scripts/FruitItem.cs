@@ -94,10 +94,9 @@ public class FruitItem : MonoBehaviour
         float x = Mathf.Clamp(transform.position.x, -roomController.MaxDraggableBoundaries.x + padding + offset, roomController.MaxDraggableBoundaries.x - padding + offset);
 
         // Offset Y
-        float minHeight = fruitCollider.bounds.size.y / 4f;
         padding = fruitCollider.bounds.size.y / 2f;
-        offset = roomController.Room.transform.position.y;
-        float y = Mathf.Clamp(transform.position.y, minHeight + padding + offset, roomController.MaxDraggableBoundaries.y - padding + offset);
+        offset = roomController.PlatePlane.transform.position.y;
+        float y = Mathf.Clamp(transform.position.y, padding + offset, roomController.MaxDraggableBoundaries.y - padding + offset);
 
         // Offset Z
         offset = roomController.Room.transform.position.z;
@@ -124,10 +123,6 @@ public class FruitItem : MonoBehaviour
         else
             material.SetFloat("_OutlineAlpha", 0f);
 
-        //if(state)
-        //    SetLayerRecursively(gameObject, 8);
-        //else
-        //    SetLayerRecursively(gameObject, 0);
         rigidBody.isKinematic = state;
 
         // Check distance to snap
@@ -141,12 +136,6 @@ public class FruitItem : MonoBehaviour
             SnapController.Instance.Snap(this);
         }
     }
-
-    //public static void SetLayerRecursively(GameObject go, int layerNumber)
-    //{
-    //    foreach (Transform trans in go.GetComponentsInChildren<Transform>(true))
-    //        trans.gameObject.layer = layerNumber;
-    //}
 
     public void OnCollisionEnter(Collision collision)
     {
