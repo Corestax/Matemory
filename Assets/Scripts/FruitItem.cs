@@ -114,26 +114,24 @@ public class FruitItem : MonoBehaviour
         rigidBody.AddRelativeForce(Random.onUnitSphere * explosionForce, ForceMode.Impulse);
     }
 
-    public void SetGrabbed(bool state)
+    public void SetGrabbed()
     {
-        // Outline
-        if (state)
-            material.SetFloat("_OutlineAlpha", 1f);
-        else
-            material.SetFloat("_OutlineAlpha", 0f);
+        material.SetFloat("_OutlineAlpha", 1f);
+        rigidBody.isKinematic = true;
+        SnapController.Instance.EnableColliders();
+    }
 
-        rigidBody.isKinematic = state;
+    public void SetDropped()
+    {
+        material.SetFloat("_OutlineAlpha", 0f);
+        rigidBody.isKinematic = false;
+        SnapController.Instance.DisableColliders();
 
-        // Check distance to snap
-        if (state)
-        {
-            SnapController.Instance.EnableColliders();
-        }
-        else
-        {
-            SnapController.Instance.DisableColliders();
+        // Snap
+        if (SnapController.Instance.ActiveSnapCollider && SnapController.Instance.ActiveSnapCollider.FruitType == Fruit)
             SnapController.Instance.Snap(this);
-        }
+
+        SnapController.Instance.ClearSnapColliders();
     }
 
     public void OnCollisionEnter(Collision collision)

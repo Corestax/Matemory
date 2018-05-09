@@ -30,6 +30,7 @@ public class SnapController : Singleton<SnapController>
         snapCollider.PositionToSnap = fruitItem.PositionToSnap;
         snapCollider.RotiationToSnap = fruitItem.RotationToSnap;
         snapCollider.Order = fruitItem.Order;
+        snapCollider.gameObject.name = "SnapCollider" + SnapColliders.Count;
     }
 
     public void Snap(FruitItem fruitItem)
@@ -44,7 +45,7 @@ public class SnapController : Singleton<SnapController>
         fruitItem.GetComponent<Rigidbody>().isKinematic = true;
         fruitItem.transform.localPosition = ActiveSnapCollider.PositionToSnap;
         fruitItem.transform.localRotation = ActiveSnapCollider.RotiationToSnap;
-        fruitItem.tag = "Untagged";
+        fruitItem.tag = "Untagged";        
 
         // Check if game won
         CheckIfAllSnapped();
@@ -90,7 +91,17 @@ public class SnapController : Singleton<SnapController>
 
     public void ClearSnapColliders()
     {
-        foreach(var sc in SnapColliders)
+        foreach (var sc in SnapColliders)
+        {
+            if (!sc.IsSnapped)
+                sc.ShowIdle(false);
+        }
+        ActiveSnapCollider = null;
+    }
+
+    public void DestroyAllSnapColliders()
+    {
+        foreach (var sc in SnapColliders)
             Destroy(sc.gameObject);
 
         SnapColliders.Clear();

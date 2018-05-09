@@ -144,7 +144,7 @@ public class FruitItemController : Singleton<FruitItemController>
     public void SetGrabbed(FruitItem item)
     {        
         SelectedFruit = item;
-        SelectedFruit.SetGrabbed(true);
+        SelectedFruit.SetGrabbed();
         ShowControls();
 
         // Clone grabbed item (for render texture)
@@ -176,7 +176,7 @@ public class FruitItemController : Singleton<FruitItemController>
             return;        
 
         // Drop item
-        SelectedFruit.SetGrabbed(false);
+        SelectedFruit.SetDropped();
         SelectedFruit = null;
 
         // Disable control

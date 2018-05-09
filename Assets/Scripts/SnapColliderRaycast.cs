@@ -65,13 +65,12 @@ public class SnapColliderRaycast : MonoBehaviour
         }
         else
         {
-            if (SnapController.Instance.ActiveSnapCollider == this)
-                SnapController.Instance.ActiveSnapCollider = null;
             if (lastHitObject)
             {
                 lastHitObject.GetComponent<SnapCollider>().ShowIdle(true);
                 lastHitObject = null;
             }
+            snapController.ClearSnapColliders();
         }
     }
 }
