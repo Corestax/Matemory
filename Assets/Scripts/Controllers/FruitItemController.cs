@@ -158,11 +158,11 @@ public class FruitItemController : Singleton<FruitItemController>
         Vector3 camPos = clonedFruit.transform.position;
 
         // Find largest side
-        float distance = clonedFruit.transform.localScale.x;
-        if (clonedFruit.transform.localScale.y > distance)
-            distance = clonedFruit.transform.localScale.y;
-        if (clonedFruit.transform.localScale.z > distance)
-            distance = clonedFruit.transform.localScale.z;
+        float distance = clonedFruit.GetComponent<Collider>().bounds.size.x;
+        if (clonedFruit.GetComponent<Collider>().bounds.size.y > distance)
+            distance = clonedFruit.GetComponent<Collider>().bounds.size.y;
+        if (clonedFruit.GetComponent<Collider>().bounds.size.z > distance)
+            distance = clonedFruit.GetComponent<Collider>().bounds.size.z;
 
         // Set camera to look at cloned item
         camPos.z -= distance;
