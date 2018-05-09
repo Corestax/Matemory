@@ -12,7 +12,7 @@ public class PinchZoom : MonoBehaviour
 
     public Camera MainCamera { get; set; }
 
-    private const float SPEED = 1f;
+    private const float SPEED = 2f;
 
     private bool isAnimating;
     private bool isZoomIn;
@@ -20,6 +20,8 @@ public class PinchZoom : MonoBehaviour
     private float scale;
     private Touch touch0;
     private Touch touch1;
+
+    private const float OFFSET_Y = 0.25f;
 
     void Start()
     {
@@ -61,7 +63,7 @@ public class PinchZoom : MonoBehaviour
             return;
 
         // Zoom in/out (move platform towards player camera - ignore y axis)
-        Vector3 targetPos =  new Vector3(MainCamera.transform.position.x, Platform.position.y, MainCamera.transform.position.z); 
+        Vector3 targetPos =  new Vector3(MainCamera.transform.position.x, Mathf.Clamp(MainCamera.transform.position.y, Platform.transform.position.y, MainCamera.transform.position.y - OFFSET_Y), MainCamera.transform.position.z); 
         Vector3 distance = Platform.position - targetPos;
         Vector3 direction = distance.normalized;
 

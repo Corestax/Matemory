@@ -124,10 +124,10 @@ public class FruitItem : MonoBehaviour
         else
             material.SetFloat("_OutlineAlpha", 0f);
 
-        if(state)
-            SetLayerRecursively(gameObject, 8);
-        else
-            SetLayerRecursively(gameObject, 0);
+        //if(state)
+        //    SetLayerRecursively(gameObject, 8);
+        //else
+        //    SetLayerRecursively(gameObject, 0);
         rigidBody.isKinematic = state;
 
         // Check distance to snap
@@ -142,11 +142,11 @@ public class FruitItem : MonoBehaviour
         }
     }
 
-    public static void SetLayerRecursively(GameObject go, int layerNumber)
-    {
-        foreach (Transform trans in go.GetComponentsInChildren<Transform>(true))
-            trans.gameObject.layer = layerNumber;
-    }
+    //public static void SetLayerRecursively(GameObject go, int layerNumber)
+    //{
+    //    foreach (Transform trans in go.GetComponentsInChildren<Transform>(true))
+    //        trans.gameObject.layer = layerNumber;
+    //}
 
     public void OnCollisionEnter(Collision collision)
     {
