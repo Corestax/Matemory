@@ -11,6 +11,8 @@ public class UIController : Singleton<UIController>
     [SerializeField]
     private Text text_console;
     [SerializeField]
+    private Text text_status;
+    [SerializeField]
     private Text text_pinchZoom;
     [SerializeField]
     private GameObject buttons_zoom;
@@ -211,6 +213,12 @@ public class UIController : Singleton<UIController>
     {
         HideUI();
         ShowPanel(PanelTypes.RESULTS, _type);
+    }
+
+    public void ShowStatusText(string text, Color color)
+    {
+        text_status.text = text;
+        text_status.color = color;
     }
 
     public void ShowConsoleText(string text)

@@ -8,15 +8,14 @@ public class Platform : MonoBehaviour
     private const float SPEED = 100f;
     private AudioManager audioManager;
 
+    public Material Material { get; private set; }
+
     void Start()
     {
         audioManager = AudioManager.Instance;
 
-#if UNITY_EDITOR
-        var material = GetComponentInChildren<MeshRenderer>().material;
-        material.CopyPropertiesFromMaterial(new Material(material));
-        material.shader = Shader.Find("Mobile/Diffuse");
-#endif
+        Material = GetComponentInChildren<MeshRenderer>().material;
+        Material.CopyPropertiesFromMaterial(new Material(Material));
     }
 
     void Update()

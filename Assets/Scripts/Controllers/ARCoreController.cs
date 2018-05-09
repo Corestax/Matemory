@@ -1,64 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
-using GoogleARCore;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.Rendering;
+using GoogleARCore;
 using GoogleARCore.HelloAR;
 
 #if UNITY_EDITOR
-// Set up touch input propagation while using Instant Preview in the editor.
 using Input = GoogleARCore.InstantPreviewInput;
 #endif
 
 public class ARCoreController : MonoBehaviour
 {
-    /// <summary>
-    /// The first-person camera being used to render the passthrough camera image (i.e. AR background).
-    /// </summary>
+    [SerializeField]
+    private Platform platform;
+
     public Camera FirstPersonCamera;
-
-    /// <summary>
-    /// A prefab for tracking and visualizing detected planes.
-    /// </summary>
     public GameObject TrackedPlanePrefab;
-
-    /// <summary>
-    /// A model to place when a raycast from a user touch hits a plane.
-    /// </summary>
     public GameObject RoomPrefab;
 
-    /// <summary>
-    /// A gameobject parenting UI for displaying the "searching for planes" snackbar.
-    /// </summary>
-    public GameObject Text_DetectingPlane;
-
-    /// <summary>
-    /// A list to hold new planes ARCore began tracking in the current frame. This object is used across
-    /// the application to avoid per-frame allocations.
-    /// </summary>
     private List<TrackedPlane> m_NewPlanes = new List<TrackedPlane>();
-
-    /// <summary>
-    /// A list to hold all planes ARCore is tracking in the current frame. This object is used across
-    /// the application to avoid per-frame allocations.
-    /// </summary>
     private List<TrackedPlane> m_AllPlanes = new List<TrackedPlane>();
 
-    /// <summary>
-    /// True if the app is in the process of quitting due to an ARCore connection error, otherwise false.
-    /// </summary>
     private bool m_IsQuitting = false;
-
     private Anchor anchor;
-
     private bool isTrackingLost;
+    private Vector3 roomStartPos;
+    private Touch touch;
+    private TrackableHit hit;
+
+    private const float MOVE_SPEED = 4f;
+
     public static event Action OnTrackingActive;
     public static event Action OnTrackingLost;
 
-    /// <summary>
-    /// The Unity Update() method.
-    /// </summary>
+    void Start()
+    {
+        // Set room
+        RoomController.Instance.Room = RoomPrefab;
+        RoomPrefab.transform.SetParent(FirstPersonCamera.transform);
+        RoomPrefab.SetActive(true);
+        roomStartPos = RoomPrefab.transform.position;
+    }
+
     public void Update()
     {
         // Exit the app when the 'back' button is pressed.
@@ -73,13 +55,12 @@ public class ARCoreController : MonoBehaviour
             const int lostTrackingSleepTimeout = 15;
             Screen.sleepTimeout = lostTrackingSleepTimeout;
 
-            if (!m_IsQuitting && Session.Status.IsValid())
-                Text_DetectingPlane.SetActive(true);
+            //if (!m_IsQuitting && Session.Status.IsValid())
+            //    Text_DetectingPlane.SetActive(true);
 
             isTrackingLost = true;
             if (OnTrackingLost != null)
                 OnTrackingLost();
-
             return;
         }
 
@@ -91,7 +72,7 @@ public class ARCoreController : MonoBehaviour
         }
 
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
-        
+
         // Iterate over planes found in this frame and instantiate corresponding GameObjects to visualize them.
         if (!anchor)
         {
@@ -105,81 +86,82 @@ public class ARCoreController : MonoBehaviour
             }
         }
 
-        // Show/hide text "Detecting plane..."
-        Session.GetTrackables<TrackedPlane>(m_AllPlanes);
-        bool showText = true;
-        for (int i = 0; i < m_AllPlanes.Count; i++)
-        {
-            if (m_AllPlanes[i].TrackingState == TrackingState.Tracking)
-            {
-                showText = false;
-                break;
-            }
-        }
-        Text_DetectingPlane.SetActive(showText);
+        // Get trackable planes
+        //Session.GetTrackables<TrackedPlane>(m_AllPlanes);
+        //bool showText = true;
+        //for (int i = 0; i < m_AllPlanes.Count; i++)
+        //{
+        //    if (m_AllPlanes[i].TrackingState == TrackingState.Tracking)
+        //    {
+        //        showText = false;
+        //        break;
+        //    }
+        //}
 
         // DO NOT ALLOW REPOSITIONING
         if (anchor)
-            return;
+            return;        
 
         // Show plane visualizer
-        //if(showText)
-        //    TogglePlaneVisualizer(true);
+        TogglePlaneVisualizer(true);
 
-        // If the player has not touched the screen, we are done with this update.
-        Touch touch;
-        if (Input.touchCount < 1 || (touch = Input.GetTouch(0)).phase != TouchPhase.Began)
-            return;
-
-        // Raycast against the location the player touched to search for planes.
-        TrackableHit hit;
+        // Raycast against the location the player touched to search for planes.        
         TrackableHitFlags raycastFilter = TrackableHitFlags.PlaneWithinPolygon | TrackableHitFlags.FeaturePointWithSurfaceNormal;
-        
-        // Reposition room
-        if (Frame.Raycast(touch.position.x, touch.position.y, raycastFilter, out hit))
+        //TrackableHitFlags raycastFilter = TrackableHitFlags.PlaneWithinPolygon | TrackableHitFlags.FeaturePointWithSurfaceNormal | TrackableHitFlags.FeaturePoint | TrackableHitFlags.None | TrackableHitFlags.PlaneWithinBounds | TrackableHitFlags.PlaneWithinInfinity;
+
+        if (Frame.Raycast(Screen.width / 2f, Screen.height / 2f, raycastFilter, out hit))
         {
-            // Check if the mouse was clicked over a UI element
-            if (!EventSystem.current.IsPointerOverGameObject(touch.fingerId))
-            {
-                print("Repositioning room...");
-                //var roomPrefab = Instantiate(RoomPrefab, hit.Pose.position, hit.Pose.rotation);
+            UIController.Instance.ShowStatusText("Tap to place platform...", Color.cyan);
+            platform.Material.color = Color.green;
+            platform.Material.SetFloat("_OutlineAlpha", 1f);
 
-                // Set room
-                RoomController.Instance.Room = RoomPrefab;
-                RoomPrefab.transform.position = hit.Pose.position;
-                RoomPrefab.transform.rotation = hit.Pose.rotation;
-                RoomPrefab.SetActive(true);
+            // Lerp to hit position
+            var pos = hit.Pose.position;
+            pos.y -= 0.5f;
+            pos.z -= 1f;
+            RoomPrefab.transform.position = Vector3.Lerp(RoomPrefab.transform.position, pos, Time.deltaTime * MOVE_SPEED);
+            //RoomPrefab.transform.rotation = Quaternion.Lerp(RoomPrefab.transform.rotation, hit.Pose.rotation, Time.deltaTime * MOVE_SPEED);
+            RoomPrefab.transform.rotation = Quaternion.identity;
 
-                GameController.Instance.Spawn(GameController.ModelTypes.GIRAFFE, true);
+            // Place room
+            if (Input.touchCount < 1 || (touch = Input.GetTouch(0)).phase != TouchPhase.Began)
+                return;
 
-                // Position room 5 units in front of the camera
-                //var pos = FirstPersonCamera.transform.forward * 10f;
-                //pos.y = -5f;
-                //RoomController.Instance.ShowRoom(hit.Pose.position);
+            UIController.Instance.ShowStatusText("", Color.red);
+            platform.Material.SetFloat("_OutlineAlpha", 0f);
+            GameController.Instance.Spawn(GameController.ModelTypes.GIRAFFE, true);
 
-                // Look at camera but still be flush with the plane.
-                if ((hit.Flags & TrackableHitFlags.PlaneWithinPolygon) != TrackableHitFlags.None)
-                {
-                    // Get the camera position and match the y-component with the hit position.
-                    Vector3 pos = FirstPersonCamera.transform.position;
-                    pos.y = hit.Pose.position.y;
+            // Look at camera but still be flush with the plane.
+            //if ((hit.Flags & TrackableHitFlags.PlaneWithinPolygon) != TrackableHitFlags.None)
+            //{
+            //    // Get the camera position and match the y-component with the hit position.
+            //    Vector3 pos = FirstPersonCamera.transform.position;
+            //    pos.y = RoomPrefab.transform.position.y;
+            //    RoomPrefab.transform.LookAt(pos, RoomPrefab.transform.up);
+            //}
 
-                    RoomPrefab.transform.LookAt(pos, RoomPrefab.transform.up);
-                    //RoomPrefab.transform.rotation = Quaternion.Euler(0.0f, RoomPrefab.transform.rotation.eulerAngles.y, RoomPrefab.transform.rotation.z);
-                }
+            // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical world evolves.            
+            anchor = hit.Trackable.CreateAnchor(hit.Pose);
+            RoomPrefab.transform.parent = anchor.transform;
 
-                // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical world evolves.
-                if (!anchor)
-                {
-                    anchor = hit.Trackable.CreateAnchor(hit.Pose);
-                    RoomPrefab.transform.parent = anchor.transform;
-                }
-
-                // Hide plane visualizer
-                TogglePlaneVisualizer(false);
-            }
+            // Hide plane visualizer
+            TogglePlaneVisualizer(false);
         }
-    }
+        else
+        {
+            UIController.Instance.ShowStatusText("Find a plane to place the platform!", Color.red);
+            platform.Material.color = Color.red;
+            platform.Material.SetFloat("_OutlineAlpha", 1f);
+
+            // Position room 3 units in front of the camera
+            var pos = FirstPersonCamera.transform.forward * roomStartPos.z;
+            pos.y = FirstPersonCamera.transform.position.y + roomStartPos.y;
+
+            RoomPrefab.transform.position = Vector3.Lerp(RoomPrefab.transform.position, pos, Time.deltaTime * MOVE_SPEED);
+            //RoomPrefab.transform.rotation = Quaternion.Lerp(RoomPrefab.transform.rotation, hit.Pose.rotation, Time.deltaTime * MOVE_SPEED);
+            RoomPrefab.transform.rotation = Quaternion.identity;
+        }        
+    }    
 
     public void TogglePlaneVisualizer(bool flag)
     {
@@ -190,9 +172,6 @@ public class ARCoreController : MonoBehaviour
         }
     }
     
-    /// <summary>
-    /// Quit the application if there was a connection error for the ARCore session.
-    /// </summary>
     private void _QuitOnConnectionErrors()
     {
         if (m_IsQuitting)
@@ -215,18 +194,11 @@ public class ARCoreController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Actually quit the application.
-    /// </summary>
     private void _DoQuit()
     {
         Application.Quit();
     }
 
-    /// <summary>
-    /// Show an Android toast message.
-    /// </summary>
-    /// <param name="message">Message string to show in the toast.</param>
     private void _ShowAndroidToastMessage(string message)
     {
         AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
