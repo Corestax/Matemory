@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4338658714875184}
   - component: {fileID: 135898309495944766}
   - component: {fileID: 54032493038536774}
+  - component: {fileID: 114084613784697156}
   m_Layer: 8
   m_Name: Orange
   m_TagString: Untagged
@@ -130,6 +131,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &114084613784697156
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1379296794142124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53b071093ca43c548bd94adca360b73c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Fruit: 7
+  Order: 
 --- !u!114 &114742408134510856
 MonoBehaviour:
   m_ObjectHideFlags: 1

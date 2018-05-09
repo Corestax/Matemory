@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 4563110948073556}
   - component: {fileID: 65901625470080050}
   - component: {fileID: 54979221860312346}
+  - component: {fileID: 114231026789149592}
   m_Layer: 8
   m_Name: Green_Apple_Half
   m_TagString: Untagged
@@ -142,6 +143,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.13, y: 0.13, z: 0.055}
   m_Center: {x: 0, y: 0, z: -0.0275}
+--- !u!114 &114231026789149592
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1911421468685558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53b071093ca43c548bd94adca360b73c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Fruit: 0
+  Order: 
 --- !u!114 &114540658688762048
 MonoBehaviour:
   m_ObjectHideFlags: 1

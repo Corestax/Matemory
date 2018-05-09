@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 4096518569294518}
   - component: {fileID: 65986382339941418}
   - component: {fileID: 54366060710727134}
+  - component: {fileID: 114471141166725590}
   m_Layer: 8
   m_Name: Pear_Slice
   m_TagString: Untagged
@@ -142,6 +143,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.055, y: 0.17, z: 0.06}
   m_Center: {x: 0.028, y: 0.03, z: -0.028}
+--- !u!114 &114471141166725590
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1952153741618794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53b071093ca43c548bd94adca360b73c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Fruit: 12
+  Order: 
 --- !u!114 &114947974270834354
 MonoBehaviour:
   m_ObjectHideFlags: 1

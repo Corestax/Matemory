@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4666004574130914}
   - component: {fileID: 65471592129015166}
   - component: {fileID: 54906045856577586}
+  - component: {fileID: 114983966079931896}
   m_Layer: 8
   m_Name: Orange_Slice
   m_TagString: Untagged
@@ -153,3 +154,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068fafb6b87744b4aadc6b3f153d3322, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114983966079931896
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1183204547043092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53b071093ca43c548bd94adca360b73c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Fruit: 9
+  Order: 

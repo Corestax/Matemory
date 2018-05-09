@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4846312150989322}
   - component: {fileID: 65440481476102128}
   - component: {fileID: 54744775890886984}
+  - component: {fileID: 114954244039185536}
   m_Layer: 8
   m_Name: Pineapple
   m_TagString: Draggable
@@ -154,3 +155,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068fafb6b87744b4aadc6b3f153d3322, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114954244039185536
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1084385401648338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53b071093ca43c548bd94adca360b73c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Fruit: 13
+  Order: 

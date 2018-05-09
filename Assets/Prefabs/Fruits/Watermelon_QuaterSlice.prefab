@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4168272033424462}
   - component: {fileID: 65909522764577364}
   - component: {fileID: 54442844053876446}
+  - component: {fileID: 114348989211496040}
   m_Layer: 8
   m_Name: Watermelon_QuaterSlice
   m_TagString: Draggable
@@ -142,6 +143,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: -0.02, y: 0.12, z: 0.1}
   m_Center: {x: 0.01, y: -0.05, z: -0.05}
+--- !u!114 &114348989211496040
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1223688157724382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53b071093ca43c548bd94adca360b73c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Fruit: 17
+  Order: 
 --- !u!114 &114935771969445816
 MonoBehaviour:
   m_ObjectHideFlags: 1
