@@ -13,6 +13,8 @@ public class PinchZoom : MonoBehaviour
     public Camera MainCamera { get; set; }
 
     private const float SPEED = 2f;
+    private const float MAX_ZOOM_IN = 0.25f;
+    private const float MAX_ZOOM_OUT = 1.25f;
 
     private bool isAnimating;
     private bool isZoomIn;
@@ -67,9 +69,9 @@ public class PinchZoom : MonoBehaviour
         Vector3 distance = Platform.position - targetPos;
         Vector3 direction = distance.normalized;
 
-        if(isZoomIn && distance.magnitude > 0.1f)
+        if(isZoomIn && distance.magnitude > MAX_ZOOM_IN)
             Platform.position -= direction * SPEED * Time.deltaTime;
-        else if (!isZoomIn && distance.magnitude < 1.5f)
+        else if (!isZoomIn && distance.magnitude < MAX_ZOOM_OUT)
             Platform.position += direction * SPEED * Time.deltaTime;        
     }
 
