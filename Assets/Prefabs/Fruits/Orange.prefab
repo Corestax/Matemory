@@ -142,7 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53b071093ca43c548bd94adca360b73c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Fruit: 9
+  Fruit: 11
   Order: 
 --- !u!114 &114742408134510856
 MonoBehaviour:
