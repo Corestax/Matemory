@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 4082118844921208}
   - component: {fileID: 65877248718403644}
   - component: {fileID: 54503399480052330}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Watermelon_Hemisphere
   m_TagString: Draggable
   m_Icon: {fileID: 0}

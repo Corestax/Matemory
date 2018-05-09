@@ -130,6 +130,8 @@ public class GameController : Singleton<GameController>
 
 
     #region DRAGGABLE
+    [SerializeField]
+    private LayerMask layerMask;
     private Vector3 screenPos;
     private Vector3 vOffset;
     private RaycastHit hit;
@@ -148,7 +150,7 @@ public class GameController : Singleton<GameController>
             {
                 // Raycast
                 ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+                if (Physics.Raycast(ray, out hit, 10f, layerMask))
                 {
                     if (hit.collider.tag == "Draggable")
                     {
@@ -194,7 +196,7 @@ public class GameController : Singleton<GameController>
                 if (touch.phase == TouchPhase.Began)
                 {
                     ray = Camera.main.ScreenPointToRay(touch.position);
-                    if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+                    if (Physics.Raycast(ray, out hit, 10f, layerMask))
                     {
                         if (hit.collider.tag == "Draggable")
                         {

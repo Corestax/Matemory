@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 4757213971519660}
   - component: {fileID: 65632992804015334}
   - component: {fileID: 54345001290987670}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Orange_Half
   m_TagString: Untagged
   m_Icon: {fileID: 0}

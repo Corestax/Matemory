@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4168272033424462}
   - component: {fileID: 65909522764577364}
   - component: {fileID: 54442844053876446}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Watermelon_QuaterSlice
   m_TagString: Draggable
   m_Icon: {fileID: 0}

@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 65566434278802738}
   - component: {fileID: 54779155209060942}
   - component: {fileID: 114862667291841210}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Orange_Slice (2)
   m_TagString: Draggable
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 65090026750947640}
   - component: {fileID: 54619600308634478}
   - component: {fileID: 114842272127504734}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Orange_Slice
   m_TagString: Draggable
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 65493203483334948}
   - component: {fileID: 54316120205438654}
   - component: {fileID: 114930909687062198}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Orange_Slice (1)
   m_TagString: Draggable
   m_Icon: {fileID: 0}
@@ -142,7 +142,7 @@ GameObject:
   - component: {fileID: 135140151956095374}
   - component: {fileID: 54010527335501666}
   - component: {fileID: 114238774032041622}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Strawberry
   m_TagString: Draggable
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 136284115860966370}
   - component: {fileID: 54587929808225624}
   - component: {fileID: 114554746088881866}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Grape (1)
   m_TagString: Draggable
   m_Icon: {fileID: 0}
@@ -263,7 +263,7 @@ GameObject:
   - component: {fileID: 65252203555776174}
   - component: {fileID: 54941084249600586}
   - component: {fileID: 114012164831424370}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Orange_Slice (3)
   m_TagString: Draggable
   m_Icon: {fileID: 0}
@@ -281,7 +281,7 @@ GameObject:
   - component: {fileID: 136673541813621608}
   - component: {fileID: 54413386986763114}
   - component: {fileID: 114041999247817524}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Grape (2)
   m_TagString: Draggable
   m_Icon: {fileID: 0}
@@ -299,7 +299,7 @@ GameObject:
   - component: {fileID: 136478916723661244}
   - component: {fileID: 54936175029906706}
   - component: {fileID: 114506891771515706}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Grape
   m_TagString: Draggable
   m_Icon: {fileID: 0}

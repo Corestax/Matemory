@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 136845836153724414}
   - component: {fileID: 54040993251179314}
   - component: {fileID: 114029871545971626}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Grape (1)
   m_TagString: Draggable
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 135751303646442998}
   - component: {fileID: 54843855126420232}
   - component: {fileID: 114537891942973428}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Strawberry
   m_TagString: Draggable
   m_Icon: {fileID: 0}
@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 136530093270436570}
   - component: {fileID: 54926020531144948}
   - component: {fileID: 114773853091643424}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Celery
   m_TagString: Draggable
   m_Icon: {fileID: 0}
@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 136248419200511692}
   - component: {fileID: 54389489905221144}
   - component: {fileID: 114994291126123124}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Grape
   m_TagString: Draggable
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 135664892775640548}
   - component: {fileID: 54442779239731690}
   - component: {fileID: 114292134119846512}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pear
   m_TagString: Draggable
   m_Icon: {fileID: 0}
@@ -112,7 +112,7 @@ GameObject:
   - component: {fileID: 136386968812321594}
   - component: {fileID: 54006109999703360}
   - component: {fileID: 114484651755704282}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Celery (3)
   m_TagString: Draggable
   m_Icon: {fileID: 0}
@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 136718759832280136}
   - component: {fileID: 54398925958851152}
   - component: {fileID: 114518628598766240}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Celery (2)
   m_TagString: Draggable
   m_Icon: {fileID: 0}
@@ -199,7 +199,7 @@ GameObject:
   - component: {fileID: 136445658166052698}
   - component: {fileID: 54159061763293760}
   - component: {fileID: 114583858372718088}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Celery (1)
   m_TagString: Draggable
   m_Icon: {fileID: 0}
@@ -268,7 +268,7 @@ GameObject:
   - component: {fileID: 136412383631910882}
   - component: {fileID: 54615262329681302}
   - component: {fileID: 114175642312336770}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Grape (2)
   m_TagString: Draggable
   m_Icon: {fileID: 0}

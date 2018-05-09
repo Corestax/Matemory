@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 4737838973399994}
   - component: {fileID: 65056798875840632}
   - component: {fileID: 54799908528439276}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Green_Apple_Wedge
   m_TagString: Untagged
   m_Icon: {fileID: 0}

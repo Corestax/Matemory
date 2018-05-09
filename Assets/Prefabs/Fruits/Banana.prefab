@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4781477869194278}
   - component: {fileID: 65081371487107282}
   - component: {fileID: 54121556418401964}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Banana
   m_TagString: Draggable
   m_Icon: {fileID: 0}

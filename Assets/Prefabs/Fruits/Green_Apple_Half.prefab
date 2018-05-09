@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 4563110948073556}
   - component: {fileID: 65901625470080050}
   - component: {fileID: 54979221860312346}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Green_Apple_Half
   m_TagString: Untagged
   m_Icon: {fileID: 0}
