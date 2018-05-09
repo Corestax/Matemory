@@ -171,23 +171,6 @@ public class GameController : Singleton<GameController>
 
                     // Convert screen position to world position with offset changes.
                     Vector3 worldPos = Camera.main.ScreenToWorldPoint(touchPos) + vOffset;
-                    //var fruitCollider = dragItem.GetComponent<Collider>();
-
-                    //// Offset X
-                    //float padding = fruitCollider.bounds.size.x / 2f;
-                    //float offset = RoomController.Instance.Room.transform.position.x;
-                    //worldPos.x = Mathf.Clamp(worldPos.x, -RoomController.Instance.MaxDraggableBoundaries.x + padding + offset, RoomController.Instance.MaxDraggableBoundaries.x - padding + offset);
-
-                    //// Offset Y
-                    //float minHeight = fruitCollider.bounds.size.y / 2f;
-                    //padding = fruitCollider.bounds.size.y / 2f;
-                    //offset = RoomController.Instance.Room.transform.position.y;
-                    //worldPos.y = Mathf.Clamp(worldPos.y, minHeight + padding + offset, RoomController.Instance.MaxDraggableBoundaries.y - padding + offset);
-
-                    //// Offset Z
-                    //offset = RoomController.Instance.Room.transform.position.z;
-                    //padding = fruitCollider.bounds.size.z / 2f;
-                    //worldPos.z = Mathf.Clamp(worldPos.z, -RoomController.Instance.MaxDraggableBoundaries.z + padding + offset, RoomController.Instance.MaxDraggableBoundaries.z - padding + offset);
 
                     // Drag object
                     dragItem.position = worldPos;                    

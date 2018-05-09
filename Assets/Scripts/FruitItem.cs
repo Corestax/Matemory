@@ -105,7 +105,6 @@ public class FruitItem : MonoBehaviour
 
         // Set position
         transform.position = new Vector3(x, y, z);
-
     }           
 
     public void Explode()
