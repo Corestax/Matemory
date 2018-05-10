@@ -23,11 +23,13 @@ public class FruitItemController : Singleton<FruitItemController>
     private bool isClockwise;
 #endif
 
+    private GameController gameController;
     private GameObject clonedFruit;
     private Touch touch;
 
     void Start()
     {
+        gameController = GameController.Instance;
 #if UNITY_EDITOR
         activeRotation = ROTATIONS.NONE;
 #endif
@@ -62,6 +64,9 @@ public class FruitItemController : Singleton<FruitItemController>
 
     void Update()
     {
+        if (!gameController.IsGameRunning)
+            return;
+
 #if UNITY_EDITOR
         if (UnityEngine.Input.GetKeyDown(KeyCode.LeftArrow))
             Rotate(ROTATIONS.Y, true);

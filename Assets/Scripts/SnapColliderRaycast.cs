@@ -16,18 +16,20 @@ public class SnapColliderRaycast : MonoBehaviour
     private Ray ray;
     private RaycastHit hit;
     private GameObject lastHitObject;
+    private GameController gameController;
     private FruitItemController fruitItemController;
     private SnapController snapController;
 
     void Start()
     {
+        gameController = GameController.Instance;
         fruitItemController = FruitItemController.Instance;
         snapController = SnapController.Instance;
     }
 
     void Update()
     {
-        if (!fruitItemController.SelectedFruit || (GameController.Instance.EnableAR && Input.touchCount == 0))
+        if (!gameController.IsGameRunning || !fruitItemController.SelectedFruit || (GameController.Instance.EnableAR && Input.touchCount == 0))
             return;
 
         RayCastSnapColliders();

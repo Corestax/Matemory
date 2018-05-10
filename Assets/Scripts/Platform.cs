@@ -6,12 +6,14 @@ public class Platform : MonoBehaviour
     private bool isRotate;
     private bool isClockwise;
     private const float SPEED = 100f;
+    private GameController gameController;
     private AudioManager audioManager;
 
     public Material Material { get; private set; }
 
     void Start()
     {
+        gameController = GameController.Instance;
         audioManager = AudioManager.Instance;
 
         Material = GetComponentInChildren<MeshRenderer>().material;
@@ -20,7 +22,7 @@ public class Platform : MonoBehaviour
 
     void Update()
     {
-        if (!isRotate)
+        if (!gameController.IsGameRunning || !isRotate)
             return;
 
         if (isClockwise)
