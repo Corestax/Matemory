@@ -55,7 +55,8 @@ public class GameController : Singleton<GameController>
     public static event Action<EndGameTypes> OnGameEnded;
 
     private Touch touch;
-    private FruitItemController fruitItemController;
+    private FruitsController fruitsController;
+    private FruitRotatorController fruitRotatorController;
     private AudioManager audioManager;
     private GameObject activeModel;
     private Coroutine CR_RotatePlatform;
@@ -65,7 +66,8 @@ public class GameController : Singleton<GameController>
     void Start()
     {
         audioManager = AudioManager.Instance;
-        fruitItemController = FruitItemController.Instance;
+        fruitsController = FruitsController.Instance;
+        fruitRotatorController = FruitRotatorController.Instance;
         Models = new Dictionary<string, GameObject>();        
 
         // Populate dictionary of model items from inspector
@@ -147,7 +149,7 @@ public class GameController : Singleton<GameController>
                     {
                         dragItem = hit.collider.transform;
                         var fruitItem = dragItem.GetComponent<FruitItem>();
-                        FruitItemController.Instance.SetGrabbed(fruitItem);
+                        fruitRotatorController.SetGrabbed(fruitItem);
 
                         // Convert world position to screen position.
                         screenPos = Camera.main.WorldToScreenPoint(dragItem.position);
@@ -173,7 +175,7 @@ public class GameController : Singleton<GameController>
             {
                 if (dragItem)
                 {
-                    FruitItemController.Instance.SetDropped();
+                    fruitRotatorController.SetDropped();
                     dragItem = null;
                 }
             }
@@ -193,7 +195,7 @@ public class GameController : Singleton<GameController>
                         {
                             dragItem = hit.collider.transform;
                             var fruitItem = dragItem.GetComponent<FruitItem>();
-                            FruitItemController.Instance.SetGrabbed(fruitItem);
+                            fruitRotatorController.SetGrabbed(fruitItem);
 
                             // Convert world position to screen position.
                             screenPos = Camera.main.WorldToScreenPoint(dragItem.position);
@@ -219,7 +221,7 @@ public class GameController : Singleton<GameController>
                 {
                     if (dragItem)
                     {
-                        FruitItemController.Instance.SetDropped();
+                        fruitRotatorController.SetDropped();
                         dragItem = null;
                     }
                 }
@@ -254,7 +256,7 @@ public class GameController : Singleton<GameController>
         // Instantiate model
         GameObject go = Instantiate(Models[_type.ToString()], Platform);
         activeModel = go;
-        fruitItemController.PopulateFruits(go.transform);
+        fruitsController.PopulateFruits(go.transform);
 
         // Combine mesh to create a clone to show sillouette
         MeshCombiner.Instance.CombineMesh(go.GetComponent<DynamicOutline>(), mat_outline, Platform, false);

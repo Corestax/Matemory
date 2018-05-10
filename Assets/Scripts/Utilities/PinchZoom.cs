@@ -12,6 +12,8 @@ public class PinchZoom : MonoBehaviour
 
     public Camera MainCamera { get; set; }
 
+    private FruitRotatorController fruitRotatorController;
+
     private const float SPEED = 2f;
     private const float MAX_ZOOM_IN = 0.25f;
     private const float MAX_ZOOM_OUT = 1.25f;
@@ -27,6 +29,7 @@ public class PinchZoom : MonoBehaviour
 
     void Start()
     {
+        fruitRotatorController = FruitRotatorController.Instance;
         scale = 1f;
     }
     
@@ -37,7 +40,7 @@ public class PinchZoom : MonoBehaviour
 
         if (Input.touches.Length == 2)
         {
-            if (FruitItemController.Instance.IsControlEnabled)
+            if (fruitRotatorController.IsControlEnabled)
                 return;
 
             touch0 = Input.touches[0];

@@ -17,19 +17,19 @@ public class SnapColliderRaycast : MonoBehaviour
     private RaycastHit hit;
     private GameObject lastHitObject;
     private GameController gameController;
-    private FruitItemController fruitItemController;
+    private FruitRotatorController fruitRotatorController;
     private SnapController snapController;
 
     void Start()
     {
         gameController = GameController.Instance;
-        fruitItemController = FruitItemController.Instance;
+        fruitRotatorController = FruitRotatorController.Instance;
         snapController = SnapController.Instance;
     }
 
     void Update()
     {
-        if (!gameController.IsGameRunning || !fruitItemController.SelectedFruit || (GameController.Instance.EnableAR && Input.touchCount == 0))
+        if (!gameController.IsGameRunning || !fruitRotatorController.SelectedFruit || (GameController.Instance.EnableAR && Input.touchCount == 0))
             return;
 
         RayCastSnapColliders();
@@ -54,7 +54,7 @@ public class SnapColliderRaycast : MonoBehaviour
 
                 // Show correct/incorrect
                 SnapCollider snapCollider = hit.collider.GetComponent<SnapCollider>();
-                if (fruitItemController.SelectedFruit.Fruit == snapCollider.FruitType)
+                if (fruitRotatorController.SelectedFruit.Fruit == snapCollider.FruitType)
                 {
                     SnapController.Instance.ActiveSnapCollider = snapCollider;
                     snapCollider.ShowCorrect();

@@ -1,13 +1,11 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
-using System.Linq;
 
 #if UNITY_EDITOR
 // Set up touch input propagation while using Instant Preview in the editor.
 using Input = GoogleARCore.InstantPreviewInput;
 #endif
 
-public class FruitItemController : Singleton<FruitItemController>
+public class FruitRotatorController : Singleton<FruitRotatorController>
 {
     [SerializeField]
     private Camera cameraFruitControl;
@@ -28,12 +26,10 @@ public class FruitItemController : Singleton<FruitItemController>
     private GameController gameController;
     private GameObject clonedFruit;
     private Touch touch;
-    private List<FruitItem> Fruits;
 
     void Start()
     {
         gameController = GameController.Instance;
-        Fruits = new List<FruitItem>();
 
 #if UNITY_EDITOR
         activeRotation = ROTATIONS.NONE;
@@ -50,30 +46,6 @@ public class FruitItemController : Singleton<FruitItemController>
     {
         ARCoreController.OnTrackingActive -= ShowControls;
         ARCoreController.OnTrackingLost -= HideControls;
-    }
-
-    public void PopulateFruits(Transform _model)
-    {
-        Fruits.Clear();
-        Fruits = _model.GetComponentsInChildren<FruitItem>().ToList();
-    }
-
-    public void FreezeFruits()
-    {
-        foreach (var item in Fruits)
-        {
-            if(!item.IsSnapped)
-                item.GetComponent<Rigidbody>().isKinematic = true;
-        }
-    }
-
-    public void UnfreezeFruits()
-    {
-        foreach (var item in Fruits)
-        {
-            if (!item.IsSnapped)
-                item.GetComponent<Rigidbody>().isKinematic = false;
-        }
     }
 
     private void ShowControls()
@@ -176,7 +148,7 @@ public class FruitItemController : Singleton<FruitItemController>
     }
 
     public void SetGrabbed(FruitItem item)
-    {        
+    {
         SelectedFruit = item;
         SelectedFruit.SetGrabbed();
         ShowControls();
@@ -207,7 +179,7 @@ public class FruitItemController : Singleton<FruitItemController>
     public void SetDropped()
     {
         if (!SelectedFruit)
-            return;        
+            return;
 
         // Drop item
         SelectedFruit.SetDropped();
@@ -219,7 +191,7 @@ public class FruitItemController : Singleton<FruitItemController>
         // Destroy cloned item
         if (clonedFruit)
             Destroy(clonedFruit);
-    }    
+    }
 
 #if UNITY_EDITOR
     public void Rotate(ROTATIONS rotation, bool clockwise)
