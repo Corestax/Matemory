@@ -166,7 +166,7 @@ public class UIController : Singleton<UIController>
     {
         HidePanel(activePanel);
 
-        gameController.Restart();
+        gameController.Spawn(GameController.ModelTypes.BUTTERFLY, true);
     }
 
     private void ResetPanelResults()

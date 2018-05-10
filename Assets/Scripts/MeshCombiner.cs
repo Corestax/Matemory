@@ -1,42 +1,50 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MeshCombiner : Singleton<MeshCombiner>
 {
-    //void Start()
-    //{
-    //    m_target = GetComponent<DynamicOutline>();
-
-    //}
-
-    //void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.C))
-    //        CombineMesh(m_target);
-    //}
-
-    //[SerializeField]
     private DynamicOutline dynamicOutline;
+    private GameObject combinedObject;
 
-    public void CombineMesh(DynamicOutline _dynamicOutline, Material _material = null, Transform _parent = null)
+    private void OnEnable()
+    {
+        GameController.OnGameStarted += Show;
+    }
+
+    private void OnDisable()
+    {
+        GameController.OnGameStarted -= Show;
+    }
+
+    public void Show()
+    {
+        combinedObject.SetActive(true);
+    }
+
+    public void Clear()
+    {
+        Destroy(combinedObject);
+        dynamicOutline = null;
+    }
+
+    public void CombineMesh(DynamicOutline _dynamicOutline, Material _material = null, Transform _parent = null, bool _enabled = true)
     {
         dynamicOutline = _dynamicOutline;
 
-        GameObject copy = new GameObject();
-        copy.name = "Combined Mesh of " + _dynamicOutline.gameObject.name;
-        copy.transform.position = _dynamicOutline.transform.position;
-        copy.transform.eulerAngles = _dynamicOutline.transform.eulerAngles;
-        copy.transform.localScale = new Vector3(1, 1, 1);
+        combinedObject = new GameObject();
+        combinedObject.name = "Combined Mesh of " + _dynamicOutline.gameObject.name;
+        combinedObject.transform.position = _dynamicOutline.transform.position;
+        combinedObject.transform.eulerAngles = _dynamicOutline.transform.eulerAngles;
+        combinedObject.transform.localScale = new Vector3(1, 1, 1);
+        combinedObject.SetActive(_enabled);
 
         if (_parent)
-            copy.transform.SetParent(_parent);
+            combinedObject.transform.SetParent(_parent);
 
-        copy.AddComponent<MeshFilter>();
-        copy.GetComponent<MeshFilter>().mesh = CombineMeshes(copy, _dynamicOutline.gameObject, false);
-        copy.AddComponent<MeshRenderer>();
+        combinedObject.AddComponent<MeshFilter>();
+        combinedObject.GetComponent<MeshFilter>().mesh = CombineMeshes(combinedObject, _dynamicOutline.gameObject, false);
+        combinedObject.AddComponent<MeshRenderer>();
 
-        copy.GetComponent<MeshRenderer>().material = _material;
+        combinedObject.GetComponent<MeshRenderer>().material = _material;
     }
 
     private Mesh CombineMeshes(GameObject copy, GameObject obj, bool outline)

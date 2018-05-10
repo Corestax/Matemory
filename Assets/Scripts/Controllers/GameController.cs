@@ -55,7 +55,6 @@ public class GameController : Singleton<GameController>
 
     private Touch touch;
     private AudioManager audioManager;
-    private VisualIndicatorController visualIndicator;
     private GameObject activeModel;
     private Coroutine CR_RotatePlatform;
 
@@ -63,7 +62,6 @@ public class GameController : Singleton<GameController>
 
     void Start()
     {
-        visualIndicator = VisualIndicatorController.Instance;
         audioManager = AudioManager.Instance;
         Models = new Dictionary<string, GameObject>();        
 
@@ -241,32 +239,35 @@ public class GameController : Singleton<GameController>
 
 
 #region LOAD GAME    
-    public void Spawn(ModelTypes _type, bool _newGame)
+    private void Clear()
     {
         SnapController.Instance.ClearSnapColliders();
+        MeshCombiner.Instance.Clear();
+        RemoveActiveType();
+        Platform.rotation = Quaternion.identity;
+    }
+
+    public void Spawn(ModelTypes _type, bool _newGame)
+    {
+        // Clear old items
+        Clear();
 
         // Stop game first before starting a new game
         if (_newGame)
             StopGame(EndGameTypes.NONE);
 
-        HideIndicators();
         SpawnItem(_type);
         RotatePlatform(Explode, 1.5f, _newGame);
     }    
 
     private void SpawnItem(ModelTypes _type)
-    {
-        RemoveActiveType();
-
-        // Reset platform rotation
-        Platform.rotation = Quaternion.identity;
-
+    {        
         // Instantiate model
         GameObject go = Instantiate(Models[_type.ToString()], Platform);
         activeModel = go;
 
         // Combine mesh to create a clone to show sillouette
-        MeshCombiner.Instance.CombineMesh(go.GetComponent<DynamicOutline>(), mat_outline, Platform);
+        MeshCombiner.Instance.CombineMesh(go.GetComponent<DynamicOutline>(), mat_outline, Platform, false);
 
         audioManager.PlaySound(audioManager.audio_spawn);
     }
@@ -370,14 +371,6 @@ public class GameController : Singleton<GameController>
             OnGameEnded(_type);
 
         StopPlatformRotation();
-    }
-#endregion
-
-
-#region EXTRAS
-    private void HideIndicators()
-    {
-        visualIndicator.HideIndicators();
     }
 #endregion
 }

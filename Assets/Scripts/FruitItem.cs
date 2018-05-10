@@ -15,8 +15,6 @@ public class FruitItem : MonoBehaviour
     private Collider fruitCollider;
     private Material material;
     private float explosionForce;
-    private bool showStartPosition;
-    private Vector3 posVisualIndicator;
 
     void Start()
     {
@@ -29,7 +27,6 @@ public class FruitItem : MonoBehaviour
         // Cache start values
         PositionToSnap = transform.localPosition;
         RotationToSnap = transform.localRotation;
-        posVisualIndicator = transform.position;
 
         SnapController.Instance.CreateSnapCollider(this, transform.position, transform.rotation);
 
@@ -41,44 +38,6 @@ public class FruitItem : MonoBehaviour
 //        material.shader = Shader.Find("Mobile/Diffuse");
 //#endif
     }
-
-    void OnEnable()
-    {
-        CheckShowStartPosition();
-        if (showStartPosition)
-            GameController.OnGameStarted += OnGameStarted;
-    }
-
-    void OnDisable()
-    {
-        if (showStartPosition)
-            GameController.OnGameStarted -= OnGameStarted;
-    }
-
-    private void CheckShowStartPosition()
-    {
-        foreach (int i in Order)
-        {
-            if (i == 1)
-            {
-                showStartPosition = true;
-                return;
-            }
-        }
-    }
-
-    private void OnGameStarted()
-    {
-        HighlightStartPositions();
-    }
-
-    private void HighlightStartPositions()
-    {
-        if (!showStartPosition)
-            return;
-
-        VisualIndicatorController.Instance.ShowIndicator(this, posVisualIndicator);
-    }    
 
     void Update()
     {

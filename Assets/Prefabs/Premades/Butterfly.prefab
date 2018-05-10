@@ -124,6 +124,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4290762457981416}
+  - component: {fileID: 114844543453062272}
   m_Layer: 0
   m_Name: Butterfly
   m_TagString: Untagged
@@ -1125,6 +1126,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Fruit: 280
   Order: 
+--- !u!114 &114844543453062272
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1418599999840028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c89c5b364ab0a904ba77779a41195bc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 0
+  root: {fileID: 0}
+  material: {fileID: 0}
 --- !u!114 &114862667291841210
 MonoBehaviour:
   m_ObjectHideFlags: 1
