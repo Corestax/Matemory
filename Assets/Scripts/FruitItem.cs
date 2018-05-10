@@ -9,6 +9,7 @@ public class FruitItem : MonoBehaviour
     public int[] Order;
     public Vector3 PositionToSnap { get; private set; }
     public Quaternion RotationToSnap { get; private set; }
+    public bool IsSnapped { get; set; }
 
     private RoomController roomController;
     private Rigidbody rigidBody;

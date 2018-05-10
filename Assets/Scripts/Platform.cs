@@ -7,6 +7,7 @@ public class Platform : MonoBehaviour
     private bool isClockwise;
     private const float SPEED = 100f;
     private GameController gameController;
+    private FruitItemController fruitItemController;
     private AudioManager audioManager;
 
     public Material Material { get; private set; }
@@ -14,6 +15,7 @@ public class Platform : MonoBehaviour
     void Start()
     {
         gameController = GameController.Instance;
+        fruitItemController = FruitItemController.Instance;
         audioManager = AudioManager.Instance;
 
         Material = GetComponentInChildren<MeshRenderer>().material;
@@ -33,6 +35,7 @@ public class Platform : MonoBehaviour
 
     public void Rotate(bool clockwise)
     {
+        fruitItemController.FreezeFruits();
         audioManager.PlaySpinSound();
         isRotate = true;
         isClockwise = clockwise;
@@ -40,6 +43,7 @@ public class Platform : MonoBehaviour
 
     public void StopRotate()
     {
+        fruitItemController.UnfreezeFruits();
         audioManager.StopSpinSound();
         isRotate = false;
     }

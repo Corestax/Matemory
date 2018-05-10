@@ -42,6 +42,7 @@ public class SnapController : Singleton<SnapController>
         ActiveSnapCollider.Snap();
 
         // Snap to position
+        fruitItem.IsSnapped = true;
         fruitItem.GetComponent<Rigidbody>().isKinematic = true;
         fruitItem.transform.localPosition = ActiveSnapCollider.PositionToSnap;
         fruitItem.transform.localRotation = ActiveSnapCollider.RotiationToSnap;

@@ -55,6 +55,7 @@ public class GameController : Singleton<GameController>
     public static event Action<EndGameTypes> OnGameEnded;
 
     private Touch touch;
+    private FruitItemController fruitItemController;
     private AudioManager audioManager;
     private GameObject activeModel;
     private Coroutine CR_RotatePlatform;
@@ -64,6 +65,7 @@ public class GameController : Singleton<GameController>
     void Start()
     {
         audioManager = AudioManager.Instance;
+        fruitItemController = FruitItemController.Instance;
         Models = new Dictionary<string, GameObject>();        
 
         // Populate dictionary of model items from inspector
@@ -252,6 +254,7 @@ public class GameController : Singleton<GameController>
         // Instantiate model
         GameObject go = Instantiate(Models[_type.ToString()], Platform);
         activeModel = go;
+        fruitItemController.PopulateFruits(go.transform);
 
         // Combine mesh to create a clone to show sillouette
         MeshCombiner.Instance.CombineMesh(go.GetComponent<DynamicOutline>(), mat_outline, Platform, false);
