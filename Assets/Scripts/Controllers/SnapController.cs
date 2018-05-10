@@ -29,7 +29,7 @@ public class SnapController : Singleton<SnapController>
         snapCollider.FruitType = fruitItem.Fruit;
         snapCollider.PositionToSnap = fruitItem.PositionToSnap;
         snapCollider.RotiationToSnap = fruitItem.RotationToSnap;
-        snapCollider.Order = fruitItem.Order;
+        //snapCollider.Order = fruitItem.Order;
         snapCollider.gameObject.name = "SnapCollider" + SnapColliders.Count;
     }
 

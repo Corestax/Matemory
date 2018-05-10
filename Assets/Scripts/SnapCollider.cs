@@ -2,8 +2,8 @@
 
 public class SnapCollider : MonoBehaviour
 {
-    public FruitItem.FruitTypes FruitType;
-    public int[] Order;
+    public FruitsController.FruitTypes FruitType;
+    //public int[] Order;
     public Vector3 PositionToSnap;
     public Quaternion RotiationToSnap;
 
