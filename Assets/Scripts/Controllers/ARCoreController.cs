@@ -107,20 +107,19 @@ public class ARCoreController : MonoBehaviour
 
         // Raycast against the location the player touched to search for planes.        
         TrackableHitFlags raycastFilter = TrackableHitFlags.PlaneWithinPolygon | TrackableHitFlags.FeaturePointWithSurfaceNormal;
-        //TrackableHitFlags raycastFilter = TrackableHitFlags.PlaneWithinPolygon | TrackableHitFlags.FeaturePointWithSurfaceNormal | TrackableHitFlags.FeaturePoint | TrackableHitFlags.None | TrackableHitFlags.PlaneWithinBounds | TrackableHitFlags.PlaneWithinInfinity;
 
         if (Frame.Raycast(Screen.width / 2f, Screen.height / 2f, raycastFilter, out hit))
         {
+            // Show green outline
             UIController.Instance.ShowStatusText("Tap to place platform...", Color.cyan);
             platform.Material.color = Color.green;
             platform.Material.SetFloat("_OutlineAlpha", 1f);
 
-            // Lerp to hit position
-            var pos = hit.Pose.position;
-            pos.y -= 0.5f;
-            pos.z -= 1f;
-            RoomPrefab.transform.position = Vector3.Lerp(RoomPrefab.transform.position, pos, Time.deltaTime * MOVE_SPEED);
-            //RoomPrefab.transform.rotation = Quaternion.Lerp(RoomPrefab.transform.rotation, hit.Pose.rotation, Time.deltaTime * MOVE_SPEED);
+            // Lerp to hit position (adjusted position to show at a good distance from camera)
+            Vector3 pos = hit.Pose.position;
+
+            // Move room
+            RoomPrefab.transform.position = Vector3.MoveTowards(RoomPrefab.transform.position, pos, Time.deltaTime * MOVE_SPEED);
             RoomPrefab.transform.rotation = Quaternion.identity;
 
             // Place room
@@ -132,13 +131,13 @@ public class ARCoreController : MonoBehaviour
             GameController.Instance.Spawn(GameController.ModelTypes.GIRAFFE, true);
 
             // Look at camera but still be flush with the plane.
-            //if ((hit.Flags & TrackableHitFlags.PlaneWithinPolygon) != TrackableHitFlags.None)
-            //{
-            //    // Get the camera position and match the y-component with the hit position.
-            //    Vector3 pos = FirstPersonCamera.transform.position;
-            //    pos.y = RoomPrefab.transform.position.y;
-            //    RoomPrefab.transform.LookAt(pos, RoomPrefab.transform.up);
-            //}
+            if ((hit.Flags & TrackableHitFlags.PlaneWithinPolygon) != TrackableHitFlags.None)
+            {
+                // Get the camera position and match the y-component with the hit position.
+                var lookAt = FirstPersonCamera.transform.position;
+                lookAt.y = RoomPrefab.transform.position.y;
+                RoomPrefab.transform.LookAt(lookAt, RoomPrefab.transform.up);
+            }
 
             // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical world evolves.            
             anchor = hit.Trackable.CreateAnchor(hit.Pose);
@@ -149,16 +148,16 @@ public class ARCoreController : MonoBehaviour
         }
         else
         {
+            // Show red outline
             UIController.Instance.ShowStatusText("Find a plane to place the platform!", Color.red);
             platform.Material.color = Color.red;
             platform.Material.SetFloat("_OutlineAlpha", 1f);
 
-            // Position room 3 units in front of the camera
-            var pos = FirstPersonCamera.transform.forward * roomStartPos.z;
-            pos.y = FirstPersonCamera.transform.position.y + roomStartPos.y;
+            // Position room in front of the camera
+            var pos = FirstPersonCamera.transform.position + FirstPersonCamera.transform.forward * roomStartPos.z;
 
-            RoomPrefab.transform.position = Vector3.Lerp(RoomPrefab.transform.position, pos, Time.deltaTime * MOVE_SPEED);
-            //RoomPrefab.transform.rotation = Quaternion.Lerp(RoomPrefab.transform.rotation, hit.Pose.rotation, Time.deltaTime * MOVE_SPEED);
+            // Move room
+            RoomPrefab.transform.position = Vector3.MoveTowards(RoomPrefab.transform.position, pos, Time.deltaTime * MOVE_SPEED);
             RoomPrefab.transform.rotation = Quaternion.identity;
         }        
     }    
