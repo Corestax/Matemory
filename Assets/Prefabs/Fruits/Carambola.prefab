@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53b071093ca43c548bd94adca360b73c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Fruit: 5
+  Fruit: 100
   Order: 
 --- !u!136 &136984307304387426
 CapsuleCollider:
