@@ -56,7 +56,6 @@ GameObject:
   - component: {fileID: 4848061384326852}
   - component: {fileID: 33812959755478300}
   - component: {fileID: 23870960178845026}
-  - component: {fileID: 114527662814349950}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -90,8 +89,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4985445549137452}
+  - component: {fileID: 114888024701010266}
   m_Layer: 0
-  m_Name: SleepyDog
+  m_Name: Lizard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -143,7 +143,6 @@ GameObject:
   - component: {fileID: 4973353255867800}
   - component: {fileID: 33083519726370984}
   - component: {fileID: 23197057841733270}
-  - component: {fileID: 114508480032049808}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -161,7 +160,6 @@ GameObject:
   - component: {fileID: 4340803557087316}
   - component: {fileID: 33308839807270534}
   - component: {fileID: 23010353613664406}
-  - component: {fileID: 114592860268446928}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -197,7 +195,6 @@ GameObject:
   - component: {fileID: 4129028798175948}
   - component: {fileID: 33754601432084066}
   - component: {fileID: 23031774978782422}
-  - component: {fileID: 114747838044622880}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -233,7 +230,6 @@ GameObject:
   - component: {fileID: 4752374585859192}
   - component: {fileID: 33817399795929406}
   - component: {fileID: 23759656112195692}
-  - component: {fileID: 114981718339084868}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -251,7 +247,6 @@ GameObject:
   - component: {fileID: 4273486523040524}
   - component: {fileID: 33241199132373904}
   - component: {fileID: 23368602793006014}
-  - component: {fileID: 114971475053342666}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -923,39 +918,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Fruit: 380
   Order: 
---- !u!114 &114508480032049808
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1552570877308770}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 068fafb6b87744b4aadc6b3f153d3322, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114527662814349950
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1086533847983862}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 068fafb6b87744b4aadc6b3f153d3322, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114592860268446928
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1613409798307700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 068fafb6b87744b4aadc6b3f153d3322, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114645519307614850
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -995,17 +957,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Fruit: 160
   Order: 
---- !u!114 &114747838044622880
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1646299746807502}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 068fafb6b87744b4aadc6b3f153d3322, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114846874517072128
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1019,6 +970,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Fruit: 100
   Order: 
+--- !u!114 &114888024701010266
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1178185707003030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c89c5b364ab0a904ba77779a41195bc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 0
+  root: {fileID: 0}
+  material: {fileID: 0}
 --- !u!114 &114908800562492040
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1032,28 +997,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Fruit: 160
   Order: 
---- !u!114 &114971475053342666
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1845316504085256}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 068fafb6b87744b4aadc6b3f153d3322, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114981718339084868
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1798524128456490}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 068fafb6b87744b4aadc6b3f153d3322, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!135 &135555887335559424
 SphereCollider:
   m_ObjectHideFlags: 1

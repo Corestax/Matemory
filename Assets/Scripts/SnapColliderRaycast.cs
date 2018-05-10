@@ -72,7 +72,7 @@ public class SnapColliderRaycast : MonoBehaviour
                 lastHitObject.GetComponent<SnapCollider>().ShowIdle(true);
                 lastHitObject = null;
             }
-            snapController.ClearSnapColliders();
+            snapController.ResetToIdle();
         }
     }
 }

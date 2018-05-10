@@ -14,7 +14,7 @@ using Input = GoogleARCore.InstantPreviewInput;
 public class GameController : Singleton<GameController>
 {
     public enum EndGameTypes { NONE, WIN, LOSE }
-    public enum ModelTypes { NONE, GIRAFFE, BUTTERFLY }
+    public enum ModelTypes { NONE, BUTTERFLY = 1, GIRAFFE = 100, LIZARD = 200, SPACESHIP = 300 }
 
     [Serializable]
     public struct Model
@@ -23,10 +23,10 @@ public class GameController : Singleton<GameController>
         public GameObject Prefab;
     }
 
+    public Transform Platform;
+
     [SerializeField]
     private bool enableAR;
-    public bool EnableAR { get { return enableAR; } }
-
     [SerializeField]
     private ARCoreController arCoreController;
     [SerializeField]
@@ -41,14 +41,15 @@ public class GameController : Singleton<GameController>
     private PinchZoom pinchZoom;
     [SerializeField]
     private Material mat_outline;
+    [SerializeField]
+    private LayerMask layerMask;
 
     [SerializeField]
-    private Model[] modelPrefabs;
-
-    public Transform Platform;
+    private Model[] modelPrefabs;    
     
     public Dictionary<string, GameObject> Models { get; private set; }
     public bool IsGameRunning { get; private set; }
+    public bool EnableAR { get { return enableAR; } }
 
     public static event Action OnGameStarted;
     public static event Action<EndGameTypes> OnGameEnded;
@@ -71,7 +72,7 @@ public class GameController : Singleton<GameController>
             string name = item.Type.ToString();
             GameObject go = item.Prefab;
             Models.Add(name, go);
-        }
+        }        
 
         // Force AR on builds
 #if !UNITY_EDITOR && UNITY_ANDROID
@@ -102,16 +103,6 @@ public class GameController : Singleton<GameController>
 
     void Update()
     {
-#if UNITY_EDITOR
-        if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha1))
-            Spawn(ModelTypes.GIRAFFE, true);
-        if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha2))
-            Spawn(ModelTypes.BUTTERFLY, true);
-
-        if (UnityEngine.Input.GetKeyDown(KeyCode.Escape))
-            SceneManager.LoadScene(0);
-#endif
-
         DragItem();
     }    
 
@@ -129,9 +120,7 @@ public class GameController : Singleton<GameController>
     #endregion
 
 
-    #region DRAGGABLE
-    [SerializeField]
-    private LayerMask layerMask;
+    #region DRAGGABLE    
     private Vector3 screenPos;
     private Vector3 vOffset;
     private RaycastHit hit;
@@ -238,13 +227,11 @@ public class GameController : Singleton<GameController>
 #endregion
 
 
-#region LOAD GAME    
-    private void Clear()
+#region LOAD GAME        
+    public void Spawn(int index)
     {
-        SnapController.Instance.ClearSnapColliders();
-        MeshCombiner.Instance.Clear();
-        RemoveActiveType();
-        Platform.rotation = Quaternion.identity;
+        ModelTypes _type = (ModelTypes)index;
+        Spawn(_type, true);
     }
 
     public void Spawn(ModelTypes _type, bool _newGame)
@@ -256,12 +243,12 @@ public class GameController : Singleton<GameController>
         if (_newGame)
             StopGame(EndGameTypes.NONE);
 
-        SpawnItem(_type);
+        SpawnModel(_type);
         RotatePlatform(Explode, 1.5f, _newGame);
     }    
 
-    private void SpawnItem(ModelTypes _type)
-    {        
+    private void SpawnModel(ModelTypes _type)
+    {
         // Instantiate model
         GameObject go = Instantiate(Models[_type.ToString()], Platform);
         activeModel = go;
@@ -272,6 +259,16 @@ public class GameController : Singleton<GameController>
         audioManager.PlaySound(audioManager.audio_spawn);
     }
 
+    private void Clear()
+    {
+        UIController.Instance.HideActivePanel();
+        SnapController.Instance.Clear();
+        MeshCombiner.Instance.Clear();
+        StopExplode();
+        RemoveActiveType();
+        Platform.rotation = Quaternion.identity;
+    }
+
     private void RemoveActiveType()
     {
         if (!activeModel)
@@ -280,9 +277,11 @@ public class GameController : Singleton<GameController>
         DestroyImmediate(activeModel);
     }
 
+    private Coroutine CR_Explode;
     private void Explode(bool startGame)
     {
-        StartCoroutine(ExplodeCR(startGame));
+        StopExplode();
+        CR_Explode = StartCoroutine(ExplodeCR(startGame));
     }
 
     private IEnumerator ExplodeCR(bool startGame)
@@ -301,10 +300,19 @@ public class GameController : Singleton<GameController>
             StartGame();
         }
     }
-#endregion
+
+    private void StopExplode()
+    {
+        if (CR_Explode != null)
+        {
+            StopCoroutine(CR_Explode);
+            CR_Explode = null;
+        }
+    }
+    #endregion
 
 
-#region PLATFORM ROTATION
+    #region PLATFORM ROTATION
     private void RotatePlatform(Action<bool> callback = null, float delay = 0f, bool startGame = true)
     {
         if (CR_RotatePlatform != null)

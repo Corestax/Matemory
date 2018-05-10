@@ -7,7 +7,9 @@ using UnityEngine.Events;
 public class UIController : Singleton<UIController>
 {
     [SerializeField]
-    private CanvasFader fader_complete;
+    private CanvasFader fader_Results;
+    [SerializeField]
+    private CanvasFader fader_models;
     [SerializeField]
     private Text text_console;
     [SerializeField]
@@ -30,7 +32,7 @@ public class UIController : Singleton<UIController>
     private TimerController timeController;
     private AudioManager audioManager;
 
-    public enum PanelTypes { NONE, RESULTS }
+    public enum PanelTypes { NONE, MODELS, RESULTS }
     private PanelTypes activePanel;
 
     private const float FADESPEED = 0.25f;
@@ -60,7 +62,7 @@ public class UIController : Singleton<UIController>
         ARCoreController.OnTrackingLost -= HideUI;
     }    
 
-    public void ShowPanel(PanelTypes panel, GameController.EndGameTypes _type)
+    public void ShowPanel(PanelTypes panel, GameController.EndGameTypes _type = GameController.EndGameTypes.NONE)
     {
         // Hide last active panel
         HidePanel(activePanel);
@@ -69,6 +71,10 @@ public class UIController : Singleton<UIController>
         switch (panel)
         {
             case PanelTypes.NONE:
+                break;
+
+            case PanelTypes.MODELS:
+                ShowPanelModels();
                 break;
 
             case PanelTypes.RESULTS:
@@ -85,8 +91,12 @@ public class UIController : Singleton<UIController>
     {        
         switch (panel)
         {
+            case PanelTypes.MODELS:
+                HidePanelModels();
+                break;
+
             case PanelTypes.RESULTS:
-                fader_complete.FadeOut(FADESPEED);
+                HidePanelResults();
                 break;
 
             default:
@@ -94,6 +104,32 @@ public class UIController : Singleton<UIController>
         }
         activePanel = PanelTypes.NONE;
     }
+
+    public void HideActivePanel()
+    {
+        HidePanel(activePanel);
+    }
+
+
+    #region PANEL MODELS
+    public void TogglePanelModels()
+    {
+        if (fader_models.Alpha == 0f)
+            ShowPanel(PanelTypes.MODELS);
+        else
+            HidePanel(PanelTypes.MODELS);
+    }
+
+    private void ShowPanelModels()
+    {
+        fader_models.FadeIn(FADESPEED);
+    }
+
+    private void HidePanelModels()
+    {
+        fader_models.FadeOut(FADESPEED);
+    }
+    #endregion
 
 
     #region PANEL RESULTS    
@@ -109,8 +145,8 @@ public class UIController : Singleton<UIController>
     private IEnumerator ShowPanelResultsCR(GameController.EndGameTypes _type)
     {
         // Fade in panel
-        fader_complete.FadeIn(FADESPEED);
-        while (fader_complete.IsFading)
+        fader_Results.FadeIn(FADESPEED);
+        while (fader_Results.IsFading)
             yield return null;
 
         // Win scenario
@@ -160,6 +196,11 @@ public class UIController : Singleton<UIController>
             audioManager.PlaySound(audioManager.audio_lose);
         }
         button_resultsNext.gameObject.SetActive(true);
+    }
+
+    private void HidePanelResults()
+    {
+        fader_Results.FadeOut(FADESPEED);
     }
 
     public void OnResultsNextClicked()

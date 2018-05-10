@@ -52,11 +52,11 @@ public class RoomController : Singleton<RoomController>
         GameController.OnGameStarted -= OnGameStarted;
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.I))
-            ShowRoom(Vector3.zero);
-    }
+    //void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.I))
+    //        ShowRoom(Vector3.zero);
+    //}
 
     public void ShowRoom(Vector3 pos)
     {

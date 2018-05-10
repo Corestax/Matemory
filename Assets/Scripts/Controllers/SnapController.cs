@@ -89,7 +89,7 @@ public class SnapController : Singleton<SnapController>
             sc.GetComponent<Collider>().enabled = false;
     }
 
-    public void ClearSnapColliders()
+    public void ResetToIdle()
     {
         foreach (var sc in SnapColliders)
         {
@@ -99,7 +99,7 @@ public class SnapController : Singleton<SnapController>
         ActiveSnapCollider = null;
     }
 
-    public void DestroyAllSnapColliders()
+    public void Clear()
     {
         foreach (var sc in SnapColliders)
             Destroy(sc.gameObject);

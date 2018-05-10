@@ -39,7 +39,6 @@ GameObject:
   - component: {fileID: 4049413891240010}
   - component: {fileID: 33472030611041932}
   - component: {fileID: 23235726660121630}
-  - component: {fileID: 114514304080475824}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -144,17 +143,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Fruit: 80
   Order: 
---- !u!114 &114514304080475824
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1673010073805612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 068fafb6b87744b4aadc6b3f153d3322, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!135 &135150378093459922
 SphereCollider:
   m_ObjectHideFlags: 1

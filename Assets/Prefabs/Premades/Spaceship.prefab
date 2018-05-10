@@ -56,7 +56,6 @@ GameObject:
   - component: {fileID: 4282494336933896}
   - component: {fileID: 33033050162893290}
   - component: {fileID: 23638280299692620}
-  - component: {fileID: 114660547362776088}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -92,7 +91,6 @@ GameObject:
   - component: {fileID: 4886717764150268}
   - component: {fileID: 33760056360613092}
   - component: {fileID: 23198041024616060}
-  - component: {fileID: 114142361346664860}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -146,7 +144,6 @@ GameObject:
   - component: {fileID: 4709451655171404}
   - component: {fileID: 33496698019610348}
   - component: {fileID: 23303322042393174}
-  - component: {fileID: 114027252439087488}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -162,6 +159,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4335498116473058}
+  - component: {fileID: 114572267097941614}
   m_Layer: 0
   m_Name: Spaceship
   m_TagString: Untagged
@@ -179,7 +177,6 @@ GameObject:
   - component: {fileID: 4958307522645674}
   - component: {fileID: 33871702939418340}
   - component: {fileID: 23261151225110454}
-  - component: {fileID: 114317725152922646}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -692,28 +689,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.14, y: 0.03, z: 0.13}
   m_Center: {x: 0, y: 0, z: 0.008}
---- !u!114 &114027252439087488
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1755729865480118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 068fafb6b87744b4aadc6b3f153d3322, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114142361346664860
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1344365137683988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 068fafb6b87744b4aadc6b3f153d3322, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114185332895126124
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -727,17 +702,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Fruit: 380
   Order: 
---- !u!114 &114317725152922646
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1938338372123874}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 068fafb6b87744b4aadc6b3f153d3322, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114326963355479996
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -764,6 +728,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Fruit: 360
   Order: 
+--- !u!114 &114572267097941614
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1819159463463230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c89c5b364ab0a904ba77779a41195bc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 0
+  root: {fileID: 0}
+  material: {fileID: 0}
 --- !u!114 &114616317757899630
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -777,17 +755,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Fruit: 120
   Order: 
---- !u!114 &114660547362776088
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1230113360076960}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 068fafb6b87744b4aadc6b3f153d3322, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114926946141281454
 MonoBehaviour:
   m_ObjectHideFlags: 1

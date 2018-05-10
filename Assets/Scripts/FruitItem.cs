@@ -90,7 +90,7 @@ public class FruitItem : MonoBehaviour
         if (SnapController.Instance.ActiveSnapCollider && SnapController.Instance.ActiveSnapCollider.FruitType == Fruit)
             SnapController.Instance.Snap(this);
 
-        SnapController.Instance.ClearSnapColliders();
+        SnapController.Instance.ResetToIdle();
     }
 
     public void OnCollisionEnter(Collision collision)

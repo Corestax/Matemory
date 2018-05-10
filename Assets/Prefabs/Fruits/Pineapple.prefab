@@ -39,7 +39,6 @@ GameObject:
   - component: {fileID: 4511020933527220}
   - component: {fileID: 33077476073590284}
   - component: {fileID: 23274999381412024}
-  - component: {fileID: 114652037015361486}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -144,17 +143,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.17, y: 0.29, z: 0.17}
   m_Center: {x: 0, y: 0.06, z: 0}
---- !u!114 &114652037015361486
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1090758180228402}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 068fafb6b87744b4aadc6b3f153d3322, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114954244039185536
 MonoBehaviour:
   m_ObjectHideFlags: 1
