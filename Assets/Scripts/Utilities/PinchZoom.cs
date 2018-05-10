@@ -31,7 +31,10 @@ public class PinchZoom : MonoBehaviour
     }
     
     void Update()
-    {                 
+    {
+        if (!GameController.Instance.IsGameRunning)
+            return;
+
         if (Input.touches.Length == 2)
         {
             if (FruitItemController.Instance.IsControlEnabled)
