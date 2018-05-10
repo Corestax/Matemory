@@ -36,9 +36,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4034893615539148}
-  - component: {fileID: 135840275441815622}
-  - component: {fileID: 135792400192468632}
-  - component: {fileID: 135186449786837720}
+  - component: {fileID: 136984307304387426}
   - component: {fileID: 54193700143255844}
   - component: {fileID: 114903846893313738}
   m_Layer: 8
@@ -145,8 +143,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Fruit: 5
   Order: 
---- !u!135 &135186449786837720
-SphereCollider:
+--- !u!136 &136984307304387426
+CapsuleCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -154,30 +152,7 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.045
-  m_Center: {x: 0, y: -0.1, z: 0.0135}
---- !u!135 &135792400192468632
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1539274028244762}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.045
-  m_Center: {x: 0, y: 0.1, z: 0.0135}
---- !u!135 &135840275441815622
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1539274028244762}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.082
+  m_Radius: 0.06
+  m_Height: 0.32
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
