@@ -19,6 +19,7 @@ public class FruitsController : Singleton<FruitsController>
 
     public void FreezeFruits()
     {
+        print(Fruits.Count);
         foreach (var item in Fruits)
         {
             if(!item.IsSnapped)
