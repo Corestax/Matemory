@@ -38,7 +38,9 @@ public class GameController : Singleton<GameController>
     [SerializeField]
     private Camera camAR;
     [SerializeField]
-    private PinchZoom pinchZoom;    
+    private PinchZoom pinchZoom;
+    [SerializeField]
+    private Material mat_outline;
 
     [SerializeField]
     private Model[] modelPrefabs;
@@ -250,7 +252,7 @@ public class GameController : Singleton<GameController>
         HideIndicators();
         SpawnItem(_type);
         RotatePlatform(Explode, 1.5f, _newGame);
-    }
+    }    
 
     private void SpawnItem(ModelTypes _type)
     {
@@ -262,6 +264,10 @@ public class GameController : Singleton<GameController>
         // Instantiate model
         GameObject go = Instantiate(Models[_type.ToString()], Platform);
         activeModel = go;
+
+        // Combine mesh to create a clone to show sillouette
+        MeshCombiner.Instance.CombineMesh(go.GetComponent<DynamicOutline>(), mat_outline, Platform);
+
         audioManager.PlaySound(audioManager.audio_spawn);
     }
 
