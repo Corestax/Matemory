@@ -19,7 +19,7 @@ public class LightEstToggleInspector : MaterialEditor
 		string[] keyWords = targetMat.shaderKeywords;
  
 		// Check to see if the keyword LIGHTEST_ON is set in the material.
-		bool lightEstEnabled = keyWords.Contains ("LIGHTEST_ON");
+		bool lightEstEnabled = keyWords.Contains ("ARCORELIGHT_ON");
 		EditorGUI.BeginChangeCheck();
 		// Draw a checkbox showing the status of lightEstEnabled
 		lightEstEnabled = EditorGUILayout.Toggle ("ARCore light Enabled", lightEstEnabled);
@@ -27,7 +27,7 @@ public class LightEstToggleInspector : MaterialEditor
 		if (EditorGUI.EndChangeCheck())
 		{
 			// If our ARCore light  is enabled, add keyword LIGHTEST_ON, otherwise add LIGHTEST_OFF
-			List<string> keywords = new List<string> { lightEstEnabled ? "LIGHTEST_ON" : "LIGHTEST_OFF"};
+			List<string> keywords = new List<string> { lightEstEnabled ? "ARCORELIGHT_ON" : "ARCORELIGHT_OFF"};
 			targetMat.shaderKeywords = keywords.ToArray ();
 			EditorUtility.SetDirty (targetMat);
 		}
