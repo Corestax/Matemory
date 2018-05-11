@@ -12,11 +12,15 @@ public class Platform : MonoBehaviour
 
     public Material Material { get; private set; }
 
+    private Quaternion startRotation;
+
     void Start()
     {
         gameController = GameController.Instance;
         fruitsController = FruitsController.Instance;
         audioManager = AudioManager.Instance;
+
+        startRotation = transform.localRotation;
 
         Material = GetComponentInChildren<MeshRenderer>().material;
         Material.CopyPropertiesFromMaterial(new Material(Material));
@@ -30,7 +34,7 @@ public class Platform : MonoBehaviour
         if (isClockwise)
             transform.Rotate(Vector3.up * Time.deltaTime * SPEED, Space.World);
         else
-            transform.Rotate(-Vector3.up, Time.deltaTime * SPEED, Space.World);
+            transform.Rotate(-Vector3.up, Time.deltaTime * SPEED, Space.World);        
     }
 
     public void Rotate(bool clockwise)
@@ -46,5 +50,10 @@ public class Platform : MonoBehaviour
         fruitsController.UnfreezeFruits();
         audioManager.StopSpinSound();
         isRotate = false;
+    }
+
+    public void ResetRotation()
+    {
+        transform.localRotation = startRotation;
     }
 }

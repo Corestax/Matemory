@@ -13,19 +13,20 @@ public class ARCoreController : MonoBehaviour
     [SerializeField]
     private Platform platform;
 
-    public Camera FirstPersonCamera;
+    public Camera CameraAR;
     public GameObject TrackedPlanePrefab;
-    public GameObject RoomPrefab;
 
     private List<TrackedPlane> m_NewPlanes = new List<TrackedPlane>();
     private List<TrackedPlane> m_AllPlanes = new List<TrackedPlane>();
 
     private bool m_IsQuitting = false;
+    private RoomController roomController;
     private Anchor anchor;
     private bool isTrackingLost;
     private Vector3 roomStartPos;
     private Touch touch;
     private TrackableHit hit;
+    private GameObject room;
 
     private const float MOVE_SPEED = 4f;
 
@@ -34,11 +35,13 @@ public class ARCoreController : MonoBehaviour
 
     void Start()
     {
+        roomController = RoomController.Instance;
+        room = roomController.Room;
+
         // Set room
-        RoomController.Instance.Room = RoomPrefab;
-        RoomPrefab.transform.SetParent(FirstPersonCamera.transform);
-        RoomPrefab.SetActive(true);
-        roomStartPos = RoomPrefab.transform.position;
+        room.transform.SetParent(CameraAR.transform);
+        room.SetActive(true);
+        roomStartPos = room.transform.position;
     }
 
     public void Update()
@@ -119,8 +122,8 @@ public class ARCoreController : MonoBehaviour
             Vector3 pos = hit.Pose.position;
 
             // Move room
-            RoomPrefab.transform.position = Vector3.MoveTowards(RoomPrefab.transform.position, pos, Time.deltaTime * MOVE_SPEED);
-            RoomPrefab.transform.rotation = Quaternion.identity;
+            room.transform.position = Vector3.MoveTowards(room.transform.position, pos, Time.deltaTime * MOVE_SPEED);
+            room.transform.rotation = Quaternion.identity;
 
             // Place room
             if (Input.touchCount < 1 || (touch = Input.GetTouch(0)).phase != TouchPhase.Began)
@@ -130,18 +133,13 @@ public class ARCoreController : MonoBehaviour
             platform.Material.SetFloat("_OutlineAlpha", 0f);
             GameController.Instance.Spawn(GameController.ModelTypes.GIRAFFE, true);
 
-            // Look at camera but still be flush with the plane.
+            // Look at camera
             if ((hit.Flags & TrackableHitFlags.PlaneWithinPolygon) != TrackableHitFlags.None)
-            {
-                // Get the camera position and match the y-component with the hit position.
-                var lookAt = FirstPersonCamera.transform.position;
-                lookAt.y = RoomPrefab.transform.position.y;
-                RoomPrefab.transform.LookAt(lookAt, RoomPrefab.transform.up);
-            }
+                roomController.Recenter();
 
             // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical world evolves.            
             anchor = hit.Trackable.CreateAnchor(hit.Pose);
-            RoomPrefab.transform.parent = anchor.transform;
+            room.transform.parent = anchor.transform;
 
             // Hide plane visualizer
             TogglePlaneVisualizer(false);
@@ -154,11 +152,11 @@ public class ARCoreController : MonoBehaviour
             platform.Material.SetFloat("_OutlineAlpha", 1f);
 
             // Position room in front of the camera
-            var pos = FirstPersonCamera.transform.position + FirstPersonCamera.transform.forward * roomStartPos.z;
+            var pos = CameraAR.transform.position + CameraAR.transform.forward * roomStartPos.z;
 
             // Move room
-            RoomPrefab.transform.position = Vector3.MoveTowards(RoomPrefab.transform.position, pos, Time.deltaTime * MOVE_SPEED);
-            RoomPrefab.transform.rotation = Quaternion.identity;
+            room.transform.position = Vector3.MoveTowards(room.transform.position, pos, Time.deltaTime * MOVE_SPEED);
+            room.transform.rotation = Quaternion.identity;
         }        
     }    
 

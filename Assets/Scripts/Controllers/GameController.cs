@@ -55,6 +55,7 @@ public class GameController : Singleton<GameController>
     public static event Action<EndGameTypes> OnGameEnded;
 
     private Touch touch;
+    private RoomController roomController;
     private FruitsController fruitsController;
     private FruitRotatorController fruitRotatorController;
     private AudioManager audioManager;
@@ -65,9 +66,10 @@ public class GameController : Singleton<GameController>
 
     void Start()
     {
-        audioManager = AudioManager.Instance;
+        roomController = RoomController.Instance;
         fruitsController = FruitsController.Instance;
         fruitRotatorController = FruitRotatorController.Instance;
+        audioManager = AudioManager.Instance;
         Models = new Dictionary<string, GameObject>();        
 
         // Populate dictionary of model items from inspector
@@ -246,7 +248,7 @@ public class GameController : Singleton<GameController>
         // Stop game first before starting a new game
         if (_newGame)
             StopGame(EndGameTypes.NONE);
-
+        
         SpawnModel(_type);
         RotatePlatform(Explode, 1.5f, _newGame);
     }    
@@ -269,6 +271,8 @@ public class GameController : Singleton<GameController>
         UIController.Instance.HideActivePanel();
         SnapController.Instance.Clear();
         MeshCombiner.Instance.Clear();
+        roomController.Recenter();
+
         StopExplode();
         RemoveActiveType();
         Platform.rotation = Quaternion.identity;

@@ -3,19 +3,25 @@ using UnityEngine;
 
 public class RoomController : Singleton<RoomController>
 {
+    public GameObject Room;
+    public GameObject PlatePlane;
+
+    [SerializeField]
+    private Camera CameraEditor;
+    [SerializeField]
+    private Camera CameraAR;
     [SerializeField]
     private GameObject BoundaryColliders;
     [SerializeField]
     private GameObject InnerBoundaryCollider;
+    [SerializeField]
+    private Platform platform;
 
     public Vector3 MaxDraggableBoundaries { get { return maxDraggableBoundaries; } }
     private Vector3 maxDraggableBoundaries;
 
     //public Vector3 MinDraggableBoundaries { get { return minDraggableBoundaries; } }
-    //private Vector3 minDraggableBoundaries;
-
-    public GameObject Room;
-    public GameObject PlatePlane;
+    //private Vector3 minDraggableBoundaries;    
 
     void Start()
     {
@@ -54,6 +60,8 @@ public class RoomController : Singleton<RoomController>
 
     //void Update()
     //{
+    //    if (Input.GetKeyDown(KeyCode.R))
+    //        Recenter();
     //    if (Input.GetKeyDown(KeyCode.I))
     //        ShowRoom(Vector3.zero);
     //}
@@ -88,5 +96,25 @@ public class RoomController : Singleton<RoomController>
     public void DisableInnerBoundaryCollider()
     {
         InnerBoundaryCollider.SetActive(false);
+    }
+
+    public void Recenter()
+    {        
+        // Make sure room is looking at camera
+        Vector3 lookAt;
+#if UNITY_EDITOR
+        if(GameController.Instance.EnableAR)
+            lookAt = CameraAR.transform.position;
+        else
+            lookAt = CameraEditor.transform.position;
+#else
+        lookAt = CameraAR.transform.position;
+#endif
+
+        lookAt.y = Room.transform.position.y;
+        Room.transform.LookAt(lookAt, Room.transform.up);
+
+        // Reset platform rotation
+        platform.ResetRotation();
     }
 }
