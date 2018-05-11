@@ -29,6 +29,7 @@ public class UIController : Singleton<UIController>
     private Button button_resultsNext;
 
     private GameController gameController;
+    private ModelsController modelsController;
     private TimerController timeController;
     private AudioManager audioManager;
 
@@ -40,6 +41,7 @@ public class UIController : Singleton<UIController>
     void Start()
     {
         gameController = GameController.Instance;
+        modelsController = ModelsController.Instance;
         timeController = TimerController.Instance;
         audioManager = AudioManager.Instance;
         activePanel = PanelTypes.NONE;
@@ -207,7 +209,7 @@ public class UIController : Singleton<UIController>
     {
         HidePanel(activePanel);
 
-        gameController.Spawn(GameController.ModelTypes.BUTTERFLY, true);
+        modelsController.Spawn(ModelsController.ModelTypes.LIZARD, true);
     }
 
     private void ResetPanelResults()

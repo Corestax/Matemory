@@ -14,16 +14,6 @@ using Input = GoogleARCore.InstantPreviewInput;
 public class GameController : Singleton<GameController>
 {
     public enum EndGameTypes { NONE, WIN, LOSE }
-    public enum ModelTypes { NONE, BUTTERFLY = 1, GIRAFFE = 100, LIZARD = 200, SPACESHIP = 300 }
-
-    [Serializable]
-    public struct Model
-    {
-        public ModelTypes Type;
-        public GameObject Prefab;
-    }
-
-    public Transform Platform;
 
     [SerializeField]
     private bool enableAR;
@@ -38,16 +28,10 @@ public class GameController : Singleton<GameController>
     [SerializeField]
     private Camera camAR;
     [SerializeField]
-    private PinchZoom pinchZoom;
+    private PinchZoom pinchZoom;    
     [SerializeField]
-    private Material mat_outline;
-    [SerializeField]
-    private LayerMask layerMask;
+    private LayerMask layer_fruits;
 
-    [SerializeField]
-    private Model[] modelPrefabs;    
-    
-    public Dictionary<string, GameObject> Models { get; private set; }
     public bool IsGameRunning { get; private set; }
     public bool EnableAR { get { return enableAR; } }
 
@@ -56,29 +40,12 @@ public class GameController : Singleton<GameController>
 
     private Touch touch;
     private RoomController roomController;
-    private FruitsController fruitsController;
     private FruitRotatorController fruitRotatorController;
-    private AudioManager audioManager;
-    private GameObject activeModel;
-    private Coroutine CR_RotatePlatform;
-
-    private const float PLATFORM_ROTATION_INCREMENT = 1f;
 
     void Start()
     {
         roomController = RoomController.Instance;
-        fruitsController = FruitsController.Instance;
         fruitRotatorController = FruitRotatorController.Instance;
-        audioManager = AudioManager.Instance;
-        Models = new Dictionary<string, GameObject>();        
-
-        // Populate dictionary of model items from inspector
-        foreach (var item in modelPrefabs)
-        {
-            string name = item.Type.ToString();
-            GameObject go = item.Prefab;
-            Models.Add(name, go);
-        }        
 
         // Force AR on builds
 #if !UNITY_EDITOR && UNITY_ANDROID
@@ -114,11 +81,6 @@ public class GameController : Singleton<GameController>
 
 
     #region DEBUG BUTTON CLICKS
-    public void ReSpawn()
-    {
-        Spawn(ModelTypes.BUTTERFLY, true);
-    }
-
     public void Restart()
     {
         SceneManager.LoadScene(0);
@@ -145,7 +107,7 @@ public class GameController : Singleton<GameController>
             {
                 // Raycast
                 ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out hit, 10f, layerMask))
+                if (Physics.Raycast(ray, out hit, 10f, layer_fruits))
                 {
                     if (hit.collider.tag == "Draggable")
                     {
@@ -191,7 +153,7 @@ public class GameController : Singleton<GameController>
                 if (touch.phase == TouchPhase.Began)
                 {
                     ray = Camera.main.ScreenPointToRay(touch.position);
-                    if (Physics.Raycast(ray, out hit, 10f, layerMask))
+                    if (Physics.Raycast(ray, out hit, 10f, layer_fruits))
                     {
                         if (hit.collider.tag == "Draggable")
                         {
@@ -233,138 +195,15 @@ public class GameController : Singleton<GameController>
 #endregion
 
 
-#region LOAD GAME        
-    public void Spawn(int index)
-    {
-        ModelTypes _type = (ModelTypes)index;
-        Spawn(_type, true);
-    }
-
-    public void Spawn(ModelTypes _type, bool _newGame)
-    {
-        // Clear old items
-        Clear();
-
-        // Stop game first before starting a new game
-        if (_newGame)
-            StopGame(EndGameTypes.NONE);
-        
-        SpawnModel(_type);
-        RotatePlatform(Explode, 1.5f, _newGame);
-    }    
-
-    private void SpawnModel(ModelTypes _type)
-    {
-        // Instantiate model
-        GameObject go = Instantiate(Models[_type.ToString()], Platform);
-        activeModel = go;
-        fruitsController.PopulateFruits(go.transform);
-
-        // Combine mesh to create a clone to show sillouette
-        MeshCombiner.Instance.CombineMesh(go.GetComponent<DynamicOutline>(), mat_outline, Platform, false);
-
-        audioManager.PlaySound(audioManager.audio_spawn);
-    }
-
-    private void Clear()
+#region RESET     
+    public void Clear()
     {
         UIController.Instance.HideActivePanel();
         SnapController.Instance.Clear();
         MeshCombiner.Instance.Clear();
         roomController.Recenter();
-
-        StopExplode();
-        RemoveActiveType();
-        Platform.rotation = Quaternion.identity;
-    }
-
-    private void RemoveActiveType()
-    {
-        if (!activeModel)
-            return;
-
-        DestroyImmediate(activeModel);
-    }
-
-    private Coroutine CR_Explode;
-    private void Explode(bool startGame)
-    {
-        StopExplode();
-        CR_Explode = StartCoroutine(ExplodeCR(startGame));
-    }
-
-    private IEnumerator ExplodeCR(bool startGame)
-    {
-        // Explode
-        yield return new WaitForSeconds(1.5f);
-        FruitItem[] fruitItems = activeModel.GetComponentsInChildren<FruitItem>(true);
-        foreach (var fi in fruitItems)
-            fi.Explode();
-        audioManager.PlaySound(audioManager.audio_explode);
-
-        // Start game
-        if (startGame)
-        {
-            yield return new WaitForSeconds(1.5f);
-            StartGame();
-        }
-    }
-
-    private void StopExplode()
-    {
-        if (CR_Explode != null)
-        {
-            StopCoroutine(CR_Explode);
-            CR_Explode = null;
-        }
     }
     #endregion
-
-
-    #region PLATFORM ROTATION
-    private void RotatePlatform(Action<bool> callback = null, float delay = 0f, bool startGame = true)
-    {
-        if (CR_RotatePlatform != null)
-            StopCoroutine(CR_RotatePlatform);
-
-        CR_RotatePlatform = StartCoroutine(RotatePlatformCR(callback, delay, startGame));
-    }
-
-    private IEnumerator RotatePlatformCR(Action<bool> callback, float delay, bool startGame)
-    {
-        yield return new WaitForSeconds(delay);
-        audioManager.PlaySpinSound();
-
-        float fElapsed = 0f;
-        float fDuration = 1.5f;
-
-        float startAngle = Platform.eulerAngles.y;
-        float endAngle = startAngle + 360.0f;
-
-        while (fElapsed < fDuration)
-        {
-            fElapsed += Time.deltaTime;
-            float rotY = Mathf.Lerp(startAngle, endAngle, fElapsed / fDuration) % 360.0f;
-            Platform.eulerAngles = new Vector3(Platform.eulerAngles.x, rotY, Platform.eulerAngles.z);
-            yield return null;
-        }
-        CR_RotatePlatform = null;
-        audioManager.StopSpinSound();
-
-        // Trigger start game event
-        if (callback != null)
-            callback(startGame);
-    }
-
-    private void StopPlatformRotation()
-    {
-        if (CR_RotatePlatform != null)
-        {
-            StopCoroutine(CR_RotatePlatform);
-            CR_RotatePlatform = null;
-        }
-    }
-#endregion
     
 
 #region START/STOP GAME
@@ -386,8 +225,6 @@ public class GameController : Singleton<GameController>
         IsGameRunning = false;
         if (OnGameEnded != null)
             OnGameEnded(_type);
-
-        StopPlatformRotation();
     }
 #endregion
 }
