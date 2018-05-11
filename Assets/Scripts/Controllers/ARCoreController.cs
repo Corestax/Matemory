@@ -17,7 +17,7 @@ public class ARCoreController : MonoBehaviour
     public GameObject TrackedPlanePrefab;
 
     private List<TrackedPlane> m_NewPlanes = new List<TrackedPlane>();
-    private List<TrackedPlane> m_AllPlanes = new List<TrackedPlane>();
+    //private List<TrackedPlane> m_AllPlanes = new List<TrackedPlane>();
 
     private ModelsController modelsController;
     private RoomController roomController;
@@ -25,7 +25,6 @@ public class ARCoreController : MonoBehaviour
     private Anchor anchor;
     private bool isTrackingLost;
     private Vector3 roomStartPos;
-    private Touch touch;
     private TrackableHit hit;
     private GameObject room;
 
@@ -128,7 +127,7 @@ public class ARCoreController : MonoBehaviour
             room.transform.rotation = Quaternion.identity;
 
             // Place room
-            if (Input.touchCount < 1 || (touch = Input.GetTouch(0)).phase != TouchPhase.Began)
+            if (Input.touchCount < 1 || (Input.GetTouch(0)).phase != TouchPhase.Began)
                 return;
 
             UIController.Instance.ShowStatusText("", Color.red);

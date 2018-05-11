@@ -21,7 +21,6 @@ public class ModelsController : Singleton<ModelsController>
     [SerializeField]
     private Material mat_meshCombinedOutline;
 
-    private RoomController roomController;
     private FruitsController fruitsController;
     private AudioManager audioManager;
     private GameObject activeModel;
@@ -30,7 +29,6 @@ public class ModelsController : Singleton<ModelsController>
 
     void Start()
     {
-        roomController = RoomController.Instance;
         fruitsController = FruitsController.Instance;
         audioManager = AudioManager.Instance;
 
