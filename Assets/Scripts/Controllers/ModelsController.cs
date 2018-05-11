@@ -24,6 +24,7 @@ public class ModelsController : Singleton<ModelsController>
     private FruitsController fruitsController;
     private AudioManager audioManager;
     private GameObject activeModel;
+    private Coroutine CR_Explode;
 
     public Dictionary<string, GameObject> Models { get; private set; }
 
@@ -32,9 +33,8 @@ public class ModelsController : Singleton<ModelsController>
         fruitsController = FruitsController.Instance;
         audioManager = AudioManager.Instance;
 
-        Models = new Dictionary<string, GameObject>();
-
         // Populate dictionary of model items from inspector
+        Models = new Dictionary<string, GameObject>();
         foreach (var item in modelPrefabs)
         {
             string name = item.Type.ToString();
@@ -90,8 +90,7 @@ public class ModelsController : Singleton<ModelsController>
 
         DestroyImmediate(activeModel);
     }
-
-    private Coroutine CR_Explode;
+    
     private void Explode(bool startGame)
     {
         StopExplode();
