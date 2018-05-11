@@ -45,11 +45,6 @@ public class ModelsController : Singleton<ModelsController>
         }
     }
 
-    void Update()
-    {
-
-    }
-
     public void Spawn(int index)
     {
         ModelTypes _type = (ModelTypes)index;
