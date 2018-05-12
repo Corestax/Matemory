@@ -6346,6 +6346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21b2b1885513c1d478e4d55805e861fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Fruits: []
 --- !u!1 &1495137897
 GameObject:
   m_ObjectHideFlags: 0
