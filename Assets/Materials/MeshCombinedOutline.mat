@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: MeshCombinedOutline
-  m_Shader: {fileID: 4800000, guid: 295896ae29123b3419b46567a595c519, type: 3}
+  m_Shader: {fileID: 4800000, guid: 9330b0c20a48fb24dbea1203a59f8df2, type: 3}
   m_ShaderKeywords: LIGHTEST_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -55,6 +55,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _BodyAlpha: 0
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -66,11 +67,16 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _OutlineAlpha: 0.464
+    - _OutlineFactor: 0.5
     - _OutlineOffset: 0.02
+    - _OutlineWidth: 0.015
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _Stencil: 16
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
     - _UVSec: 0
     - _UvRotation: 30
     - _ZWrite: 1
@@ -78,3 +84,4 @@ Material:
     - _Color: {r: 1, g: 0.57043946, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GridColor: {r: 1, g: 1, b: 0, a: 1}
+    - _OutlineColor: {r: 0.3301887, g: 0.3301887, b: 0.3301887, a: 1}
