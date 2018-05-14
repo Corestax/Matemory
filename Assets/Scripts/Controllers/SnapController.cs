@@ -32,12 +32,11 @@ public class SnapController : Singleton<SnapController>
         //snapCollider.Order = fruitItem.Order;
         snapCollider.gameObject.name = "SnapCollider" + SnapColliders.Count;
 
-        snapCollider.Size = fruitItem.GetComponent<Collider>().bounds.size;        
         // Set snap collider size based on largest side
-        //Vector3 radius = fruitItem.GetComponent<Collider>().bounds.size;
-        //float largest = (radius.x < radius.y) ? radius.x : radius.y;
-        //print(largest);
-        //snapCollider.Size = largest;
+        Vector3 radius = fruitItem.GetComponent<Collider>().bounds.size;
+        float largest = (radius.x < radius.y) ? radius.x : radius.y;
+        print(largest);
+        snapCollider.Size = largest;
     }
 
     public void Snap(FruitItem fruitItem)

@@ -7,8 +7,7 @@ public class SnapCollider : MonoBehaviour
     //public int[] Order;
     public Vector3 PositionToSnap;
     public Quaternion RotiationToSnap;
-    //public float Size;
-    public Vector2 Size;
+    public float Size;
 
     public bool IsSnapped { get; private set; }
 
@@ -44,9 +43,9 @@ public class SnapCollider : MonoBehaviour
     {
         meshRenderer.enabled = true;  
         
-        // Resize ring to the smallest side      
-        material.SetFloat("_ScaleX", Size.x);
-        material.SetFloat("_ScaleY", Size.y);
+        // Resize ring to the smallest side       
+        //material.SetFloat("_ScaleX", Size);
+        //material.SetFloat("_ScaleY", Size);
     }
 
     private void Hide(GameController.EndGameTypes _type)
