@@ -3003,7 +3003,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea3dab5479c43364c9f6d8a7f2756b22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Prefab_SnapCollider: {fileID: 1575623182620316, guid: 241a9a0852daed74faf42e8702ecbbf7,
+  Prefab_SnapCollider: {fileID: 1390240465974230, guid: 6f895f850be703a45967da5dd8589bc4,
     type: 2}
   Container: {fileID: 1120796240}
 --- !u!1 &612984994

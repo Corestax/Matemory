@@ -2,6 +2,7 @@
 {
 	Properties
 	{
+		_Color ("Highlight Color", Color) = (1,1,1,1)
 		_MainTex ("Texture", 2D) = "white" {}
 		_ScaleX ("Scale X", Float) = 1.0
         _ScaleY ("Scale Y", Float) = 1.0
@@ -34,6 +35,7 @@
 			};
 
 			sampler2D _MainTex;
+			fixed4 _Color;
 			fixed4 _MainTex_ST;
 			fixed _ScaleX;
 			fixed _ScaleY;
@@ -54,8 +56,11 @@
 			fixed4 frag (v2f i) : SV_Target
 			{
 				// sample the texture
-				fixed4 col = tex2D(_MainTex, i.uv);
-				return col;
+				fixed4 t = tex2D(_MainTex, i.uv);
+				fixed4 c = 0;
+				c.rgb += t + _Color;
+				c.a += t.a;
+				return c;
 			}
 			ENDCG
 		}

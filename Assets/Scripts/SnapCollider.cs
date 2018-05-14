@@ -22,8 +22,8 @@ public class SnapCollider : MonoBehaviour
         // Clone material
         material = meshRenderer.material;
         material.CopyPropertiesFromMaterial(new Material(material));
-        //colorIdle = material.GetColor("_Color");
-        colorIdle = material.GetColor("_GridColor");
+        colorIdle = material.GetColor("_Color");
+        //colorIdle = material.GetColor("_GridColor");
     }
 
     private void OnEnable()
@@ -49,23 +49,23 @@ public class SnapCollider : MonoBehaviour
     }
 
     public void ShowCorrect()
-    {
-        material.SetColor("_GridColor", Color.green);
-        //material.SetColor("_Color", Color.green);
+    {        
+        material.SetColor("_Color", Color.green);
+        //material.SetColor("_GridColor", Color.green);
         audioManager.PlaySound(audioManager.audio_snapCorrect);
     }
 
     public void ShowIncorrect()
     {
-        material.SetColor("_GridColor", Color.red);
-        //material.SetColor("_Color", Color.red);
+        material.SetColor("_Color", Color.red);
+        //material.SetColor("_GridColor", Color.red);
         audioManager.PlaySound(audioManager.audio_snapIncorrect);
     }
 
     public void ShowIdle(bool playSound)
     {
-        material.SetColor("_GridColor", colorIdle);
-        //material.SetColor("_Color", colorIdle);
+        material.SetColor("_Color", colorIdle);
+        //material.SetColor("_GridColor", colorIdle);
         if (playSound)
             audioManager.PlaySound(audioManager.audio_snapIdle);
     }
