@@ -6346,7 +6346,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21b2b1885513c1d478e4d55805e861fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Fruits: []
 --- !u!1 &1495137897
 GameObject:
   m_ObjectHideFlags: 0
@@ -7111,7 +7110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901bc10f2cc4ca140852e756a83a2dc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeTotal: 180
+  TimeTotal: 90
   panel_timer: {fileID: 27957439}
   image_timer: {fileID: 968421495}
   text_timer: {fileID: 149618113}

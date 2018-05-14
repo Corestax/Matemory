@@ -208,8 +208,7 @@ public class UIController : Singleton<UIController>
     public void OnResultsNextClicked()
     {
         HidePanel(activePanel);
-
-        modelsController.Spawn(ModelsController.ModelTypes.LIZARD, true);
+        ShowPanel(PanelTypes.MODELS);
     }
 
     private void ResetPanelResults()
