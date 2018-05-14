@@ -35,7 +35,6 @@ public class SnapController : Singleton<SnapController>
         // Set snap collider size based on largest side
         Vector3 radius = fruitItem.GetComponent<Collider>().bounds.size;
         float largest = (radius.x < radius.y) ? radius.x : radius.y;
-        print(largest);
         snapCollider.Size = largest;
     }
 

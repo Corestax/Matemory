@@ -23,10 +23,11 @@ public class ModelsController : Singleton<ModelsController>
 
     private FruitsController fruitsController;
     private AudioManager audioManager;
-    private GameObject activeModel;
     private Coroutine CR_Explode;
 
     public Dictionary<string, GameObject> Models { get; private set; }
+    public ModelTypes ActiveModelType { get; private set; }
+    public GameObject ActiveModel { get; private set; }
 
     void Start()
     {
@@ -66,7 +67,8 @@ public class ModelsController : Singleton<ModelsController>
     {
         // Instantiate model
         GameObject go = Instantiate(Models[_type.ToString()], platform.transform);
-        activeModel = go;
+        ActiveModel = go;
+        ActiveModelType = _type;
         fruitsController.PopulateFruits(go.transform);
 
         // Combine mesh to create a clone to show sillouette
@@ -85,10 +87,11 @@ public class ModelsController : Singleton<ModelsController>
 
     private void RemoveActiveType()
     {
-        if (!activeModel)
+        if (!ActiveModel)
             return;
 
-        DestroyImmediate(activeModel);
+        DestroyImmediate(ActiveModel);
+        ActiveModelType = ModelTypes.NONE;
     }
     
     private void Explode(bool startGame)
@@ -101,7 +104,7 @@ public class ModelsController : Singleton<ModelsController>
     {
         // Explode
         yield return new WaitForSeconds(1.5f);
-        FruitItem[] fruitItems = activeModel.GetComponentsInChildren<FruitItem>(true);
+        FruitItem[] fruitItems = ActiveModel.GetComponentsInChildren<FruitItem>(true);
         foreach (var fi in fruitItems)
             fi.Explode();
         audioManager.PlaySound(audioManager.audio_explode);
