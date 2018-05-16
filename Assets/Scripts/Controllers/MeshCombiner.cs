@@ -3,27 +3,25 @@
 public class MeshCombiner : Singleton<MeshCombiner>
 {
     private DynamicOutline dynamicOutline;
-    private GameObject combinedObject;
-
-    private void OnEnable()
-    {
-        GameController.OnGameStarted += Show;
-    }
-
-    private void OnDisable()
-    {
-        GameController.OnGameStarted -= Show;
-    }
+    private GameObject combinedObject;   
 
     public void Show()
     {
-        combinedObject.SetActive(true);
+        if(combinedObject)
+            combinedObject.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        if (combinedObject)
+            combinedObject.SetActive(false);
     }
 
     public void Clear()
     {
         Destroy(combinedObject);
         dynamicOutline = null;
+        combinedObject = null;
     }
 
     public void CombineMesh(DynamicOutline _dynamicOutline, Material _material = null, Transform _parent = null, bool _enabled = true)

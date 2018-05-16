@@ -32,6 +32,7 @@ public class UIController : Singleton<UIController>
     private ModelsController modelsController;
     private TimerController timeController;
     private AudioManager audioManager;
+    private MeshCombiner meshCombiner;
 
     public enum PanelTypes { NONE, MODELS, RESULTS }
     private PanelTypes activePanel;
@@ -44,6 +45,7 @@ public class UIController : Singleton<UIController>
         modelsController = ModelsController.Instance;
         timeController = TimerController.Instance;
         audioManager = AudioManager.Instance;
+        meshCombiner = MeshCombiner.Instance;
         activePanel = PanelTypes.NONE;
     }
 
@@ -244,6 +246,22 @@ public class UIController : Singleton<UIController>
             text_pinchZoom.gameObject.SetActive(false);
         else
             buttons_zoom.SetActive(false);
+    }
+
+    private Coroutine CR_OnHintClicked;
+    public void OnHintClicked()
+    {
+        if (CR_OnHintClicked != null)
+            StopCoroutine(CR_OnHintClicked);
+
+        CR_OnHintClicked = StartCoroutine(OnHintClickedCR());
+    }
+
+    private IEnumerator OnHintClickedCR()
+    {
+        meshCombiner.Show();
+        yield return new WaitForSeconds(3f);
+        meshCombiner.Hide();
     }
 
     private void OnGameStarted()
