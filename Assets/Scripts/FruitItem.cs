@@ -15,6 +15,7 @@ public class FruitItem : MonoBehaviour
     private Collider fruitCollider;
     private Material material;
     private float explosionForce;
+    private SnapCollider snappedCollider;
 
     void Start()
     {
@@ -77,6 +78,14 @@ public class FruitItem : MonoBehaviour
     {
         material.SetFloat("_OutlineAlpha", 1f);
         rigidBody.isKinematic = true;
+
+        // Detach fruit from previous snap collider
+        if (snappedCollider)
+        {
+            snappedCollider.UnSnap();
+            snappedCollider = null;
+        }
+
         SnapController.Instance.EnableColliders();
     }
 
@@ -87,9 +96,11 @@ public class FruitItem : MonoBehaviour
         SnapController.Instance.DisableColliders();
 
         // Snap
-        if (SnapController.Instance.ActiveSnapCollider && SnapController.Instance.ActiveSnapCollider.FruitType == Fruit)
+        if (SnapController.Instance.ActiveSnapCollider)
+        {
+            snappedCollider = SnapController.Instance.ActiveSnapCollider;
             SnapController.Instance.Snap(this);
-
+        }
         SnapController.Instance.ResetToIdle();
     }
 
