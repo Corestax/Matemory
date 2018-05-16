@@ -40,6 +40,11 @@
 			fixed4 frag (v2f i) : SV_Target
 			{
 				// sample the texture
+				
+				#if UNITY_UV_STARTS_AT_TOP
+				i.uv.y = 1 - i.uv.y;
+				#endif
+				
 				fixed4 t = tex2D(_MainTex, i.uv);
 				fixed4 g = tex2D(_OutlineTex, i.uv);
 				
