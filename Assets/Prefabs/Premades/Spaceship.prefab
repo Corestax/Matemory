@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 54993215947236022}
   - component: {fileID: 114326963355479996}
   m_Layer: 8
-  m_Name: Watermelon_QuaterSlice (1)
+  m_Name: Watermelon_Slice (1)
   m_TagString: Draggable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 54219266351499344}
   - component: {fileID: 114926946141281454}
   m_Layer: 8
-  m_Name: Watermelon_QuaterSlice
+  m_Name: Watermelon_Slice
   m_TagString: Draggable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -701,7 +701,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Fruit: 380
-  Order: 
 --- !u!114 &114326963355479996
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -714,7 +713,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Fruit: 440
-  Order: 
 --- !u!114 &114536000983310828
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -727,7 +725,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Fruit: 360
-  Order: 
 --- !u!114 &114572267097941614
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -754,7 +751,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Fruit: 120
-  Order: 
 --- !u!114 &114926946141281454
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -767,7 +763,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Fruit: 440
-  Order: 
 --- !u!135 &135284856797368350
 SphereCollider:
   m_ObjectHideFlags: 1
