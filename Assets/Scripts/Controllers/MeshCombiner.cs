@@ -45,6 +45,7 @@ public class MeshCombiner : Singleton<MeshCombiner>
         combinedObject.AddComponent<MeshRenderer>();
 
         combinedObject.GetComponent<MeshRenderer>().material = _material;
+        combinedObject.AddComponent<OutlineEffectCommandBuffer>();
     }
 
     private Mesh CombineMeshes(GameObject copy, GameObject obj, bool outline)
