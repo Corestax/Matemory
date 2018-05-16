@@ -1,5 +1,9 @@
 ﻿Shader "Custom/OutlineBuffer"
 {
+    Properties
+    {
+        //_MainTex ("Main Texture", 2D) = "black" {}
+    }
 	SubShader
 	{
 		Tags { "RenderType"="Opaque" }
@@ -38,7 +42,7 @@
             v2f vert (appdata v)
             {
                 v2f o;
-                v.vertex.xyz += 0.05 * v.normal;
+                v.vertex.xyz += 0.005 * v.normal;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 return o;
             }
@@ -47,7 +51,7 @@
             
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed4 c = 0.3;
+                fixed4 c = 0.35;
                 return c;
             }
             ENDCG
@@ -66,26 +70,33 @@
             
             struct appdata
 			{
-				float4 vertex : POSITION;
+				fixed4 vertex : POSITION;
+				//float2 uv : TEXCOORD0;
 			};
             
             struct v2f
             {
                 fixed4 vertex : SV_POSITION;
+                //float2 uv : TEXCOORD0;
             };
             
             v2f vert (appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
+                o.uv = o.vertex.xy;
+                o.uv *= 2;
                 return o;
             }
             
             fixed3 _Color;
+            //sampler2D _MainTex;
             
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed4 c = 0.1;
+                //fixed4 t = tex2D(_MainTex, i.uv);
+                
+                fixed4 c = 0.15;
                 return c;
             }
             ENDCG

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 using UnityEngine.Rendering;
@@ -8,9 +9,6 @@ using Object = System.Object;
 
 public class OutlineEffectCommandBuffer : MonoBehaviour
 {
-	//private Shader outline;
-	//private Shader drawShader;
-
 	private Material m_RendMaterail;
 	private Material m_Outline;
 	private Renderer r_Render;
@@ -22,7 +20,8 @@ public class OutlineEffectCommandBuffer : MonoBehaviour
 	{
 		r_Render = GetComponent<Renderer>();
 		m_Outline = new Material(Shader.Find("Custom/OutlineBuffer"));
-		m_RendMaterail = new Material(Shader.Find("Unlit/DrawBuffer"));
+		m_Outline.mainTexture = Resources.Load("Dotted_Tile") as Texture;
+		//m_RendMaterail = new Material(Shader.Find("Unlit/DrawBuffer"));
 	}
 
 	private void Cleanup()
@@ -66,14 +65,10 @@ public class OutlineEffectCommandBuffer : MonoBehaviour
 		if(c_Cameras.ContainsKey(cam))
 			return;
 
-//		if (!m_RendMaterail)
-//		{
-//			m_RendMaterail = new Material(drawShader);
-//			m_RendMaterail.hideFlags = HideFlags.HideAndDontSave;
-//		}
-		
+		//We Create our own CommandBuffer
 		buffer = new CommandBuffer();
 		buffer.name = "Grab screen and Outline mesh";
+		
 		c_Cameras[cam] = buffer;
 		
 		// Copy screen into temporary RT
@@ -90,9 +85,12 @@ public class OutlineEffectCommandBuffer : MonoBehaviour
 		buffer.GetTemporaryRT(OutlineID, -1, -1, 0,FilterMode.Bilinear);
 		buffer.Blit(BuiltinRenderTextureType.CurrentActive, OutlineID);
 		
+		// We return our temp textures back to screen
 		buffer.Blit(OutlineID, BuiltinRenderTextureType.CameraTarget, m_RendMaterail);
 		
 		cam.AddCommandBuffer(CameraEvent.AfterEverything, buffer);
+		
+		// We reales all temp render textures
 		buffer.ReleaseTemporaryRT(screenCopyID);
 		buffer.ReleaseTemporaryRT(OutlineID);
 	}
