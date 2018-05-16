@@ -20,8 +20,8 @@ public class OutlineEffectCommandBuffer : MonoBehaviour
 	{
 		r_Render = GetComponent<Renderer>();
 		m_Outline = new Material(Shader.Find("Custom/OutlineBuffer"));
-		m_Outline.mainTexture = Resources.Load("Dotted_Tile") as Texture;
-		//m_RendMaterail = new Material(Shader.Find("Unlit/DrawBuffer"));
+		//m_Outline.mainTexture = Resources.Load("Dotted_Tile") as Texture;
+		m_RendMaterail = new Material(Shader.Find("Unlit/DrawBuffer"));
 	}
 
 	private void Cleanup()
@@ -34,7 +34,6 @@ public class OutlineEffectCommandBuffer : MonoBehaviour
 			}
 		}
 		c_Cameras.Clear();
-		//Object.DestroyImmdiate(rendMaterail);
 	}
 
 	public void OnEnable()

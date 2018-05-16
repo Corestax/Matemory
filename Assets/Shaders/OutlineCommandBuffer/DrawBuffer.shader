@@ -9,19 +9,20 @@
 		{
 			CGPROGRAM
 			#pragma vertex vert
-			#pragma fragment frag			
+			#pragma fragment frag
+			#pragma fragmentoption ARB_precision_hint_fastest		
 			#include "UnityCG.cginc"
 
 			struct appdata
 			{
-				float4 vertex : POSITION;
-				float2 uv : TEXCOORD0;
+				fixed4 vertex : POSITION;
+				fixed2 uv : TEXCOORD0;
 			};
 
 			struct v2f
 			{
-				float2 uv : TEXCOORD0;
-				float4 vertex : SV_POSITION;
+				fixed2 uv : TEXCOORD0;
+				fixed4 vertex : SV_POSITION;
 			};
 
 			sampler2D _MainTex;

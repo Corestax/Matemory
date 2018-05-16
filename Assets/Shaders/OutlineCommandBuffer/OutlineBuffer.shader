@@ -8,15 +8,11 @@
 	{
 		Tags { "RenderType"="Opaque" }
 		LOD 100
-		
-		Pass{
-		ZWrite On
-		ColorMask 0
-		}
 
 		Pass
 		{
 		    //Blend DstColor SrcColor
+		    Name "Outline"
 		    Cull Back
 		    ZWrite Off
 		    ZTest LEqual
@@ -28,7 +24,7 @@
             
             struct appdata
 			{
-				float4 vertex : POSITION;
+				fixed4 vertex : POSITION;
 				fixed3 normal : NORMAL;
 			};
             
@@ -58,7 +54,7 @@
            }
            Pass
            {
-			Name "Diffuse"
+			Name "Fill"
 			ZWrite Off
 			//ZTest Always
 			//Offset 0, -1
@@ -84,8 +80,8 @@
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = o.vertex.xy;
-                o.uv *= 2;
+                //o.uv = o.vertex.xy;
+                //o.uv *= 2;
                 return o;
             }
             
