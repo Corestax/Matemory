@@ -78,7 +78,7 @@ public class SnapCollider : MonoBehaviour
     public void UnSnap()
     {
         IsSnapped = false;
-        //FruitSnapped = null;
+        FruitSnapped = FruitsController.FruitTypes.NONE;
         meshRenderer.enabled = true;
     }   
 }

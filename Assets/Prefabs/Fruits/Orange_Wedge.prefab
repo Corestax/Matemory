@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 54906045856577586}
   - component: {fileID: 114983966079931896}
   m_Layer: 8
-  m_Name: Orange_Slice
+  m_Name: Orange_Wedge
   m_TagString: Draggable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -154,4 +154,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Fruit: 280
-  Order: 
