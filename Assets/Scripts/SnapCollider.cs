@@ -4,6 +4,7 @@ using System.Collections;
 public class SnapCollider : MonoBehaviour
 {
     public FruitsController.FruitTypes FruitType;
+    public FruitsController.FruitTypes FruitSnapped { get; private set; }
     //public int[] Order;
     public Vector3 PositionToSnap;
     public Quaternion RotiationToSnap;
@@ -53,18 +54,6 @@ public class SnapCollider : MonoBehaviour
         meshRenderer.enabled = false;
     }
 
-    public void ShowCorrect()
-    {        
-        material.SetColor("_Color", Color.green);
-        audioManager.PlaySound(audioManager.audio_snapCorrect);
-    }
-
-    public void ShowIncorrect()
-    {
-        material.SetColor("_Color", Color.red);
-        audioManager.PlaySound(audioManager.audio_snapIncorrect);
-    }
-
     public void ShowIdle(bool playSound)
     {
         material.SetColor("_Color", colorIdle);
@@ -72,10 +61,24 @@ public class SnapCollider : MonoBehaviour
             audioManager.PlaySound(audioManager.audio_snapIdle);
     }
 
-    public void Snap()
+    public void ShowHover()
+    {        
+        material.SetColor("_Color", Color.green);
+        audioManager.PlaySound(audioManager.audio_snapCorrect);
+    }
+
+    public void Snap(FruitsController.FruitTypes _type)
     {
         IsSnapped = true;
+        FruitSnapped = _type;
         meshRenderer.enabled = false;
         audioManager.PlaySound(audioManager.audio_snapComplete);
-    }        
+    }     
+    
+    public void UnSnap()
+    {
+        IsSnapped = false;
+        FruitSnapped = FruitsController.FruitTypes.NONE;
+        meshRenderer.enabled = true;
+    }   
 }

@@ -49,20 +49,13 @@ public class SnapColliderRaycast : MonoBehaviour
             {
                 lastHitObject = hit.collider.gameObject;
 
-                // Show all colliders as idle
+                // Reset all colliders as idle
                 SnapController.Instance.ResetAllColliderColorsToIdle();
 
-                // Show correct/incorrect
+                // Show hover color for snap collider
                 SnapCollider snapCollider = hit.collider.GetComponent<SnapCollider>();
-                if (fruitRotatorController.SelectedFruit.Fruit == snapCollider.FruitType)
-                {
-                    SnapController.Instance.ActiveSnapCollider = snapCollider;
-                    snapCollider.ShowCorrect();
-                }
-                else
-                {
-                    snapCollider.ShowIncorrect();
-                }
+                SnapController.Instance.ActiveSnapCollider = snapCollider;
+                snapCollider.ShowHover();
             }
         }
         else

@@ -44,25 +44,24 @@ public class SnapController : Singleton<SnapController>
             return;
 
         // Mark collider as snapped
-        ActiveSnapCollider.Snap();
+        ActiveSnapCollider.Snap(fruitItem.Fruit);
 
         // Snap to position
         fruitItem.IsSnapped = true;
         fruitItem.GetComponent<Rigidbody>().isKinematic = true;
         fruitItem.transform.localPosition = ActiveSnapCollider.PositionToSnap;
         fruitItem.transform.localRotation = ActiveSnapCollider.RotiationToSnap;
-        fruitItem.tag = "Untagged";        
 
         // Check if game won
-        CheckIfAllSnapped();
+        CheckIfComplete();
     }
 
-    public void CheckIfAllSnapped()
+    public void CheckIfComplete()
     {
         int count = 0;
         foreach(var sc in SnapColliders)
         {
-            if (sc.IsSnapped)
+            if (sc.IsSnapped && sc.FruitType == sc.FruitSnapped)
                 count++;
         }
 
