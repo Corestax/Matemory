@@ -120,6 +120,11 @@ public class UIController : Singleton<UIController>
 
 
     #region PANEL MODELS
+    public void OnClosePanelModelsClicked()
+    {
+        HidePanel(PanelTypes.MODELS);
+    } 
+
     public void TogglePanelModels()
     {
         if (fader_models.Alpha == 0f)
@@ -286,7 +291,7 @@ public class UIController : Singleton<UIController>
             CR_OnHintClicked = null;
         }
 
-        meshCombiner.AlignRotation();
+        meshCombiner.CenterRotation();
         RechargeHint();
         CR_OnHintClicked = StartCoroutine(OnHintClickedCR());
     }

@@ -47,14 +47,14 @@ public class MeshCombiner : Singleton<MeshCombiner>
         combinedObject.GetComponent<MeshRenderer>().material = _material;
         combinedObject.AddComponent<OutlineEffectCommandBuffer>();
 
-        // Align rotation
-        AlignRotation();
+        // Center rotation
+        CenterRotation();
     }
 
-    public void AlignRotation()
+    public void CenterRotation()
     {
-        print(combinedObject.transform.rotation + " == " + tParent.transform.rotation);
-        combinedObject.transform.rotation = new Quaternion(0, 0, 0, -1);
+        if(combinedObject)
+            combinedObject.transform.rotation = new Quaternion(0, 0, 0, -1);
     }
 
     private Mesh CombineMeshes(GameObject copy, GameObject obj, bool outline)
