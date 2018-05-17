@@ -5,9 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 
 public class UIController : Singleton<UIController>
-{
-    [SerializeField]
-    private CanvasFader fader_Results;
+{    
     [SerializeField]
     private CanvasFader fader_models;
     [SerializeField]
@@ -19,14 +17,7 @@ public class UIController : Singleton<UIController>
     [SerializeField]
     private GameObject buttons_zoom;
     [SerializeField]
-    private GameObject buttons_rotatePlatform;
-
-    [SerializeField]
-    private Text text_results;
-    [SerializeField]
-    private Image[] images_starFill;
-    [SerializeField]
-    private Button button_resultsNext;
+    private GameObject buttons_rotatePlatform;    
 
     private GameController gameController;
     private ModelsController modelsController;
@@ -64,7 +55,20 @@ public class UIController : Singleton<UIController>
         GameController.OnGameEnded -= OnGameEnded;
         ARCoreController.OnTrackingActive -= ShowUI;
         ARCoreController.OnTrackingLost -= HideUI;
-    }    
+    }
+
+    private void OnGameStarted()
+    {
+        ShowUI();
+        FillHint();        
+    }
+
+    private void OnGameEnded(GameController.EndGameTypes _type)
+    {
+        HideUI();
+        ClearHint();
+        ShowPanel(PanelTypes.RESULTS, _type);
+    }
 
     public void ShowPanel(PanelTypes panel, GameController.EndGameTypes _type = GameController.EndGameTypes.NONE)
     {
@@ -137,6 +141,16 @@ public class UIController : Singleton<UIController>
 
 
     #region PANEL RESULTS    
+    [Header("Results Panel")]
+    [SerializeField]
+    private CanvasFader fader_Results;
+    [SerializeField]
+    private Text text_results;
+    [SerializeField]
+    private Image[] images_starFill;
+    [SerializeField]
+    private Button button_resultsNext;
+
     private void ShowPanelResults(GameController.EndGameTypes _type)
     {
         if (_type == GameController.EndGameTypes.NONE)
@@ -178,7 +192,7 @@ public class UIController : Singleton<UIController>
             endColor.a = 1f;
 
             // Fade in stars consecutively
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1f);
             for (int i = 0; i < starCount; i++)
             {                
                 float fElapsed = 0.0f;
@@ -190,7 +204,7 @@ public class UIController : Singleton<UIController>
                     yield return null;
                 }
                 audioManager.PlaySound(audioManager.audio_star);
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(0.5f);
             }
         }
         // Lose scenario
@@ -246,14 +260,32 @@ public class UIController : Singleton<UIController>
             text_pinchZoom.gameObject.SetActive(false);
         else
             buttons_zoom.SetActive(false);
-    }
+    }    
+
+
+    #region HINT BUTTON
+    [Header("Hint Button")]
+    [SerializeField]
+    private Image image_hintFill;
+    [SerializeField]
+    private float hintRechargeTime = 10f;
+    [SerializeField]
+    private float hintBlinkRate = 0.4f;
 
     private Coroutine CR_OnHintClicked;
     public void OnHintClicked()
     {
-        if (CR_OnHintClicked != null)
-            StopCoroutine(CR_OnHintClicked);
+        if (!gameController.IsGameRunning || image_hintFill.fillAmount < 1f)
+            return;
 
+        // Stop hint recharge
+        if (CR_OnHintClicked != null)
+        {
+            StopCoroutine(CR_OnHintClicked);
+            CR_OnHintClicked = null;
+        }
+
+        RechargeHint();
         CR_OnHintClicked = StartCoroutine(OnHintClickedCR());
     }
 
@@ -264,16 +296,69 @@ public class UIController : Singleton<UIController>
         meshCombiner.Hide();
     }
 
-    private void OnGameStarted()
+    private Coroutine CR_RechargeHint;
+    private void RechargeHint()
     {
-        ShowUI();
+        if (CR_RechargeHint != null)
+            StopCoroutine(CR_RechargeHint);
+
+        CR_RechargeHint = StartCoroutine(RechargeHintCR());
     }
 
-    private void OnGameEnded(GameController.EndGameTypes _type)
+    private IEnumerator RechargeHintCR()
     {
-        HideUI();
-        ShowPanel(PanelTypes.RESULTS, _type);
+        float fElapsed = 0f;
+        float fDuration = hintRechargeTime;
+
+        while (fElapsed < fDuration)
+        {
+            fElapsed += Time.deltaTime;
+            image_hintFill.fillAmount = Mathf.Lerp(0f, 1f, fElapsed / fDuration);
+            yield return null;
+        }
+
+        // Blink
+        while (true)
+        {
+            fElapsed = 0f;
+            fDuration = hintBlinkRate;
+            Color col_filled = image_hintFill.color;
+            Color col_alpha = col_filled;
+            col_alpha.a = 0f;
+
+            while (fElapsed < fDuration)
+            {
+                fElapsed += Time.deltaTime;
+                image_hintFill.color = Color.Lerp(col_filled, col_alpha, fElapsed / fDuration);
+                yield return null;
+            }
+
+            fElapsed = 0f;
+            while (fElapsed < fDuration)
+            {
+                fElapsed += Time.deltaTime;
+                image_hintFill.color = Color.Lerp(col_alpha, col_filled, fElapsed / fDuration);
+                yield return null;
+            }
+            yield return null;
+        }
     }
+
+    public void FillHint()
+    {
+        Color color = image_hintFill.color;
+        color.a = 1f;
+        image_hintFill.color = color;
+    }
+
+    public void ClearHint()
+    {
+        Color color = image_hintFill.color;
+        color.a = 0f;
+        image_hintFill.color = color;
+    }
+    #endregion
+
 
     public void ShowStatusText(string text, Color color)
     {
