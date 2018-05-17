@@ -60,7 +60,7 @@ public class UIController : Singleton<UIController>
     private void OnGameStarted()
     {
         ShowUI();
-        FillHint();        
+        RechargeHint(0f);        
     }
 
     private void OnGameEnded(GameController.EndGameTypes _type)
@@ -268,11 +268,12 @@ public class UIController : Singleton<UIController>
     [SerializeField]
     private Image image_hintFill;
     [SerializeField]
-    private float hintRechargeTime = 10f;
-    [SerializeField]
     private float hintBlinkRate = 0.4f;
 
     private Coroutine CR_OnHintClicked;
+    private Coroutine CR_RechargeHint;
+    private const float HINT_RECHARGE_TIME = 10f;
+
     public void OnHintClicked()
     {
         if (!gameController.IsGameRunning || image_hintFill.fillAmount < 1f)
@@ -296,21 +297,20 @@ public class UIController : Singleton<UIController>
         meshCombiner.Hide();
     }
 
-    private Coroutine CR_RechargeHint;
-    private void RechargeHint()
+    private void RechargeHint(float _rechargeTime = HINT_RECHARGE_TIME)
     {
         if (CR_RechargeHint != null)
             StopCoroutine(CR_RechargeHint);
 
-        CR_RechargeHint = StartCoroutine(RechargeHintCR());
+        CR_RechargeHint = StartCoroutine(RechargeHintCR(_rechargeTime));
     }
 
-    private IEnumerator RechargeHintCR()
+    private IEnumerator RechargeHintCR(float _rechargeTime)
     {
         float fElapsed = 0f;
-        float fDuration = hintRechargeTime;
+        float fDuration = _rechargeTime;
 
-        while (fElapsed < fDuration)
+        while (fElapsed <= fDuration)
         {
             fElapsed += Time.deltaTime;
             image_hintFill.fillAmount = Mathf.Lerp(0f, 1f, fElapsed / fDuration);
@@ -323,10 +323,11 @@ public class UIController : Singleton<UIController>
             fElapsed = 0f;
             fDuration = hintBlinkRate;
             Color col_filled = image_hintFill.color;
+            col_filled.a = 1f;
             Color col_alpha = col_filled;
             col_alpha.a = 0f;
 
-            while (fElapsed < fDuration)
+            while (fElapsed <= fDuration)
             {
                 fElapsed += Time.deltaTime;
                 image_hintFill.color = Color.Lerp(col_filled, col_alpha, fElapsed / fDuration);
@@ -334,7 +335,7 @@ public class UIController : Singleton<UIController>
             }
 
             fElapsed = 0f;
-            while (fElapsed < fDuration)
+            while (fElapsed <= fDuration)
             {
                 fElapsed += Time.deltaTime;
                 image_hintFill.color = Color.Lerp(col_alpha, col_filled, fElapsed / fDuration);
@@ -342,13 +343,6 @@ public class UIController : Singleton<UIController>
             }
             yield return null;
         }
-    }
-
-    public void FillHint()
-    {
-        Color color = image_hintFill.color;
-        color.a = 1f;
-        image_hintFill.color = color;
     }
 
     public void ClearHint()
