@@ -42,10 +42,10 @@ public class ModelsController : Singleton<ModelsController>
         audioManager = AudioManager.Instance;
 
         // Define times
-        time_rotatePlatform = 2.0f;
+        time_rotatePlatform = 3.5f;
         time_beforeExplosion = 1.5f;
         time_afterExplosion = 1.5f;
-        timeToMemorize = time_beforeExplosion + time_afterExplosion + time_rotatePlatform;
+        timeToMemorize = time_beforeExplosion + time_rotatePlatform;
 
         // Populate dictionary of model items from inspector
         Models = new Dictionary<string, GameObject>();
