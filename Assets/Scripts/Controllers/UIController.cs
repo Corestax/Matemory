@@ -286,6 +286,7 @@ public class UIController : Singleton<UIController>
             CR_OnHintClicked = null;
         }
 
+        meshCombiner.AlignRotation();
         RechargeHint();
         CR_OnHintClicked = StartCoroutine(OnHintClickedCR());
     }
@@ -347,6 +348,18 @@ public class UIController : Singleton<UIController>
 
     public void ClearHint()
     {
+        // Stop coroutines
+        if (CR_OnHintClicked != null)
+        {
+            StopCoroutine(CR_OnHintClicked);
+            CR_OnHintClicked = null;
+        }
+        if (CR_RechargeHint != null)
+        {
+            StopCoroutine(CR_RechargeHint);
+            CR_RechargeHint = null;
+        }
+
         Color color = image_hintFill.color;
         color.a = 0f;
         image_hintFill.color = color;

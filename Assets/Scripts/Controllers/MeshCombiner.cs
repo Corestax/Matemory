@@ -3,7 +3,8 @@
 public class MeshCombiner : Singleton<MeshCombiner>
 {
     private DynamicOutline dynamicOutline;
-    private GameObject combinedObject;   
+    private GameObject combinedObject;
+    private Transform tParent;
 
     public void Show()
     {
@@ -26,6 +27,7 @@ public class MeshCombiner : Singleton<MeshCombiner>
 
     public void CombineMesh(DynamicOutline _dynamicOutline, Material _material = null, Transform _parent = null, bool _enabled = true)
     {
+        tParent = _parent;
         dynamicOutline = _dynamicOutline;
 
         combinedObject = new GameObject();
@@ -44,6 +46,15 @@ public class MeshCombiner : Singleton<MeshCombiner>
 
         combinedObject.GetComponent<MeshRenderer>().material = _material;
         combinedObject.AddComponent<OutlineEffectCommandBuffer>();
+
+        // Align rotation
+        AlignRotation();
+    }
+
+    public void AlignRotation()
+    {
+        print(combinedObject.transform.rotation + " == " + tParent.transform.rotation);
+        combinedObject.transform.rotation = new Quaternion(0, 0, 0, -1);
     }
 
     private Mesh CombineMeshes(GameObject copy, GameObject obj, bool outline)
