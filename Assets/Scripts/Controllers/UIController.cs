@@ -21,6 +21,7 @@ public class UIController : Singleton<UIController>
 
     private GameController gameController;
     private ModelsController modelsController;
+    private ButtonsController buttonsController;
     private TimerController timeController;
     private AudioManager audioManager;
     private MeshCombiner meshCombiner;
@@ -34,6 +35,7 @@ public class UIController : Singleton<UIController>
     {
         gameController = GameController.Instance;
         modelsController = ModelsController.Instance;
+        buttonsController = ButtonsController.Instance;
         timeController = TimerController.Instance;
         audioManager = AudioManager.Instance;
         meshCombiner = MeshCombiner.Instance;
@@ -86,10 +88,12 @@ public class UIController : Singleton<UIController>
         switch (panel)
         {
             case PanelTypes.NONE:
+                if(activePanel != PanelTypes.NONE)
+                    HidePanel(activePanel);
                 break;
 
             case PanelTypes.MODELS:
-                ShowPanelModels();
+                ShowPanelModels();                
                 break;
 
             case PanelTypes.RESULTS:
@@ -99,7 +103,7 @@ public class UIController : Singleton<UIController>
             default:
                 break;
         }
-        activePanel = panel;
+        activePanel = panel;        
     }    
 
     public void HidePanel(PanelTypes panel)
@@ -118,6 +122,7 @@ public class UIController : Singleton<UIController>
                 break;
         }
         activePanel = PanelTypes.NONE;
+        buttonsController.EnableAllButtons();
     }
 
     public void HideActivePanel()
@@ -143,6 +148,7 @@ public class UIController : Singleton<UIController>
     private void ShowPanelModels()
     {
         fader_models.FadeIn(FADESPEED);
+        buttonsController.DisableAllButtonsExcept(fader_models.transform);
     }
 
     private void HidePanelModels()
@@ -168,12 +174,14 @@ public class UIController : Singleton<UIController>
         if (_type == GameController.EndGameTypes.NONE)
             return;
 
-        ResetPanelResults();
+        ResetPanelResults();        
         StartCoroutine(ShowPanelResultsCR(_type));
     }
 
     private IEnumerator ShowPanelResultsCR(GameController.EndGameTypes _type)
     {
+        buttonsController.DisableAllButtonsExcept(fader_Results.transform);
+
         // Fade in panel
         fader_Results.FadeIn(FADESPEED);
         while (fader_Results.IsFading)
