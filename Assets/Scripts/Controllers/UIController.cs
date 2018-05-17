@@ -291,7 +291,6 @@ public class UIController : Singleton<UIController>
             CR_OnHintClicked = null;
         }
 
-        meshCombiner.CenterRotation();
         RechargeHint();
         CR_OnHintClicked = StartCoroutine(OnHintClickedCR());
     }

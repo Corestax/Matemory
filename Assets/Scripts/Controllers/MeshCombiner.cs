@@ -48,13 +48,7 @@ public class MeshCombiner : Singleton<MeshCombiner>
         combinedObject.AddComponent<OutlineEffectCommandBuffer>();
 
         // Center rotation
-        CenterRotation();
-    }
-
-    public void CenterRotation()
-    {
-        if(combinedObject)
-            combinedObject.transform.rotation = new Quaternion(0, 0, 0, -1);
+        combinedObject.transform.rotation = new Quaternion(0, 0, 0, -1);
     }
 
     private Mesh CombineMeshes(GameObject copy, GameObject obj, bool outline)
