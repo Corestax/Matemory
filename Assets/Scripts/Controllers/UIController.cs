@@ -38,6 +38,12 @@ public class UIController : Singleton<UIController>
         audioManager = AudioManager.Instance;
         meshCombiner = MeshCombiner.Instance;
         activePanel = PanelTypes.NONE;
+
+        // Define hint colors
+        color_hintAlpha = image_hintFill.color;
+        color_hintAlpha.a = 0f;
+        color_hintFilled = color_hintAlpha;
+        color_hintFilled.a = 1f;
     }
 
     void OnEnable()
@@ -59,12 +65,13 @@ public class UIController : Singleton<UIController>
 
     private void OnGameStarted()
     {
+        ShowStatusText("Drag the fruits into the correct sockets!", Color_statusText, 3.0f);
         ShowUI();
         RechargeHint(0f);        
     }
 
     private void OnGameEnded(GameController.EndGameTypes _type)
-    {
+    {        
         HideUI();
         ClearHint();
         ShowPanel(PanelTypes.RESULTS, _type);
@@ -278,6 +285,8 @@ public class UIController : Singleton<UIController>
     private Coroutine CR_OnHintClicked;
     private Coroutine CR_RechargeHint;
     private const float HINT_RECHARGE_TIME = 10f;
+    private Color color_hintAlpha;
+    private Color color_hintFilled;
 
     public void OnHintClicked()
     {
@@ -300,13 +309,11 @@ public class UIController : Singleton<UIController>
         meshCombiner.Show();
         yield return new WaitForSeconds(3f);
         meshCombiner.Hide();
-    }
+    }    
 
     private void RechargeHint(float _rechargeTime = HINT_RECHARGE_TIME)
     {
-        if (CR_RechargeHint != null)
-            StopCoroutine(CR_RechargeHint);
-
+        ClearHint();
         CR_RechargeHint = StartCoroutine(RechargeHintCR(_rechargeTime));
     }
 
@@ -314,7 +321,6 @@ public class UIController : Singleton<UIController>
     {
         float fElapsed = 0f;
         float fDuration = _rechargeTime;
-
         while (fElapsed <= fDuration)
         {
             fElapsed += Time.deltaTime;
@@ -327,25 +333,24 @@ public class UIController : Singleton<UIController>
         {
             fElapsed = 0f;
             fDuration = hintBlinkRate;
-            Color col_filled = image_hintFill.color;
-            col_filled.a = 1f;
-            Color col_alpha = col_filled;
-            col_alpha.a = 0f;
 
+            // Fade to alpha
             while (fElapsed <= fDuration)
             {
                 fElapsed += Time.deltaTime;
-                image_hintFill.color = Color.Lerp(col_filled, col_alpha, fElapsed / fDuration);
+                image_hintFill.color = Color.Lerp(color_hintFilled, color_hintAlpha, fElapsed / fDuration);
                 yield return null;
             }
 
+            // Fade to opaque
             fElapsed = 0f;
             while (fElapsed <= fDuration)
             {
                 fElapsed += Time.deltaTime;
-                image_hintFill.color = Color.Lerp(col_alpha, col_filled, fElapsed / fDuration);
+                image_hintFill.color = Color.Lerp(color_hintAlpha, color_hintFilled, fElapsed / fDuration);
                 yield return null;
             }
+
             yield return null;
         }
     }
@@ -364,21 +369,42 @@ public class UIController : Singleton<UIController>
             CR_RechargeHint = null;
         }
 
-        Color color = image_hintFill.color;
-        color.a = 0f;
-        image_hintFill.color = color;
+        image_hintFill.fillAmount = 0f;
+        image_hintFill.color = color_hintFilled;
     }
     #endregion
 
 
-    public void ShowStatusText(string text, Color color)
-    {
-        text_status.text = text;
-        text_status.color = color;
-    }
+    #region SHOW STATUS TEXT
+    public Color Color_statusText;
 
     public void ShowConsoleText(string text)
     {
         text_console.text += "\n" + text;
     }
+
+    public void ShowStatusText(string text, Color color, float delay = 0f)
+    {
+        text_status.text = text;
+        text_status.color = color;
+
+        // Stop hide status coroutine
+        if (CR_HideStatusText != null)
+        {
+            StopCoroutine(CR_HideStatusText);
+            CR_HideStatusText = null;
+        }
+
+        // Hide message after delay
+        if(delay > 0f)
+            CR_HideStatusText = StartCoroutine(HideStatusTextCR(delay));
+    }
+
+    private Coroutine CR_HideStatusText;
+    private IEnumerator HideStatusTextCR(float _delay)
+    {
+        yield return new WaitForSeconds(_delay);
+        ShowStatusText("", Color.red);
+    }
+    #endregion
 }

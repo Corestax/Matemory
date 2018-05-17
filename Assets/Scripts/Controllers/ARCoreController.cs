@@ -21,6 +21,7 @@ public class ARCoreController : MonoBehaviour
 
     private ModelsController modelsController;
     private RoomController roomController;
+    private UIController uiController;
     private bool m_IsQuitting = false;
     private Anchor anchor;
     private bool isTrackingLost;
@@ -37,6 +38,7 @@ public class ARCoreController : MonoBehaviour
     {
         modelsController = ModelsController.Instance;
         roomController = RoomController.Instance;
+        uiController = UIController.Instance;
         room = roomController.Room;
 
         // Set room
@@ -110,12 +112,12 @@ public class ARCoreController : MonoBehaviour
         TogglePlaneVisualizer(true);
 
         // Raycast against the location the player touched to search for planes.        
-        TrackableHitFlags raycastFilter = TrackableHitFlags.PlaneWithinPolygon | TrackableHitFlags.FeaturePointWithSurfaceNormal;
+        TrackableHitFlags raycastFilter = TrackableHitFlags.PlaneWithinPolygon | TrackableHitFlags.FeaturePointWithSurfaceNormal | TrackableHitFlags.FeaturePoint | TrackableHitFlags.PlaneWithinBounds | TrackableHitFlags.PlaneWithinInfinity | TrackableHitFlags.PlaneWithinPolygon;
 
         if (Frame.Raycast(Screen.width / 2f, Screen.height / 2f, raycastFilter, out hit))
         {
             // Show green outline
-            UIController.Instance.ShowStatusText("Tap to place platform...", Color.cyan);
+            uiController.ShowStatusText("Tap to place platform...", uiController.Color_statusText);
             platform.Material.color = Color.green;
             platform.Material.SetFloat("_OutlineAlpha", 1f);
 
@@ -130,7 +132,7 @@ public class ARCoreController : MonoBehaviour
             if (Input.touchCount < 1 || (Input.GetTouch(0)).phase != TouchPhase.Began)
                 return;
 
-            UIController.Instance.ShowStatusText("", Color.red);
+            uiController.ShowStatusText("", Color.red);
             platform.Material.SetFloat("_OutlineAlpha", 0f);
             modelsController.Spawn(ModelsController.ModelTypes.GIRAFFE, true);
 
@@ -148,7 +150,7 @@ public class ARCoreController : MonoBehaviour
         else
         {
             // Show red outline
-            UIController.Instance.ShowStatusText("Find a plane to place the platform!", Color.red);
+            uiController.ShowStatusText("Find a plane to place the platform!", Color.red);
             platform.Material.color = Color.red;
             platform.Material.SetFloat("_OutlineAlpha", 1f);
 

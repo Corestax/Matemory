@@ -100,6 +100,9 @@ public class GameController : Singleton<GameController>
         if (!IsGameRunning)
             return;
 
+        //if (!IsGameRunning || EventSystem.current.IsPointerOverGameObject())
+        //    return;
+
         // Mouse input
         if (!enableAR)
         {
@@ -138,10 +141,7 @@ public class GameController : Singleton<GameController>
             else if (Input.GetMouseButtonUp(0))
             {
                 if (dragItem)
-                {
-                    fruitRotatorController.SetDropped();
-                    dragItem = null;
-                }
+                    ClearDrag();
             }
         }
         // Touch input
@@ -184,10 +184,7 @@ public class GameController : Singleton<GameController>
                 else if (touch.phase == TouchPhase.Ended)
                 {
                     if (dragItem)
-                    {
-                        fruitRotatorController.SetDropped();
-                        dragItem = null;
-                    }
+                        ClearDrag();
                 }
             }
         }
@@ -202,8 +199,15 @@ public class GameController : Singleton<GameController>
         SnapController.Instance.Clear();
         MeshCombiner.Instance.Clear();
         roomController.Recenter();
+        ClearDrag();
     }
-    #endregion
+
+    private void ClearDrag()
+    {
+        fruitRotatorController.SetDropped();
+        dragItem = null;
+    }
+#endregion
     
 
 #region START/STOP GAME

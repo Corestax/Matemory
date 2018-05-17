@@ -3366,7 +3366,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.2
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -3683,7 +3683,7 @@ MonoBehaviour:
   audio_click: {fileID: 8300000, guid: 8698d1c974723ff4a922fa22011ee910, type: 3}
   audio_complete: {fileID: 8300000, guid: 6abe62aee088ffb47bd8b4178fe4eb52, type: 3}
   audio_spawn: {fileID: 8300000, guid: df4f1d35a03e86d489ce45f31345c373, type: 3}
-  audio_spin: {fileID: 8300000, guid: 3f3c46658cb6ea94eb606b79067af51f, type: 3}
+  audio_spin: {fileID: 8300000, guid: a8c95a2fff7947144b0b3f96cb5a4f54, type: 3}
   audio_explode: {fileID: 8300000, guid: 33f97c108c592774cab680f6a00a2f21, type: 3}
   audio_collision: {fileID: 8300000, guid: b90ad95fad4b01447b8562ed00a19bcb, type: 3}
   audio_snapCorrect: {fileID: 8300000, guid: 50b1bd7e8d1676e45acf67945cee51c6, type: 3}
@@ -5683,6 +5683,7 @@ MonoBehaviour:
   button_resultsNext: {fileID: 2147470667}
   image_hintFill: {fileID: 33455054}
   hintBlinkRate: 0.4
+  Color_statusText: {r: 0.60784316, g: 1, b: 0, a: 1}
 --- !u!1 &1237211431
 GameObject:
   m_ObjectHideFlags: 0

@@ -22,6 +22,7 @@ public class ModelsController : Singleton<ModelsController>
     private Material mat_meshCombinedOutline;
 
     private FruitsController fruitsController;
+    private UIController uiController;
     private AudioManager audioManager;
     private Coroutine CR_Explode;
 
@@ -29,10 +30,22 @@ public class ModelsController : Singleton<ModelsController>
     public ModelTypes ActiveModelType { get; private set; }
     public GameObject ActiveModel { get; private set; }
 
+    private float time_rotatePlatform;
+    private float time_beforeExplosion;
+    private float time_afterExplosion;
+    private float timeToMemorize;
+    
     void Start()
     {
         fruitsController = FruitsController.Instance;
+        uiController = UIController.Instance;
         audioManager = AudioManager.Instance;
+
+        // Define times
+        time_rotatePlatform = 2.0f;
+        time_beforeExplosion = 1.5f;
+        time_afterExplosion = 1.5f;
+        timeToMemorize = time_beforeExplosion + time_afterExplosion + time_rotatePlatform;
 
         // Populate dictionary of model items from inspector
         Models = new Dictionary<string, GameObject>();
@@ -59,8 +72,9 @@ public class ModelsController : Singleton<ModelsController>
         if (_newGame)
             GameController.Instance.StopGame(GameController.EndGameTypes.NONE);
 
-        SpawnModel(_type);
-        platform.RotatePlatform(Explode, 1.5f, _newGame);
+        SpawnModel(_type);        
+        uiController.ShowStatusText("You have " + timeToMemorize + " seconds to memorize the pieces!", uiController.Color_statusText, timeToMemorize);
+        platform.RotatePlatform(Explode, time_rotatePlatform, _newGame);
     }
 
     private void SpawnModel(ModelTypes _type)
@@ -98,12 +112,12 @@ public class ModelsController : Singleton<ModelsController>
     {
         StopExplode();
         CR_Explode = StartCoroutine(ExplodeCR(startGame));
-    }
+    }    
 
     private IEnumerator ExplodeCR(bool startGame)
     {
         // Explode
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(time_beforeExplosion);
         FruitItem[] fruitItems = ActiveModel.GetComponentsInChildren<FruitItem>(true);
         foreach (var fi in fruitItems)
             fi.Explode();
@@ -112,7 +126,7 @@ public class ModelsController : Singleton<ModelsController>
         // Start game
         if (startGame)
         {
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(time_afterExplosion);
             GameController.Instance.StartGame();
         }
     }

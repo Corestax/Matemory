@@ -16,7 +16,7 @@ public class PinchZoom : MonoBehaviour
 
     private const float SPEED = 2f;
     private const float MAX_ZOOM_IN = 0.25f;
-    private const float MAX_ZOOM_OUT = 1.5f;
+    private const float MAX_ZOOM_OUT = 2.0f;
 
     private bool isAnimating;
     private bool isZoomIn;
