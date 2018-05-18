@@ -1,0 +1,30 @@
+----- 1.0.91 -----
+FEATURE: It is now possible to Shift-select spline points
+FEATURE: Added a "loop samples" toggle for all SplineUsers to manually enable sample looping for closed splines
+
+API: Added a CloneMesh method to all MeshGenerators useful when instantiating mesh generators from ones that exist in the scene
+
+FIX: Fixed the ArgumentOutOfRange exception when extruding surfaces (bug introduced in 1.0.9)
+FIX: Fixed the point deselection issue when control is pressed and a point that is already selected is clicked
+FIX: Setting the SplineFollower's speed to 0 no longer triggers all triggers along the spline
+FIX: The color property of the TubeGenerator now properly affects the round caps
+FIX: Newly created mesh generators have the Default-Diffuse material assigned
+FIX: Performing Undo on spline points connected to a Node now properly updates the Node
+
+----- 1.0.9 -----
+FEATURE: Introduced the SplineMesh component. This component aims to replace the now outdated ExtrudeMesh component and provides full control over the mesh generation.
+FEATURE: Added the SmoothFree Bezier point type which allows for different tangent lengths while preserving the smoothness
+FEATURE: The ObjectBender component is out of BETA
+FEATURE: Added a SplineComputerTravel action
+FEATURE: Added a SplineUserTravel action
+FEATURE: Added a SplineTracerSetDistance action
+FEATURE: Added an option to preserve the clip range behavior when using Uniform samples
+
+FIX: The Round cap of the TubeGenerator no longer has black vertex colors
+FIX: The Clip Range of the ObjectBender component now works properly
+FIX: Drag-selecting points in the scene view no longer selects points behind the camera
+FIX: Secondary mesh UVs are now preserved when bending and extruding meshes
+FIX: Removed duplicate method calls for all Mesh generators - performance increased
+FIX: Greatly reduced GC for all mesh generators
+FIX: ParticleController - new particles no longer flicker for a single frame at the origin
+FIX: ParticleController - old particles no longer change positions suddenly when new particles are born
