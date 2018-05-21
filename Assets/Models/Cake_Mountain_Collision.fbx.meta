@@ -1,37 +1,14 @@
 fileFormatVersion: 2
-guid: d0771780ac60315438ef2e3e72eb10ee
+guid: b0260679ad717e54699e5e0e2f012456
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
-    100002: Cube
-    100004: Cylinder
-    100006: Cylinder (2)
-    100008: Cylinder (3)
-    100010: Cake_Mountain
     400000: //RootNode
-    400002: Cube
-    400004: Cylinder
-    400006: Cylinder (2)
-    400008: Cylinder (3)
-    400010: Cake_Mountain
-    2100000: Cake
-    2100002: Default
-    2300000: Cube
-    2300002: Cylinder
-    2300004: Cylinder (2)
-    2300006: Cylinder (3)
-    2300008: Cake_Mountain
-    3300000: Cube
-    3300002: Cylinder
-    3300004: Cylinder (2)
-    3300006: Cylinder (3)
-    3300008: Cake_Mountain
-    4300000: Cube
-    4300002: Cylinder (2)
-    4300004: Cylinder (3)
-    4300006: Cylinder
-    4300008: Cake_Mountain
+    2100000: Default
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Cake_Mountain_Collision
   externalObjects: {}
   materials:
     importMaterials: 1
