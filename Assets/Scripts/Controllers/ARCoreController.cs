@@ -19,7 +19,7 @@ public class ARCoreController : MonoBehaviour
     private List<TrackedPlane> m_NewPlanes = new List<TrackedPlane>();
     //private List<TrackedPlane> m_AllPlanes = new List<TrackedPlane>();
 
-    private ModelsController modelsController;
+    private LevelsController levelsController;
     private RoomController roomController;
     private UIController uiController;
     private bool m_IsQuitting = false;
@@ -36,7 +36,7 @@ public class ARCoreController : MonoBehaviour
 
     void Start()
     {
-        modelsController = ModelsController.Instance;
+        levelsController = LevelsController.Instance;
         roomController = RoomController.Instance;
         uiController = UIController.Instance;
         room = roomController.Room;
@@ -134,7 +134,7 @@ public class ARCoreController : MonoBehaviour
 
             uiController.ShowStatusText("", Color.red);
             platform.Material.SetFloat("_OutlineAlpha", 0f);
-            modelsController.Spawn(ModelsController.ModelTypes.GIRAFFE, true);
+            levelsController.LoadNextLevel();
 
             // Look at camera
             if ((hit.Flags & TrackableHitFlags.PlaneWithinPolygon) != TrackableHitFlags.None)
