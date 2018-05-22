@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -33,15 +32,15 @@ public class LevelsController : Singleton<LevelsController>
         }        
     }
 	
-	void Update ()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-            LoadLastSavedLevel();
-        if (Input.GetKeyDown(KeyCode.L))
-            LoadFirstLevel();
-        if (Input.GetKeyDown(KeyCode.N))
-            LoadNextLevel();
-	}
+	//void Update ()
+ //   {
+ //       if (Input.GetKeyDown(KeyCode.P))
+ //           LoadLastSavedLevel();
+ //       if (Input.GetKeyDown(KeyCode.L))
+ //           LoadFirstLevel();
+ //       if (Input.GetKeyDown(KeyCode.N))
+ //           LoadNextLevel();
+	//}
 
 
     #region LOAD LEVEL
@@ -68,13 +67,15 @@ public class LevelsController : Singleton<LevelsController>
         LoadLevel(currentLevel);
     }
 
-    public void LoadLevel(int level)
+    private void LoadLevel(int level)
     {
         if (level-1 >= Levels.Count)
             return;
 
         SaveLevel(level);
         currentLevel = level;
+
+        // Spawn model
         ModelsController.ModelTypes type = Levels[level];
         modelsController.Spawn(type, true);
     }
