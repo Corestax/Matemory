@@ -35,9 +35,11 @@ public class FruitItem : MonoBehaviour
         material = GetComponentInChildren<MeshRenderer>().material;
         material.CopyPropertiesFromMaterial(new Material(material));
 
-//#if UNITY_EDITOR
-//        material.shader = Shader.Find("Mobile/Diffuse");
-//#endif
+        // Determine if ARCore lighting should be enabled
+        if (GameController.Instance.EnableAR)
+            material.EnableKeyword("ARCORELIGHT_ON");
+        else
+            material.DisableKeyword("ARCORELIGHT_ON");
     }
 
     void Update()

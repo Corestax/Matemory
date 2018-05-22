@@ -4192,6 +4192,7 @@ MonoBehaviour:
   arCoreEnvironmentalLight: {fileID: 420639478}
   camEditor: {fileID: 225461491}
   camAR: {fileID: 1545835392}
+  directionalLight: {fileID: 1508793571}
   pinchZoom: {fileID: 1333504877}
   layer_fruits:
     serializedVersion: 2

@@ -11,29 +11,6 @@ public class FruitsController : Singleton<FruitsController>
     void Start()
     {
         ActiveFruits = new List<FruitItem>();
-        SetARCoreLightShader();        
-    }
-
-    private void SetARCoreLightShader()
-    {
-        // Determine if ARCore lighting should be enabled
-        Material[] mats = Resources.LoadAll("Materials", typeof(Material)).Cast<Material>().ToArray();
-        bool enableARLight = GameController.Instance.EnableAR;
-        foreach (var m in mats)
-        {
-            if (enableARLight)
-                m.EnableKeyword("ARCORELIGHT_ON");
-            else
-                m.DisableKeyword("ARCORELIGHT_ON");
-        }
-
-        //foreach (var f in Fruits)
-        //{
-        //    if (enableARLight)
-        //        f.GetComponentInChildren<MeshRenderer>().material.EnableKeyword("ARCORELIGHT_ON");
-        //    else
-        //        f.GetComponentInChildren<MeshRenderer>().material.DisableKeyword("ARCORELIGHT_ON");
-        //}
     }
 
     public void PopulateFruits(Transform _model)
