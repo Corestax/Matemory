@@ -60,7 +60,7 @@
             }
             Name "Diffuse"
             CGPROGRAM
-            #pragma surface surf MobileLambert exclude_path:deferred exclude_path:prepass noforwardadd nolightmap nodynlightmap nodirlightmap noambient nofog nolppv finalcolor:lightEstimation
+            #pragma surface surf MobileLambert exclude_path:deferred exclude_path:prepass noforwardadd nolightmap nodynlightmap nodirlightmap nofog nolppv finalcolor:lightEstimation
             #pragma shader_feature ARCORELIGHT_ON
             sampler2D _MainTex;
             fixed3 _GlobalColorCorrection;
