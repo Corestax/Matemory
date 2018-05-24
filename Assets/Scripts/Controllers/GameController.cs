@@ -28,8 +28,6 @@ public class GameController : Singleton<GameController>
     [SerializeField]
     private Camera camAR;
     [SerializeField]
-    private GameObject directionalLight;
-    [SerializeField]
     private PinchZoom pinchZoom;    
     [SerializeField]
     private LayerMask layer_fruits;
@@ -43,11 +41,13 @@ public class GameController : Singleton<GameController>
     private Touch touch;
     private RoomController roomController;
     private FruitRotatorController fruitRotatorController;
+    private TutorialsController tutorialController;
 
     void Start()
     {
         roomController = RoomController.Instance;
         fruitRotatorController = FruitRotatorController.Instance;
+        tutorialController = TutorialsController.Instance;
 
         // Force AR on builds
 #if !UNITY_EDITOR && UNITY_ANDROID
@@ -60,7 +60,6 @@ public class GameController : Singleton<GameController>
             arCoreSession.gameObject.SetActive(true);
             arCoreEnvironmentalLight.gameObject.SetActive(true);
             camAR.gameObject.SetActive(true);
-            directionalLight.SetActive(false);
             camEditor.gameObject.SetActive(false);
             pinchZoom.MainCamera = camAR;
         }
@@ -70,7 +69,6 @@ public class GameController : Singleton<GameController>
             arCoreSession.gameObject.SetActive(false);
             arCoreEnvironmentalLight.gameObject.SetActive(false);
             camAR.gameObject.SetActive(false);
-            directionalLight.SetActive(true);
             camEditor.gameObject.SetActive(true);
             pinchZoom.MainCamera = camEditor;
         }
@@ -101,11 +99,8 @@ public class GameController : Singleton<GameController>
 
     void DragItem()
     {
-        if (!IsGameRunning)
+        if (!IsGameRunning || tutorialController.IsActive)
             return;
-
-        //if (!IsGameRunning || EventSystem.current.IsPointerOverGameObject())
-        //    return;
 
         // Mouse input
         if (!enableAR)

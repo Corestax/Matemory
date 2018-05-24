@@ -9,6 +9,8 @@ public class UIController : Singleton<UIController>
     [SerializeField]
     private CanvasFader fader_models;
     [SerializeField]
+    private CanvasFader fader_logo;
+    [SerializeField]
     private Text text_console;
     [SerializeField]
     private Text text_status;
@@ -46,6 +48,22 @@ public class UIController : Singleton<UIController>
         color_hintAlpha.a = 0f;
         color_hintFilled = color_hintAlpha;
         color_hintFilled.a = 1f;
+
+        TutorialsController.Instance.ShowTutorial(0);
+        ShowLogo();
+    }
+
+    private void ShowLogo()
+    {
+        StartCoroutine(ShowLogoCR());
+    }
+
+    private IEnumerator ShowLogoCR()
+    {
+        yield return null;
+        fader_logo.FadeIn(0f);
+        yield return new WaitForSeconds(2.5f);
+        fader_logo.FadeOut(0.5f);
     }
 
     void OnEnable()
@@ -67,7 +85,7 @@ public class UIController : Singleton<UIController>
 
     private void OnGameStarted()
     {
-        ShowStatusText("Drag the fruits into the correct sockets!", Color_statusText, 3.0f);
+        //ShowStatusText("Drag the fruits into the correct sockets!", Color_statusText, 3.0f);
         ShowUI();
         RechargeHint(0f);        
     }
@@ -266,20 +284,18 @@ public class UIController : Singleton<UIController>
         if (!gameController.IsGameRunning)
             return;
 
+        buttons_zoom.SetActive(true);
         buttons_rotatePlatform.SetActive(true);
         if (gameController.EnableAR)
             text_pinchZoom.gameObject.SetActive(true);
-        else
-            buttons_zoom.SetActive(true);
     }
 
     private void HideUI()
     {
+        buttons_zoom.SetActive(false);
         buttons_rotatePlatform.SetActive(false);
         if (gameController.EnableAR)
             text_pinchZoom.gameObject.SetActive(false);
-        else
-            buttons_zoom.SetActive(false);
     }    
 
 

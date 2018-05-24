@@ -72,9 +72,15 @@ public class ModelsController : Singleton<ModelsController>
         if (_newGame)
             GameController.Instance.StopGame(GameController.EndGameTypes.NONE);
 
-        SpawnModel(_type);        
-        uiController.ShowStatusText("You have " + timeToMemorize + " seconds to memorize the pieces!", uiController.Color_statusText, timeToMemorize);
-        platform.RotatePlatform(Explode, time_rotatePlatform, _newGame);
+        SpawnModel(_type);
+        TutorialsController.Instance.ShowTutorial(1);
+        //uiController.ShowStatusText("You have " + timeToMemorize + " seconds to memorize the pieces!", uiController.Color_statusText, timeToMemorize);
+        //platform.RotatePlatform(Explode, time_rotatePlatform, _newGame);
+    }
+
+    public void RotatePlatformAndExplode()
+    {
+        platform.RotatePlatform(Explode, time_rotatePlatform, false);
     }
 
     private void SpawnModel(ModelTypes _type)
@@ -128,6 +134,10 @@ public class ModelsController : Singleton<ModelsController>
         {
             yield return new WaitForSeconds(time_afterExplosion);
             GameController.Instance.StartGame();
+        }
+        else
+        {
+            TutorialsController.Instance.ShowTutorial(2);
         }
     }
 

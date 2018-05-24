@@ -36,10 +36,14 @@ public class FruitItem : MonoBehaviour
         material.CopyPropertiesFromMaterial(new Material(material));
 
         // Determine if ARCore lighting should be enabled
+#if UNITY_EDITOR
         if (GameController.Instance.EnableAR)
             material.EnableKeyword("ARCORELIGHT_ON");
         else
             material.DisableKeyword("ARCORELIGHT_ON");
+#else
+        material.EnableKeyword("ARCORELIGHT_ON");
+#endif
     }
 
     void Update()

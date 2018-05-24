@@ -53,8 +53,8 @@ public class FruitRotatorController : Singleton<FruitRotatorController>
         if (!SelectedFruit)
             return;
 
-        panel_controls.SetActive(true);
-        cameraFruitControl.gameObject.SetActive(true);
+        //panel_controls.SetActive(true);
+        //cameraFruitControl.gameObject.SetActive(true);
     }
 
     private void HideControls()

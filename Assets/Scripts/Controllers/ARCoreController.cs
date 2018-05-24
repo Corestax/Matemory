@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using GoogleARCore;
 using GoogleARCore.HelloAR;
 
@@ -22,6 +23,7 @@ public class ARCoreController : MonoBehaviour
     private LevelsController levelsController;
     private RoomController roomController;
     private UIController uiController;
+    private TutorialsController tutorialController;
     private bool m_IsQuitting = false;
     private Anchor anchor;
     private bool isTrackingLost;
@@ -39,6 +41,7 @@ public class ARCoreController : MonoBehaviour
         levelsController = LevelsController.Instance;
         roomController = RoomController.Instance;
         uiController = UIController.Instance;
+        tutorialController = TutorialsController.Instance;
         room = roomController.Room;
 
         // Set room
@@ -105,7 +108,7 @@ public class ARCoreController : MonoBehaviour
         //}
 
         // DO NOT ALLOW REPOSITIONING
-        if (anchor)
+        if (anchor || EventSystem.current.IsPointerOverGameObject() || tutorialController.IsActive)
             return;        
 
         // Show plane visualizer
@@ -116,7 +119,7 @@ public class ARCoreController : MonoBehaviour
 
         if (Frame.Raycast(Screen.width / 2f, Screen.height / 2f, raycastFilter, out hit))
         {
-            // Show green outline
+            // Show green outline            
             uiController.ShowStatusText("Tap to place platform...", uiController.Color_statusText);
             platform.Material.color = Color.green;
             platform.Material.SetFloat("_OutlineAlpha", 1f);
@@ -150,7 +153,7 @@ public class ARCoreController : MonoBehaviour
         else
         {
             // Show red outline
-            uiController.ShowStatusText("Find a plane to place the platform!", Color.red);
+            uiController.ShowStatusText("Focus a flat surface to place the platform!", Color.red);
             platform.Material.color = Color.red;
             platform.Material.SetFloat("_OutlineAlpha", 1f);
 
