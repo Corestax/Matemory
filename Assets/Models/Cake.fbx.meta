@@ -10,6 +10,7 @@ ModelImporter:
     3300000: //RootNode
     4300000: Cylinder
     4300002: Cake
+    4300004: Cake_Base
   externalObjects:
   - first:
       type: UnityEngine:Material

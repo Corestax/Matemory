@@ -5,8 +5,7 @@ ModelImporter:
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
-    2100000: Default
-    2100002: Cake
+    2100000: Cake_Mountain
     2300000: //RootNode
     3300000: //RootNode
     4300000: Cake_Mountain_Collision

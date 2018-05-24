@@ -1,43 +1,29 @@
 fileFormatVersion: 2
-guid: d0771780ac60315438ef2e3e72eb10ee
+guid: 57aa83ad221b03b45b79331d4d332cf9
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
-    100002: Cube
-    100004: Cylinder
-    100006: Cylinder (2)
-    100008: Cylinder (3)
-    100010: Cake_Mountain
-    100012: Mesh (4)
+    100002: Cake_Mountain
+    100004: Icing_Raillings
     400000: //RootNode
-    400002: Cube
-    400004: Cylinder
-    400006: Cylinder (2)
-    400008: Cylinder (3)
-    400010: Cake_Mountain
-    400012: Mesh (4)
-    2100000: Cake
-    2100002: Default
-    2300000: Cube
-    2300002: Cylinder
-    2300004: Cylinder (2)
-    2300006: Cylinder (3)
-    2300008: Cake_Mountain
-    2300010: Mesh (4)
-    3300000: Cube
-    3300002: Cylinder
-    3300004: Cylinder (2)
-    3300006: Cylinder (3)
-    3300008: Cake_Mountain
-    3300010: Mesh (4)
-    4300000: Cube
-    4300002: Cylinder (2)
-    4300004: Cylinder (3)
-    4300006: Cylinder
-    4300008: Cake_Mountain
-    4300010: Mesh (4)
-  externalObjects: {}
+    400002: Cake_Mountain
+    400004: Icing_Raillings
+    2100000: Cake_Mountain
+    2300000: //RootNode
+    2300002: Cake_Mountain
+    2300004: Icing_Raillings
+    3300000: //RootNode
+    3300002: Cake_Mountain
+    3300004: Icing_Raillings
+    4300000: Cake_Mountain
+    4300002: Icing_Raillings
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cake_Mountain
+    second: {fileID: 2100000, guid: 688494b537ea4214f931d762baf8eed5, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -73,8 +59,8 @@ ModelImporter:
     addColliders: 0
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 1
-    importLights: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
@@ -93,7 +79,7 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
-  importAnimation: 1
+  importAnimation: 0
   copyAvatar: 0
   humanDescription:
     serializedVersion: 2
