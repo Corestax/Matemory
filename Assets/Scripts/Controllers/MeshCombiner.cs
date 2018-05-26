@@ -18,6 +18,21 @@ public class MeshCombiner : Singleton<MeshCombiner>
             combinedObject.SetActive(false);
     }
 
+    private void OnEnable()
+    {
+        GameController.OnGameEnded += OnGameEnded;
+    }
+
+    private void OnDisable()
+    {
+        GameController.OnGameEnded -= OnGameEnded;
+    }
+
+    private void OnGameEnded(GameController.EndGameTypes _type)
+    {
+        Clear();
+    }
+
     public void Clear()
     {
         Destroy(combinedObject);

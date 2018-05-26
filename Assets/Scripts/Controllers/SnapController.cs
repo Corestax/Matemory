@@ -19,6 +19,21 @@ public class SnapController : Singleton<SnapController>
         SnapColliders = new List<SnapCollider>();
     }
 
+    private void OnEnable()
+    {
+        GameController.OnGameEnded += OnGameEnded;
+    }
+
+    private void OnDisable()
+    {
+        GameController.OnGameEnded -= OnGameEnded;
+    }
+
+    private void OnGameEnded(GameController.EndGameTypes _type)
+    {
+        Clear();
+    }
+
     public void CreateSnapCollider(FruitItem fruitItem, Vector3 pos, Quaternion rot)
     {
         var go = Instantiate(Prefab_SnapCollider, pos, rot, Container);

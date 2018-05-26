@@ -13,11 +13,36 @@ public class TutorialsController : Singleton<TutorialsController>
     public bool IsActive { get; private set; }
     public bool IsFading { get; private set; }
 
+    private ButtonsController buttonsController;
+
+    private void Start()
+    {
+        buttonsController = ButtonsController.Instance;
+    }
+
+    private void OnEnable()
+    {
+        GameController.OnGameEnded += OnGameEnded;
+    }
+
+    private void OnDisable()
+    {
+        GameController.OnGameEnded -= OnGameEnded;
+    }
+
+    private void OnGameEnded(GameController.EndGameTypes _type)
+    {
+        currentIndex = -1;
+        StopAllCoroutines();
+        HideActiveTutorial();
+    }
+
     public void ShowTutorial(int index)
     {
         if (currentIndex == index || index >= faders.Length)
             return;
 
+        buttonsController.DisableAllButtons();
         StopAllCoroutines();
         StartCoroutine(ShowTutorialCR(index));
     }
@@ -58,6 +83,7 @@ public class TutorialsController : Singleton<TutorialsController>
     private IEnumerator OnNextClickedCR()
     {
         yield return StartCoroutine(HideActiveTutorial());
+        buttonsController.EnableAllButtons();
         IsActive = false;
 
         // Place platform

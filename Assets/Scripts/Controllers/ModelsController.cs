@@ -57,34 +57,27 @@ public class ModelsController : Singleton<ModelsController>
         }
     }
 
-    public void Spawn(int index)
+    private void OnEnable()
     {
-        ModelTypes _type = (ModelTypes)index;
-        Spawn(_type, true);
+        GameController.OnGameEnded += OnGameEnded;
     }
 
-    public void Spawn(ModelTypes _type, bool _newGame)
+    private void OnDisable()
     {
-        // Clear old items
+        GameController.OnGameEnded -= OnGameEnded;
+    }
+
+    private void OnGameEnded(GameController.EndGameTypes _type)
+    {
         Clear();
+    }
 
-        // Stop game first before starting a new game
-        if (_newGame)
-            GameController.Instance.StopGame(GameController.EndGameTypes.NONE);
-
-        SpawnModel(_type);
+    public void Spawn(ModelTypes _type)
+    {        
         TutorialsController.Instance.ShowTutorial(1);
         //uiController.ShowStatusText("You have " + timeToMemorize + " seconds to memorize the pieces!", uiController.Color_statusText, timeToMemorize);
         //platform.RotatePlatform(Explode, time_rotatePlatform, _newGame);
-    }
 
-    public void RotatePlatformAndExplode()
-    {
-        platform.RotatePlatform(Explode, time_rotatePlatform, false);
-    }
-
-    private void SpawnModel(ModelTypes _type)
-    {
         // Instantiate model
         GameObject go = Instantiate(Models[_type.ToString()], platform.transform);
         ActiveModel = go;
@@ -97,10 +90,13 @@ public class ModelsController : Singleton<ModelsController>
         audioManager.PlaySound(audioManager.audio_spawn);
     }
 
+    public void RotatePlatformAndExplode()
+    {
+        platform.RotatePlatform(Explode, time_rotatePlatform, false);
+    }
+
     private void Clear()
     {
-        GameController.Instance.Clear();
-
         StopExplode();
         RemoveActiveType();
     }

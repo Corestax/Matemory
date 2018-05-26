@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using GoogleARCore;
 using UnityEngine.SceneManagement;
 
@@ -192,15 +189,6 @@ public class GameController : Singleton<GameController>
 
 
 #region RESET     
-    public void Clear()
-    {
-        UIController.Instance.HideActivePanel();
-        SnapController.Instance.Clear();
-        MeshCombiner.Instance.Clear();
-        roomController.Recenter();
-        ClearDrag();
-    }
-
     private void ClearDrag()
     {
         fruitRotatorController.SetDropped();
@@ -222,10 +210,9 @@ public class GameController : Singleton<GameController>
 
     public void StopGame(EndGameTypes _type)
     {
-        if (!IsGameRunning)
-            return;
-
         IsGameRunning = false;
+        ClearDrag();
+
         if (OnGameEnded != null)
             OnGameEnded(_type);
     }

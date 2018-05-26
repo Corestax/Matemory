@@ -12,14 +12,16 @@ public class SnapCollider : MonoBehaviour
 
     public bool IsSnapped { get; private set; }
 
+    private AudioManager audioManager;
+    private UIController uiController;
+    private MeshRenderer meshRenderer;
     private Material material;
     private Color colorIdle;
-    private MeshRenderer meshRenderer;
-    private AudioManager audioManager;
 
     private void Start()
     {
         audioManager = AudioManager.Instance;
+        uiController = UIController.Instance;
         meshRenderer = GetComponent<MeshRenderer>();
 
         // Clone material
@@ -30,26 +32,22 @@ public class SnapCollider : MonoBehaviour
 
     private void OnEnable()
     {
-        GameController.OnGameStarted += Show;
-        GameController.OnGameEnded += Hide;
+        GameController.OnGameStarted += OnGameStarted;
+        GameController.OnGameEnded += OnGameEnded;
     }
 
     private void OnDisable()
     {
-        GameController.OnGameStarted -= Show;
-        GameController.OnGameEnded -= Hide;
+        GameController.OnGameStarted -= OnGameStarted;
+        GameController.OnGameEnded -= OnGameEnded;
     }    
 
-    private void Show()
+    private void OnGameStarted()
     {
         meshRenderer.enabled = true;  
-        
-        // Resize ring to the smallest side       
-        //material.SetFloat("_ScaleX", Size);
-        //material.SetFloat("_ScaleY", Size);
     }
 
-    private void Hide(GameController.EndGameTypes _type)
+    private void OnGameEnded(GameController.EndGameTypes _type)
     {
         meshRenderer.enabled = false;
     }
@@ -59,12 +57,14 @@ public class SnapCollider : MonoBehaviour
         material.SetColor("_Color", colorIdle);
         if (playSound)
             audioManager.PlaySound(audioManager.audio_snapIdle);
+        uiController.HideCorrector();
     }
 
     public void ShowHover()
     {        
         material.SetColor("_Color", Color.green);
         audioManager.PlaySound(audioManager.audio_snapCorrect);
+        uiController.ShowCorrector();
     }
 
     public void Snap(FruitsController.FruitTypes _type)

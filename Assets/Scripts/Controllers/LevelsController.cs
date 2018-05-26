@@ -31,17 +31,6 @@ public class LevelsController : Singleton<LevelsController>
             Levels.Add(item.Level, item.Type);
         }        
     }
-	
-	//void Update ()
- //   {
- //       if (Input.GetKeyDown(KeyCode.P))
- //           LoadLastSavedLevel();
- //       if (Input.GetKeyDown(KeyCode.L))
- //           LoadFirstLevel();
- //       if (Input.GetKeyDown(KeyCode.N))
- //           LoadNextLevel();
-	//}
-
 
     #region LOAD LEVEL
     public void LoadLastSavedLevel()
@@ -67,7 +56,7 @@ public class LevelsController : Singleton<LevelsController>
         LoadLevel(currentLevel);
     }
 
-    private void LoadLevel(int level)
+    public void LoadLevel(int level)
     {
         if (level-1 >= Levels.Count)
             return;
@@ -77,7 +66,7 @@ public class LevelsController : Singleton<LevelsController>
 
         // Spawn model
         ModelsController.ModelTypes type = Levels[level];
-        modelsController.Spawn(type, true);
+        modelsController.Spawn(type);
     }
     #endregion
 

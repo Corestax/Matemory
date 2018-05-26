@@ -50,12 +50,14 @@ public class RoomController : Singleton<RoomController>
     void OnEnable()
     {
         GameController.OnGameStarted += OnGameStarted;
+        GameController.OnGameEnded += OnGameEnded;
     }
 
     void OnDisable()
     {
 
         GameController.OnGameStarted -= OnGameStarted;
+        GameController.OnGameEnded -= OnGameEnded;
     }
 
     //void Update()
@@ -75,6 +77,11 @@ public class RoomController : Singleton<RoomController>
     private void OnGameStarted()
     {
         StartCoroutine(EnableInnerColliderTemporarily(2f));
+    }
+
+    private void OnGameEnded(GameController.EndGameTypes _type)
+    {
+        Recenter();
     }
 
     private IEnumerator EnableInnerColliderTemporarily(float duration)

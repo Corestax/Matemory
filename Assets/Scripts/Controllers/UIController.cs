@@ -19,7 +19,9 @@ public class UIController : Singleton<UIController>
     [SerializeField]
     private GameObject buttons_zoom;
     [SerializeField]
-    private GameObject buttons_rotatePlatform;    
+    private GameObject buttons_rotatePlatform;
+    [SerializeField]
+    private Image image_corrector;
 
     private GameController gameController;
     private ModelsController modelsController;
@@ -85,13 +87,13 @@ public class UIController : Singleton<UIController>
 
     private void OnGameStarted()
     {
-        //ShowStatusText("Drag the fruits into the correct sockets!", Color_statusText, 3.0f);
         ShowUI();
         RechargeHint(0f);        
     }
 
     private void OnGameEnded(GameController.EndGameTypes _type)
-    {        
+    {
+        StopAllCoroutines();
         HideUI();
         ClearHint();
         ShowPanel(PanelTypes.RESULTS, _type);
@@ -143,11 +145,6 @@ public class UIController : Singleton<UIController>
         buttonsController.EnableAllButtons();
     }
 
-    public void HideActivePanel()
-    {
-        HidePanel(activePanel);
-    }
-
 
     #region PANEL MODELS
     public void OnClosePanelModelsClicked()
@@ -172,6 +169,18 @@ public class UIController : Singleton<UIController>
     private void HidePanelModels()
     {
         fader_models.FadeOut(FADESPEED);
+    }
+
+    public void OnLoadModelClicked(int index)
+    {
+        // Hide active panel
+        HidePanel(activePanel);
+
+        // Stop game
+        gameController.StopGame(GameController.EndGameTypes.NONE);
+
+        // Load new game
+        LevelsController.Instance.LoadLevel(index);
     }
     #endregion
 
@@ -291,11 +300,16 @@ public class UIController : Singleton<UIController>
     }
 
     private void HideUI()
-    {
+    {        
+        HidePanel(activePanel);
+        HideCorrector();
+
         buttons_zoom.SetActive(false);
         buttons_rotatePlatform.SetActive(false);
         if (gameController.EnableAR)
             text_pinchZoom.gameObject.SetActive(false);
+
+        ShowStatusText("", Color.red);
     }    
 
 
@@ -431,4 +445,16 @@ public class UIController : Singleton<UIController>
         ShowStatusText("", Color.red);
     }
     #endregion
+    
+
+    public void ShowCorrector()
+    {
+        image_corrector.gameObject.SetActive(true);
+    }
+
+    public void HideCorrector()
+    {
+        image_corrector.gameObject.SetActive(false);
+    }
+
 }

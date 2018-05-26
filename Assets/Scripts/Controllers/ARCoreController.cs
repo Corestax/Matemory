@@ -31,7 +31,7 @@ public class ARCoreController : MonoBehaviour
     private TrackableHit hit;
     private GameObject room;
 
-    private const float MOVE_SPEED = 4f;
+    private const float MOVE_SPEED = 2f;
 
     public static event Action OnTrackingActive;
     public static event Action OnTrackingLost;
