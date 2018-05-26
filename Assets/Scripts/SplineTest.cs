@@ -21,28 +21,30 @@ public class SplineTest : MonoBehaviour
         //follower.wrapMode = SplineFollower.Wrap.PingPong; //Set the wrap mode of the         
     }
 
-    private void OnEnable()
-    {
-        follower.onBeginningReached += OnBeginningReached;
-        follower.onEndReached += OnEndReached;
-    }
+    //private void OnEnable()
+    //{
+    //    follower.onBeginningReached += OnBeginningReached;
+    //    follower.onEndReached += OnEndReached;
+    //}
 
-    private void OnDisable()
-    {
-        follower.onBeginningReached -= OnBeginningReached;
-        follower.onEndReached -= OnEndReached;
-    }
+    //private void OnDisable()
+    //{
+    //    follower.onBeginningReached -= OnBeginningReached;
+    //    follower.onEndReached -= OnEndReached;
+    //}
 
     void OnBeginningReached()
     {
         Debug.Log("Beginning reached");
-        //follower.motion.offset = Vector2.up;
+        //follower.motion.offset = Vector2.up;
+
     }
 
     void OnEndReached()
     {
         Debug.Log("End reached");
-        //follower.motion.offset = Vector2.down;    }
+        //follower.motion.offset = Vector2.down;
+    }
 
     void Update()
     {
@@ -58,20 +60,5 @@ public class SplineTest : MonoBehaviour
         {
             path.SetClipRange(0, 1);
         }
-
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            AddTrigger();
-        }
-    }
-
-    private void AddTrigger()
-    {
-        follower.AddTrigger(Trigger.Type.Forward, CallTrigger, 0.5f, Trigger.Type.Double);
-    }
-
-    private void CallTrigger()
-    {
-        print("Calling trigger");
     }
 }
