@@ -14,8 +14,9 @@ public class Character : MonoBehaviour
 	
 	void Update ()
     {
-		
-	}    
+        if (Input.GetKeyDown(KeyCode.D))
+            follower.clipFrom = 0.2f;
+    }    
 
     public void SetPosition(float distance)
     {
@@ -29,17 +30,15 @@ public class Character : MonoBehaviour
 
     public void Stop()
     {
-        follower.autoFollow = false;
+        follower.autoFollow = false;        
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        print("Trigger!");
         Stop();
     }
 
     private void OnTriggerExit(Collider other)
     {
-
     }
 }
