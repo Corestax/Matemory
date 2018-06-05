@@ -35,7 +35,8 @@ public class Character : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Stop();
+        if(other.tag == "TargetPoint")
+            Stop();
     }
 
     private void OnTriggerExit(Collider other)

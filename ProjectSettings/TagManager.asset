@@ -8,6 +8,7 @@ TagManager:
   - Draggable
   - Wall
   - AlwaysInteractable
+  - TargetPoint
   layers:
   - Default
   - TransparentFX

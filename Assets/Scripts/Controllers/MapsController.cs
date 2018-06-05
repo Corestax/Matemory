@@ -44,13 +44,7 @@ public class MapsController : Singleton<MapsController>
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
             character.Play();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            character.Stop();
-        }
     }
 
     public void SetMap(int _mapIndex)
