@@ -20,7 +20,7 @@ public class MapsController : Singleton<MapsController>
         // NOTE: This will need to change in the future, when loading a saved map
         SetMap(currentIndex);
 
-        splineComputer = currentMap.GetComponentInChildren<SplineComputer>();
+        splineComputer = currentMap.GetComponent<SplineComputer>();
         follower = currentMap.GetComponentInChildren<SplineFollower>();
         character = follower.GetComponent<Character>();
         path = splineComputer.GetComponent<PathGenerator>();        
