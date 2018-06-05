@@ -1,28 +1,20 @@
 fileFormatVersion: 2
-guid: 061e7387ac8d80343be5133e5e084edc
+guid: 459ccb9a6278f774b81afeb34eb7bfed
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
-    2100000: Cake
-    2100002: Cake_Sides
+    2100000: Cake_Iceing_Sides
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Cylinder
-    4300002: Cake
-    4300004: Cake_Base
+    4300000: Cake_Iceing_Sides
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Cake
-    second: {fileID: 2100000, guid: db16d8adb1fde8248af54bd7b9614250, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Cake_Sides
-    second: {fileID: 2100000, guid: 98c5c283a7745054ba3ab2397cca5dab, type: 2}
+      name: Cake_Iceing_Sides
+    second: {fileID: 2100000, guid: aba5d4b2892c14d4498d86c1a6c8d02b, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -53,7 +45,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 0.02
     meshCompression: 0
     addColliders: 0
     importVisibility: 1
