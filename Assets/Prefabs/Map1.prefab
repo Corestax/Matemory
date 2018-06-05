@@ -8041,7 +8041,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4276051016248616}
   m_Layer: 0
-  m_Name: Target_Point_Groups
+  m_Name: TargetPoints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13836,7 +13836,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1384434767911900}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.012491972, y: 0.14395124, z: 0.00782396}
+  m_LocalPosition: {x: 0.13282241, y: 1.1439513, z: 2.9886546}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4748698263429394}
@@ -41320,8 +41320,8 @@ MonoBehaviour:
       color: {r: 1, g: 1, b: 1, a: 1}
       normal: {x: 0, y: 1, z: 0}
       size: 0.03
-      tangent: {x: -0.018526496, y: 0, z: -0.044945303}
-      tangent2: {x: 0.018526495, y: 0, z: 0.044945303}
+      tangent: {x: 0.01852648, y: 0, z: 0.04494524}
+      tangent2: {x: -0.018526495, y: 0, z: -0.04494524}
   _transformSize: 1
   _transformNormals: 1
   _transformTangents: 1

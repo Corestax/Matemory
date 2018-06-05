@@ -40,5 +40,6 @@ public class Character : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+
     }
 }

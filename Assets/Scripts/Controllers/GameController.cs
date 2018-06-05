@@ -11,7 +11,7 @@ using Input = GoogleARCore.InstantPreviewInput;
 public class GameController : Singleton<GameController>
 {
     public enum EndGameTypes { NONE, WIN, LOSE }
-
+    
     [SerializeField]
     private bool enableAR;
     [SerializeField]
@@ -28,6 +28,8 @@ public class GameController : Singleton<GameController>
     private PinchZoom pinchZoom;    
     [SerializeField]
     private LayerMask layer_fruits;
+    [SerializeField]
+    private GameObject Plate;
 
     public bool IsGameRunning { get; private set; }
     public bool EnableAR { get { return enableAR; } }
@@ -36,12 +38,14 @@ public class GameController : Singleton<GameController>
     public static event Action<EndGameTypes> OnGameEnded;
 
     private Touch touch;
+    private MapsController mapsController;
     private RoomController roomController;
     private FruitRotatorController fruitRotatorController;
     private TutorialsController tutorialController;
 
     void Start()
     {
+        mapsController = MapsController.Instance;
         roomController = RoomController.Instance;
         fruitRotatorController = FruitRotatorController.Instance;
         tutorialController = TutorialsController.Instance;
@@ -76,6 +80,17 @@ public class GameController : Singleton<GameController>
     void Update()
     {
         DragItem();
+
+        if(UnityEngine.Input.GetKeyDown(KeyCode.A))
+        {
+            Plate.SetActive(false);
+            mapsController.ShowMap();
+        }
+        if (UnityEngine.Input.GetKeyDown(KeyCode.S))
+        {
+            mapsController.HideMap();
+            Plate.SetActive(true);
+        }
     }    
 
 
