@@ -6893,7 +6893,7 @@ GameObject:
   - component: {fileID: 33920695665341038}
   - component: {fileID: 114487563372150748}
   m_Layer: 0
-  m_Name: Path
+  m_Name: SplineComputer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
