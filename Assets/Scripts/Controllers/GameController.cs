@@ -11,7 +11,8 @@ using Input = GoogleARCore.InstantPreviewInput;
 public class GameController : Singleton<GameController>
 {
     public enum EndGameTypes { NONE, WIN, LOSE }
-    
+
+    public bool EnableLevels;
     [SerializeField]
     private bool enableAR;
     [SerializeField]
@@ -80,18 +81,22 @@ public class GameController : Singleton<GameController>
     void Update()
     {
         DragItem();
+    }
 
-        if(UnityEngine.Input.GetKeyDown(KeyCode.A))
-        {
-            Plate.SetActive(false);
-            mapsController.ShowMap();
-        }
-        if (UnityEngine.Input.GetKeyDown(KeyCode.S))
-        {
-            mapsController.HideMap();
-            Plate.SetActive(true);
-        }
-    }    
+
+    #region SHOW/HIDE MAP
+    public void ShowMap(bool _animateCharacter)
+    {
+        Plate.SetActive(false);
+        mapsController.ShowMapAndAnimateCharacter(2.0f);
+    }
+
+    public void HideMap()
+    {
+        mapsController.HideMap();
+        Plate.SetActive(true);
+    }
+    #endregion
 
 
     #region DEBUG BUTTON CLICKS
@@ -220,7 +225,7 @@ public class GameController : Singleton<GameController>
 
         IsGameRunning = true;
         if (OnGameStarted != null)
-            OnGameStarted();
+            OnGameStarted();        
     }
 
     public void StopGame(EndGameTypes _type)

@@ -5,12 +5,14 @@ using Dreamteck.Splines;
 
 public class Character : MonoBehaviour
 {
+    private UIController uiController;
     private SplineFollower follower;
-
+    private 
     void Start ()
     {
+        uiController = UIController.Instance;
         follower = GetComponent<SplineFollower>();
-	}
+    }
 	
 	void Update ()
     {
@@ -35,12 +37,27 @@ public class Character : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "TargetPoint")
-            Stop();
+        if (other.tag == "TargetPoint")
+        {
+            // If character has moved to next level
+            var targetPoint = other.GetComponent<TargetPoint>();
+            print(targetPoint.Level + " == " + LevelsController.Instance.CurrentLevel);
+            if (targetPoint.Level == LevelsController.Instance.CurrentLevel+1)
+            {
+                Stop();
+                ShowPanelPlayLevel(2f);
+            }
+        }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void ShowPanelPlayLevel(float _delay)
     {
+        StartCoroutine(ShowPanelPlayLevelCR(_delay));
+    }
 
+    private IEnumerator ShowPanelPlayLevelCR(float _delay)
+    {
+        yield return new WaitForSeconds(_delay);
+        uiController.ShowPanel(UIController.PanelTypes.PLAY_LEVEL);
     }
 }

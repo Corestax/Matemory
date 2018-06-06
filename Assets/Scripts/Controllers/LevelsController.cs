@@ -17,7 +17,7 @@ public class LevelsController : Singleton<LevelsController>
     public Dictionary<int, ModelsController.ModelTypes> Levels { get; private set; }
 
     private ModelsController modelsController;
-    private int currentLevel = 0;
+    public int CurrentLevel = 0;
 
 	void Start ()
     {
@@ -49,11 +49,11 @@ public class LevelsController : Singleton<LevelsController>
 
     public void LoadNextLevel()
     {
-        if (currentLevel-1 >= Levels.Count)
+        if (CurrentLevel-1 >= Levels.Count)
             return;
 
-        currentLevel++;
-        LoadLevel(currentLevel);
+        CurrentLevel++;
+        LoadLevel(CurrentLevel);
     }
 
     public void LoadLevel(int level)
@@ -62,7 +62,7 @@ public class LevelsController : Singleton<LevelsController>
             return;
 
         SaveLevel(level);
-        currentLevel = level;
+        CurrentLevel = level;
 
         // Spawn model
         ModelsController.ModelTypes type = Levels[level];

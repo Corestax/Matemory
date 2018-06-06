@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using Dreamteck.Splines;
 
 public class MapsController : Singleton<MapsController>
@@ -39,6 +40,10 @@ public class MapsController : Singleton<MapsController>
             m.material.EnableKeyword("ARCORELIGHT_ON");
 #endif
         }
+
+        // Maps have to start enabled by default to avoid DreamTek script errors on start
+        foreach (var m in Maps)
+            m.SetActive(false);
     }
 
     void Update()
@@ -57,6 +62,18 @@ public class MapsController : Singleton<MapsController>
     public void ShowMap()
     {
         currentMap.SetActive(true);
+    }
+
+    public void ShowMapAndAnimateCharacter(float _delay)
+    {
+        StartCoroutine(ShowMapAndAnimateCharacterCR(_delay));        
+    }
+
+    private IEnumerator ShowMapAndAnimateCharacterCR(float _delay)
+    {
+        ShowMap();
+        yield return new WaitForSeconds(_delay);
+        character.Play();
     }
 
     public void HideMap()
