@@ -7,6 +7,8 @@ public class TutorialsController : Singleton<TutorialsController>
     [SerializeField]
     private CanvasFader[] faders;
 
+    private bool[] IsCompleted;
+
     private int currentIndex = -1;
     private float fadeSpeed = 0.25f;
 
@@ -18,6 +20,7 @@ public class TutorialsController : Singleton<TutorialsController>
     private void Start()
     {
         buttonsController = ButtonsController.Instance;
+        IsCompleted = new bool[faders.Length];
     }
 
     private void OnEnable()
@@ -42,6 +45,33 @@ public class TutorialsController : Singleton<TutorialsController>
         if (currentIndex == index || index >= faders.Length)
             return;
 
+        // Skip tutorial and start game      
+        if (index > 0 && IsCompleted[index] == true)
+        {
+            currentIndex = index;
+            if (index == 1)
+            {
+                // Rotate platform
+                ModelsController.Instance.RotatePlatformAndExplode();
+                ShowCountdown();
+            }
+            else
+            {
+                // Check if all tutorials marked as complete
+                int count = 0;
+                foreach(var c in IsCompleted)
+                {
+                    if (c == true)
+                        count++;
+                }
+
+                // Start game
+                if (count == IsCompleted.Length)
+                    GameController.Instance.StartGame();
+            }
+            return;
+        }
+        
         buttonsController.DisableAllButtons();
         StopAllCoroutines();
         StartCoroutine(ShowTutorialCR(index));
@@ -51,6 +81,7 @@ public class TutorialsController : Singleton<TutorialsController>
     {
         IsActive = true; 
         IsFading = true;
+        IsCompleted[index] = true;
 
         // Fade out previous tutorial
         yield return StartCoroutine(HideActiveTutorial());
@@ -66,7 +97,7 @@ public class TutorialsController : Singleton<TutorialsController>
     private IEnumerator HideActiveTutorial()
     {
         if (currentIndex != -1)
-        {
+        {            
             if (faders[currentIndex].Alpha > 0f)
                 faders[currentIndex].FadeOut(fadeSpeed);
             while (faders[currentIndex].IsFading)
