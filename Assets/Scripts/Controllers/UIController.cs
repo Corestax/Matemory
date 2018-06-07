@@ -48,7 +48,8 @@ public class UIController : Singleton<UIController>
         color_hintFilled = color_hintAlpha;
         color_hintFilled.a = 1f;
 
-        TutorialsController.Instance.ShowTutorial(0);
+        // Start main menu enabled
+        fader_mainMenu.FadeIn(0f);
     }
 
     void OnEnable()
@@ -154,6 +155,7 @@ public class UIController : Singleton<UIController>
     public void OnPlayButtonClicked()
     {
         HidePanel(PanelTypes.MAIN_MENU);
+        TutorialsController.Instance.ShowTutorial(0);
     }
     #endregion
 
