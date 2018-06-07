@@ -26,7 +26,7 @@ public class UIController : Singleton<UIController>
     private AudioManager audioManager;
     private MeshCombiner meshCombiner;
 
-    public enum PanelTypes { NONE, RESULTS, PLAY_LEVEL }
+    public enum PanelTypes { NONE, MAIN_MENU, RESULTS, PLAY_LEVEL }
     private PanelTypes activePanel;
 
     private const float FADESPEED = 0.25f;
@@ -95,6 +95,10 @@ public class UIController : Singleton<UIController>
                     HidePanel(activePanel);
                 break;
 
+            case PanelTypes.MAIN_MENU:
+                ShowPanelMainMenu();
+                break;
+
             case PanelTypes.RESULTS:
                 ShowPanelResults(_type);
                 break;
@@ -113,6 +117,10 @@ public class UIController : Singleton<UIController>
     {        
         switch (panel)
         {
+            case PanelTypes.MAIN_MENU:
+                HidePanelMainMenu();
+                break;
+
             case PanelTypes.RESULTS:
                 HidePanelResults();
                 break;
@@ -127,6 +135,27 @@ public class UIController : Singleton<UIController>
         activePanel = PanelTypes.NONE;
         buttonsController.EnableAllButtons();
     }
+
+
+    #region MAIN MENU
+    [SerializeField]
+    private CanvasFader fader_mainMenu;
+
+    private void ShowPanelMainMenu()
+    {
+        fader_mainMenu.FadeIn(FADESPEED);
+    }
+
+    private void HidePanelMainMenu()
+    {
+        fader_mainMenu.FadeOut(FADESPEED);
+    }
+
+    public void OnPlayButtonClicked()
+    {
+        HidePanel(PanelTypes.MAIN_MENU);
+    }
+    #endregion
 
 
     #region PANEL RESULTS    
