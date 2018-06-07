@@ -20,11 +20,13 @@ public class ScoreController : Singleton<ScoreController>
 
     private TimerController timerController;
     private ModelsController modelsController;
+    private GoogleGameServicesController googleGameServices;
 
     void Start()
     {
         timerController = TimerController.Instance;
         modelsController = ModelsController.Instance;
+        googleGameServices = GoogleGameServicesController.Instance;
         HighScore = 0;
         CurrentScore = 0;
     }
@@ -70,6 +72,9 @@ public class ScoreController : Singleton<ScoreController>
             PlayerPrefs.SetInt("HighScore_" + level, CurrentScore);
             HighScore = CurrentScore;
             print("New high score for level " + level + ": " + HighScore);
+
+            // Save Score To Leaderboard
+            googleGameServices.AddScoreToLeaderboard(level, CurrentScore);
         }
     }
 

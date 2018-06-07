@@ -24,7 +24,26 @@
 
 public static class GPGSIds
 {
-        public const string leaderboard_level_1 = "CgkIqqKPyKgOEAIQAQ"; // <GPGSID>
+        public const string leaderboard_map_1__level_20 = "CgkIqqKPyKgOEAIQFA"; // <GPGSID>
+        public const string leaderboard_map_1__level_10 = "CgkIqqKPyKgOEAIQCg"; // <GPGSID>
+        public const string leaderboard_map_1__level_11 = "CgkIqqKPyKgOEAIQCw"; // <GPGSID>
+        public const string leaderboard_map_1__level_1 = "CgkIqqKPyKgOEAIQAQ"; // <GPGSID>
+        public const string leaderboard_map_1__level_2 = "CgkIqqKPyKgOEAIQAg"; // <GPGSID>
+        public const string leaderboard_map_1__level_3 = "CgkIqqKPyKgOEAIQAw"; // <GPGSID>
+        public const string leaderboard_map_1__level_4 = "CgkIqqKPyKgOEAIQBA"; // <GPGSID>
+        public const string leaderboard_map_1__level_5 = "CgkIqqKPyKgOEAIQBQ"; // <GPGSID>
+        public const string leaderboard_map_1__level_6 = "CgkIqqKPyKgOEAIQBg"; // <GPGSID>
+        public const string leaderboard_map_1__level_7 = "CgkIqqKPyKgOEAIQBw"; // <GPGSID>
+        public const string leaderboard_map_1__level_8 = "CgkIqqKPyKgOEAIQCA"; // <GPGSID>
+        public const string leaderboard_map_1__level_9 = "CgkIqqKPyKgOEAIQCQ"; // <GPGSID>
+        public const string leaderboard_map_1__level_16 = "CgkIqqKPyKgOEAIQEA"; // <GPGSID>
+        public const string leaderboard_map_1__level_12 = "CgkIqqKPyKgOEAIQDA"; // <GPGSID>
+        public const string leaderboard_map_1__level_13 = "CgkIqqKPyKgOEAIQDQ"; // <GPGSID>
+        public const string leaderboard_map_1__level_14 = "CgkIqqKPyKgOEAIQDg"; // <GPGSID>
+        public const string leaderboard_map_1__level_15 = "CgkIqqKPyKgOEAIQDw"; // <GPGSID>
+        public const string leaderboard_map_1__level_17 = "CgkIqqKPyKgOEAIQEQ"; // <GPGSID>
+        public const string leaderboard_map_1__level_18 = "CgkIqqKPyKgOEAIQEg"; // <GPGSID>
+        public const string leaderboard_map_1__level_19 = "CgkIqqKPyKgOEAIQEw"; // <GPGSID>
 
 }
 

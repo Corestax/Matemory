@@ -1,14 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using GooglePlayGames;
+﻿using GooglePlayGames;
 using GooglePlayGames.BasicApi;
-using UnityEngine.SocialPlatforms;
 using GooglePlayGames.BasicApi.SavedGame;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class GoogleGameServicesController : Singleton<GoogleGameServicesController>
 {
+    private enum LeaderboardIdByLevel {
+        CgkIqqKPyKgOEAIQAQ = 1,
+        CgkIqqKPyKgOEAIQAg = 2,
+        CgkIqqKPyKgOEAIQAw = 3,
+        CgkIqqKPyKgOEAIQBA = 4,
+        CgkIqqKPyKgOEAIQBQ = 5,
+        CgkIqqKPyKgOEAIQBg = 6,
+        CgkIqqKPyKgOEAIQBw = 7,
+        CgkIqqKPyKgOEAIQCA = 8,
+        CgkIqqKPyKgOEAIQCQ = 9,
+        CgkIqqKPyKgOEAIQCg = 10,
+        CgkIqqKPyKgOEAIQCw = 11,
+        CgkIqqKPyKgOEAIQDA = 12,
+        CgkIqqKPyKgOEAIQDQ = 13,
+        CgkIqqKPyKgOEAIQDg = 14,
+        CgkIqqKPyKgOEAIQDw = 15,
+        CgkIqqKPyKgOEAIQEA = 16,
+        CgkIqqKPyKgOEAIQEQ = 17,
+        CgkIqqKPyKgOEAIQEg = 18,
+        CgkIqqKPyKgOEAIQEw = 19,
+        CgkIqqKPyKgOEAIQFA = 20
+    }
+
+
     private bool mAuthenticating = false;
 
     // Use this for initialization
@@ -16,7 +39,6 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
     {
         Init();
     }
-
 
     private void Init()
     {
@@ -49,6 +71,21 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
                 // by plugin)
                 Debug.LogWarning("Failed to sign in with Google Play Games.");
             }
+        });
+    }
+
+    public void AddScoreToLeaderboard(int level, int score)
+    {
+        if (!Authenticated)
+            return;
+
+        if (!Enum.IsDefined(typeof(LeaderboardIdByLevel), level))
+            return;
+
+        LeaderboardIdByLevel lId = (LeaderboardIdByLevel)level;
+
+        Social.ReportScore(score, lId.ToString(), (bool success) => {
+            Debug.Log("Score updated");
         });
     }
 
