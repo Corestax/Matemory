@@ -52,8 +52,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1936686341756756}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.0291, y: 0.0088, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4781477869194278}
@@ -141,7 +141,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.125, y: 0.2, z: 0.035}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0.03, y: 0.01, z: 0}
 --- !u!114 &114292736777061910
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -154,4 +154,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Fruit: 60
-  Order: 
