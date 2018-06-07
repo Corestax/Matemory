@@ -89,6 +89,12 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
         });
     }
 
+    public void ShowLeaderboard()
+    {
+        if (Authenticated)
+            Social.ShowLeaderboardUI();
+    }
+
     public bool Authenticating
     {
         get
