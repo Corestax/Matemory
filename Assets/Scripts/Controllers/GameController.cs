@@ -88,14 +88,6 @@ public class GameController : Singleton<GameController>
     }
 
     #region SHOW/HIDE MAP
-    public void ToggleMap()
-    {
-        if (mapsController.IsMapShowing)
-            HideMap();
-        else
-            ShowMap(false);
-    }
-
     public void ShowMap(bool _animateCharacter)
     {
         Plate.SetActive(false);

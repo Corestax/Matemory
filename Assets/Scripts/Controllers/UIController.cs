@@ -28,7 +28,7 @@ public class UIController : Singleton<UIController>
     private AudioManager audioManager;
     private MeshCombiner meshCombiner;
 
-    public enum PanelTypes { NONE, MAIN_MENU, RESULTS, PLAY_LEVEL }
+    public enum PanelTypes { NONE, MAIN_MENU, RESULTS, PLAY_LEVEL, SETTINGS }
     private PanelTypes activePanel;
 
     private const float FADESPEED = 0.25f;
@@ -52,6 +52,7 @@ public class UIController : Singleton<UIController>
 
         // Start main menu enabled
         fader_mainMenu.FadeIn(0f);
+        HideSettingsButton();
         HideMapButton();
     }
 
@@ -79,14 +80,14 @@ public class UIController : Singleton<UIController>
     private void OnGameStarted()
     {
         ShowHUD();
-        ShowMapButton();
+        ShowSettingsButton();
         RechargeHint(0f);        
     }
 
     private void OnGameEnded(GameController.EndGameTypes _type)
     {
         StopAllCoroutines();
-        HideMapButton();
+        HideSettingsButton();
         HideHUD();
         ClearHint();
         ShowPanel(PanelTypes.RESULTS, _type);
@@ -119,7 +120,11 @@ public class UIController : Singleton<UIController>
                 break;
 
             case PanelTypes.PLAY_LEVEL:
-                ShowPlayLevel();
+                ShowPanelPlayLevel();
+                break;
+
+            case PanelTypes.SETTINGS:
+                ShowPanelSettings();
                 break;
 
             default:
@@ -141,7 +146,11 @@ public class UIController : Singleton<UIController>
                 break;
 
             case PanelTypes.PLAY_LEVEL:
-                HidePlayLevel();
+                HidePanelPlayLevel();
+                break;
+
+            case PanelTypes.SETTINGS:
+                HidePanelSettings();
                 break;
 
             default:
@@ -291,18 +300,18 @@ public class UIController : Singleton<UIController>
     [SerializeField]
     private Text text_playLevel;
 
-    private void ShowPlayLevel()
+    private void ShowPanelPlayLevel()
     {
         buttonsController.DisableAllButtonsExcept(fader_playLevel.transform);
         text_playLevel.text = "Level " + (levelsController.CurrentLevel);
         fader_playLevel.FadeIn(FADESPEED);
     }
 
-    private void HidePlayLevel()
+    private void HidePanelPlayLevel()
     {
         fader_playLevel.FadeOut(FADESPEED);
     }
-
+    
     public void OnPlayLevelClicked()
     {
         HideActivePanel();
@@ -312,17 +321,73 @@ public class UIController : Singleton<UIController>
     #endregion
 
 
+    #region SETTINGS
+    [SerializeField]
+    private CanvasFader fader_settings;
+    [SerializeField]
+    private GameObject button_settings;
+
+    public void OnSettingsButtonClicked()
+    {
+        ShowPanel(PanelTypes.SETTINGS);
+    }
+
+    private void ShowPanelSettings()
+    {
+        if (!MapsController.Instance.IsMapShowing)
+            gameController.PauseGame();
+
+        buttonsController.DisableAllButtonsExcept(fader_settings.transform);
+        fader_settings.FadeIn(FADESPEED);
+    }
+
+    private void HidePanelSettings()
+    {
+        if(!MapsController.Instance.IsMapShowing)
+            gameController.UnpauseGame();
+
+        fader_settings.FadeOut(FADESPEED);
+    }
+
+    public void ShowSettingsButton()
+    {
+        button_settings.SetActive(true);
+    }
+
+    public void HideSettingsButton()
+    {
+        button_settings.SetActive(false);
+    }
+
+    public void OnToggleMusic()
+    {
+        
+    }
+    #endregion
+
+
     #region SHOW/HIDE MAP
     [SerializeField]
-    private GameObject button_map;
+    private GameObject button_closeMap;
     public void ShowMapButton()
     {
-        button_map.SetActive(true);
+        button_closeMap.SetActive(true);
     }
 
     public void HideMapButton()
     {
-        button_map.SetActive(false);
+        button_closeMap.SetActive(false);
+    }
+
+    public void OnMapShowButtonClicked()
+    {
+        gameController.ShowMap(false);        
+    }
+
+    public void OnMapHideButtonClicked()
+    {
+        HideMapButton();
+        gameController.HideMap();
     }
     #endregion
 

@@ -15,10 +15,12 @@ public class TutorialsController : Singleton<TutorialsController>
     public bool IsActive { get; private set; }
     public bool IsFading { get; private set; }
 
+    private UIController uiContronller;
     private ButtonsController buttonsController;
 
     private void Start()
     {
+        uiContronller = UIController.Instance;
         buttonsController = ButtonsController.Instance;
         IsCompleted = new bool[faders.Length];
     }
@@ -71,7 +73,8 @@ public class TutorialsController : Singleton<TutorialsController>
             }
             return;
         }
-        
+
+        uiContronller.HideActivePanel();
         buttonsController.DisableAllButtons();
         StopAllCoroutines();
         StartCoroutine(ShowTutorialCR(index));
