@@ -2,12 +2,9 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Events;
 
 public class UIController : Singleton<UIController>
 {    
-    [SerializeField]
-    private CanvasFader fader_logo;
     [SerializeField]
     private Text text_console;
     [SerializeField]
@@ -52,20 +49,6 @@ public class UIController : Singleton<UIController>
         color_hintFilled.a = 1f;
 
         TutorialsController.Instance.ShowTutorial(0);
-        ShowLogo();
-    }
-
-    private void ShowLogo()
-    {
-        StartCoroutine(ShowLogoCR());
-    }
-
-    private IEnumerator ShowLogoCR()
-    {
-        yield return null;
-        fader_logo.FadeIn(0f);
-        yield return new WaitForSeconds(2.5f);
-        fader_logo.FadeOut(0.5f);
     }
 
     void OnEnable()
