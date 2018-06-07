@@ -1,14 +1,29 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public struct ScoreMap
+{
+    public int Level;
+    public List<int> HighScores;
+}
 
 public class ScoreController : Singleton<ScoreController>
-{
+{    
+    // Store high scores for each level independently of maps
+    // Key: MapIndex        Value: Level, Highscore
+    //private Dictionary<int , Dictionary<int, int>> Scores;   
+    //public Dictionary<int, int> HighScores;
+
     public int HighScore { get; private set; }
     public int CurrentScore { get; private set; }
 
+    private TimerController timerController;
     private ModelsController modelsController;
 
     void Start()
     {
+        timerController = TimerController.Instance;
         modelsController = ModelsController.Instance;
         HighScore = 0;
         CurrentScore = 0;
@@ -33,13 +48,17 @@ public class ScoreController : Singleton<ScoreController>
 
     private void OnGameEnded(GameController.EndGameTypes _endGameType)
     {
-        if(_endGameType == GameController.EndGameTypes.WIN)
+        if (_endGameType == GameController.EndGameTypes.WIN)
+        {            
+            CalculateScore();
             SaveScore();
+        }
     }
 
-    public void AddScore(int _points)
+    private void CalculateScore()
     {
-        CurrentScore += _points;
+        CurrentScore = (int)timerController.TimeLeft * 10;
+        //print(CurrentScore);
     }
 
     public void SaveScore()

@@ -15,6 +15,8 @@ public class MapsController : Singleton<MapsController>
     private int currentIndex;
     private GameObject currentMap;
 
+    public bool IsMapShowing { get; private set; }
+
     void Start()
     {
         // Default current map to 0
@@ -53,9 +55,11 @@ public class MapsController : Singleton<MapsController>
         follower = currentMap.GetComponentInChildren<SplineFollower>();
     }
 
+    // Do not call this function: Call GameController.ShowMap() instead to hide plate
     public void ShowMap()
     {
         currentMap.SetActive(true);
+        IsMapShowing = true;
     }
 
     public void ShowMapAndAnimateCharacter(float _delay)
@@ -70,8 +74,10 @@ public class MapsController : Singleton<MapsController>
         character.Play();
     }
 
+    // Do not call this function: Call GameController.HideMap() instead to hide plate
     public void HideMap()
     {
         currentMap.SetActive(false);
+        IsMapShowing = false;
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,13 +28,16 @@ public class TimerController : Singleton<TimerController>
     {
         GameController.OnGameStarted += OnGameStarted;
         GameController.OnGameEnded += OnGameEnded;
+        GameController.OnGamePaused += OnGamePaused;
+        GameController.OnGameUnpaused += OnGameUnpaused;
     }
 
     void OnDisable()
     {
-
         GameController.OnGameStarted -= OnGameStarted;
         GameController.OnGameEnded -= OnGameEnded;
+        GameController.OnGamePaused -= OnGamePaused;
+        GameController.OnGameUnpaused -= OnGameUnpaused;
     }
 
     private void OnGameStarted()
@@ -46,6 +50,16 @@ public class TimerController : Singleton<TimerController>
         StopTimer();
     }
 
+    private void OnGamePaused()
+    {
+        panel_timer.SetActive(false);
+    }
+
+    private void OnGameUnpaused()
+    {
+        panel_timer.SetActive(true);
+    }
+
     public void StartTimer()
     {
         if (CR_Timer != null)
@@ -56,6 +70,7 @@ public class TimerController : Singleton<TimerController>
 
     private IEnumerator StartTimerCR()
     {
+        Clear();
         panel_timer.SetActive(true);
         SetTimerText(TimeTotal);
 
@@ -64,9 +79,12 @@ public class TimerController : Singleton<TimerController>
 
         while (TimeLeft > 0)
         {
-            TimeLeft -= Time.deltaTime;
-            SetTimerText(TimeLeft);
-            image_timer.fillAmount = (TimeLeft / TimeTotal);
+            if (!gameController.IsGamePaused)
+            {
+                TimeLeft -= Time.deltaTime;
+                SetTimerText(TimeLeft);
+                image_timer.fillAmount = (TimeLeft / TimeTotal);
+            }
             yield return null;
         }
 
@@ -86,9 +104,12 @@ public class TimerController : Singleton<TimerController>
         {
             StopCoroutine(CR_Timer);
             CR_Timer = null;
-        }
+        }        
+        panel_timer.SetActive(false);        
+    }
 
-        panel_timer.SetActive(false);
+    private void Clear()
+    {
         TimeLeft = 0;
         image_timer.fillAmount = 0f;
         text_timer.text = "";

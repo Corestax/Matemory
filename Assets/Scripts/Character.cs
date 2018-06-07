@@ -7,11 +7,15 @@ public class Character : MonoBehaviour
 {
     private UIController uiController;
     private SplineFollower follower;
-    private 
+    private Collider collider;
+
     void Start ()
     {
         uiController = UIController.Instance;
         follower = GetComponent<SplineFollower>();
+        collider = GetComponent<Collider>();
+
+        collider.enabled = false;
     }
 	
 	void Update ()
@@ -28,11 +32,13 @@ public class Character : MonoBehaviour
     public void Play()
     {
         follower.autoFollow = true;
+        collider.enabled = true;
     }
 
     public void Stop()
     {
-        follower.autoFollow = false;        
+        follower.autoFollow = false;
+        collider.enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)

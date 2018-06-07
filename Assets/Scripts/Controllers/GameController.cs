@@ -31,11 +31,14 @@ public class GameController : Singleton<GameController>
     [SerializeField]
     private GameObject Plate;
 
+    public bool IsGamePaused { get; private set; }
     public bool IsGameRunning { get; private set; }
     public bool EnableAR { get { return enableAR; } }
 
     public static event Action OnGameStarted;
     public static event Action<EndGameTypes> OnGameEnded;
+    public static event Action OnGamePaused;
+    public static event Action OnGameUnpaused;
 
     private Touch touch;
     private MapsController mapsController;
@@ -80,20 +83,34 @@ public class GameController : Singleton<GameController>
     void Update()
     {
         DragItem();
-    }
-
+    }    
 
     #region SHOW/HIDE MAP
+    public void ToggleMap()
+    {
+        if (mapsController.IsMapShowing)
+            HideMap();
+        else
+            ShowMap(false);
+    }
+
     public void ShowMap(bool _animateCharacter)
     {
         Plate.SetActive(false);
-        mapsController.ShowMapAndAnimateCharacter(2.0f);
+        if (_animateCharacter)
+            mapsController.ShowMapAndAnimateCharacter(2.0f);
+        else
+            mapsController.ShowMap();
+
+        PauseGame();
     }
 
     public void HideMap()
     {
         mapsController.HideMap();
         Plate.SetActive(true);
+
+        UnpauseGame();
     }
     #endregion
 
@@ -237,5 +254,22 @@ public class GameController : Singleton<GameController>
         if (OnGameEnded != null)
             OnGameEnded(_type);
     }
-#endregion
+    #endregion
+
+
+    #region PAUSE/UNPAUSE GAME
+    public void PauseGame()
+    {
+        IsGamePaused = true;
+        if (OnGamePaused != null)
+            OnGamePaused();
+    }
+
+    public void UnpauseGame()
+    {
+        IsGamePaused = false;
+        if (OnGameUnpaused != null)
+            OnGameUnpaused();
+    }
+    #endregion
 }

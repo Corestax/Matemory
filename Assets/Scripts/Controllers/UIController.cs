@@ -16,6 +16,8 @@ public class UIController : Singleton<UIController>
     [SerializeField]
     private GameObject buttons_rotatePlatform;
     [SerializeField]
+    private GameObject buttons_top;
+    [SerializeField]
     private Image image_corrector;
 
     private GameController gameController;
@@ -56,8 +58,10 @@ public class UIController : Singleton<UIController>
     {
         GameController.OnGameStarted += OnGameStarted;
         GameController.OnGameEnded += OnGameEnded;
-        ARCoreController.OnTrackingActive += ShowUI;
-        ARCoreController.OnTrackingLost += HideUI;
+        GameController.OnGamePaused += OnGamePaused;
+        GameController.OnGameUnpaused += OnGameUnpaused;
+        ARCoreController.OnTrackingActive += ShowHUD;
+        ARCoreController.OnTrackingLost += HideHUD;
     }
 
     void OnDisable()
@@ -65,37 +69,44 @@ public class UIController : Singleton<UIController>
 
         GameController.OnGameStarted -= OnGameStarted;
         GameController.OnGameEnded -= OnGameEnded;
-        ARCoreController.OnTrackingActive -= ShowUI;
-        ARCoreController.OnTrackingLost -= HideUI;
-    }
+        GameController.OnGamePaused -= OnGamePaused;
+        GameController.OnGameUnpaused -= OnGameUnpaused;
+        ARCoreController.OnTrackingActive -= ShowHUD;
+        ARCoreController.OnTrackingLost -= HideHUD;
+    }    
 
     private void OnGameStarted()
     {
-        ShowUI();
+        ShowHUD();
         RechargeHint(0f);        
     }
 
     private void OnGameEnded(GameController.EndGameTypes _type)
     {
         StopAllCoroutines();
-        HideUI();
+        HideHUD();
         ClearHint();
         ShowPanel(PanelTypes.RESULTS, _type);
+    }
+
+    private void OnGamePaused()
+    {
+        HideHUD();        
+    }
+
+    private void OnGameUnpaused()
+    {
+        ShowHUD();
     }
 
     public void ShowPanel(PanelTypes panel, GameController.EndGameTypes _type = GameController.EndGameTypes.NONE)
     {
         // Hide last active panel
-        HidePanel(activePanel);
+        HideActivePanel();
 
         // Show new panel        
         switch (panel)
         {
-            case PanelTypes.NONE:
-                if(activePanel != PanelTypes.NONE)
-                    HidePanel(activePanel);
-                break;
-
             case PanelTypes.MAIN_MENU:
                 ShowPanelMainMenu();
                 break;
@@ -137,6 +148,10 @@ public class UIController : Singleton<UIController>
         buttonsController.EnableAllButtons();
     }
 
+    public void HideActivePanel()
+    {
+        HidePanel(activePanel);
+    }
 
     #region MAIN MENU
     [SerializeField]
@@ -195,18 +210,18 @@ public class UIController : Singleton<UIController>
             audioManager.PlaySound(audioManager.audio_win);
             text_results.text = "COMPLETE!";
 
-            float percentUsed = (timeController.TimeLeft / timeController.TimeTotal) * 100f;            
+            float percent = (timeController.TimeLeft / timeController.TimeTotal) * 100f;            
 
             int starCount = 0;
-            // 1 Star
-            if (percentUsed >= 80.0f)
-                starCount = 1;
-            // 2 Stars
-            else if (percentUsed >= 60.0f)
-                starCount = 2;
             // 3 Stars
-            else
+            if (percent >= 80.0f)
                 starCount = 3;
+            // 2 Stars
+            else if (percent >= 60.0f)
+                starCount = 2;
+            // 1 Star
+            else
+                starCount = 1;
 
             // Star alpha color
             Color startColor = images_starFill[0].color;
@@ -248,7 +263,7 @@ public class UIController : Singleton<UIController>
 
     public void OnResultsNextClicked()
     {
-        HidePanel(activePanel);
+        HideActivePanel();
         gameController.ShowMap(true);
     }    
 
@@ -285,29 +300,31 @@ public class UIController : Singleton<UIController>
 
     public void OnPlayLevelClicked()
     {
-        HidePanel(activePanel);
+        HideActivePanel();
         gameController.HideMap();
         levelsController.LoadLevel();
     }
     #endregion
 
 
-    private void ShowUI()
+    public void ShowHUD()
     {
         if (!gameController.IsGameRunning)
             return;
 
+        buttons_top.SetActive(true);
         buttons_zoom.SetActive(true);
         buttons_rotatePlatform.SetActive(true);
         if (gameController.EnableAR)
             text_pinchZoom.gameObject.SetActive(true);
     }
 
-    private void HideUI()
-    {        
-        HidePanel(activePanel);
+    public void HideHUD()
+    {
+        HideActivePanel();
         HideCorrector();
 
+        buttons_top.SetActive(false);
         buttons_zoom.SetActive(false);
         buttons_rotatePlatform.SetActive(false);
         if (gameController.EnableAR)
