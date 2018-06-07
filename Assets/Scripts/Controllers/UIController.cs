@@ -7,8 +7,6 @@ using UnityEngine.Events;
 public class UIController : Singleton<UIController>
 {    
     [SerializeField]
-    private CanvasFader fader_models;
-    [SerializeField]
     private CanvasFader fader_logo;
     [SerializeField]
     private Text text_console;
@@ -22,8 +20,6 @@ public class UIController : Singleton<UIController>
     private GameObject buttons_rotatePlatform;
     [SerializeField]
     private Image image_corrector;
-    [SerializeField]
-    private GameObject go_newGameButton;
 
     private GameController gameController;
     private ModelsController modelsController;
@@ -33,7 +29,7 @@ public class UIController : Singleton<UIController>
     private AudioManager audioManager;
     private MeshCombiner meshCombiner;
 
-    public enum PanelTypes { NONE, MODELS, RESULTS, PLAY_LEVEL }
+    public enum PanelTypes { NONE, RESULTS, PLAY_LEVEL }
     private PanelTypes activePanel;
 
     private const float FADESPEED = 0.25f;
@@ -57,11 +53,6 @@ public class UIController : Singleton<UIController>
 
         TutorialsController.Instance.ShowTutorial(0);
         ShowLogo();
-
-        // Disable new game button if level system is enabled
-        // NOTE: This is only used for demo purposes, remove later
-        //if (gameController.EnableLevels)
-        //    go_newGameButton.SetActive(false);
     }
 
     private void ShowLogo()
@@ -107,12 +98,6 @@ public class UIController : Singleton<UIController>
         ClearHint();
         ShowPanel(PanelTypes.RESULTS, _type);
     }
-    
-    public void OnNewGameClicked()
-    {
-        go_newGameButton.SetActive(false);
-        levelsController.LoadNextLevel();
-    }
 
     public void ShowPanel(PanelTypes panel, GameController.EndGameTypes _type = GameController.EndGameTypes.NONE)
     {
@@ -125,10 +110,6 @@ public class UIController : Singleton<UIController>
             case PanelTypes.NONE:
                 if(activePanel != PanelTypes.NONE)
                     HidePanel(activePanel);
-                break;
-
-            case PanelTypes.MODELS:
-                ShowPanelModels();                
                 break;
 
             case PanelTypes.RESULTS:
@@ -149,10 +130,6 @@ public class UIController : Singleton<UIController>
     {        
         switch (panel)
         {
-            case PanelTypes.MODELS:
-                HidePanelModels();
-                break;
-
             case PanelTypes.RESULTS:
                 HidePanelResults();
                 break;
@@ -167,45 +144,6 @@ public class UIController : Singleton<UIController>
         activePanel = PanelTypes.NONE;
         buttonsController.EnableAllButtons();
     }
-
-
-    #region PANEL MODELS
-    public void OnClosePanelModelsClicked()
-    {
-        HidePanel(PanelTypes.MODELS);
-    } 
-
-    public void TogglePanelModels()
-    {
-        if (fader_models.Alpha == 0f)
-            ShowPanel(PanelTypes.MODELS);
-        else
-            HidePanel(PanelTypes.MODELS);
-    }
-
-    private void ShowPanelModels()
-    {
-        fader_models.FadeIn(FADESPEED);
-        buttonsController.DisableAllButtonsExcept(fader_models.transform);
-    }
-
-    private void HidePanelModels()
-    {
-        fader_models.FadeOut(FADESPEED);
-    }
-
-    public void OnLoadModelClicked(int index)
-    {
-        // Hide active panel
-        HidePanel(activePanel);
-
-        // Stop game
-        gameController.StopGame(GameController.EndGameTypes.NONE);
-
-        // Load new game
-        LevelsController.Instance.LoadLevel(index);
-    }
-    #endregion
 
 
     #region PANEL RESULTS    
@@ -276,6 +214,9 @@ public class UIController : Singleton<UIController>
                 audioManager.PlaySound(audioManager.audio_star);
                 yield return new WaitForSeconds(0.5f);
             }
+
+            // Save next level & load high score
+            levelsController.SaveLevel(levelsController.CurrentLevel + 1);            
         }
         // Lose scenario
         else if(_type == GameController.EndGameTypes.LOSE)
@@ -294,10 +235,7 @@ public class UIController : Singleton<UIController>
     public void OnResultsNextClicked()
     {
         HidePanel(activePanel);
-        if(gameController.EnableLevels)
-            gameController.ShowMap(true);
-        else
-            ShowPanel(PanelTypes.MODELS);
+        gameController.ShowMap(true);
     }    
 
     private void ResetPanelResults()
@@ -322,7 +260,7 @@ public class UIController : Singleton<UIController>
 
     private void ShowPlayLevel()
     {
-        text_playLevel.text = "Level " + (levelsController.CurrentLevel + 1);
+        text_playLevel.text = "Level " + (levelsController.CurrentLevel);
         fader_playLevel.FadeIn(FADESPEED);
     }
 
@@ -335,7 +273,7 @@ public class UIController : Singleton<UIController>
     {
         HidePanel(activePanel);
         gameController.HideMap();
-        levelsController.LoadNextLevel();
+        levelsController.LoadLevel();
     }
     #endregion
 
@@ -508,5 +446,4 @@ public class UIController : Singleton<UIController>
     {
         image_corrector.gameObject.SetActive(false);
     }
-
 }

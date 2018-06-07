@@ -29,7 +29,7 @@ public class LevelsController : Singleton<LevelsController>
         {
             string name = item.Type.ToString();
             Levels.Add(item.Level, item.Type);
-        }        
+        }
     }
 
     #region LOAD LEVEL
@@ -47,12 +47,8 @@ public class LevelsController : Singleton<LevelsController>
         LoadLevel(1);
     }
 
-    public void LoadNextLevel()
+    public void LoadLevel()
     {
-        if (CurrentLevel-1 >= Levels.Count)
-            return;
-
-        CurrentLevel++;
         LoadLevel(CurrentLevel);
     }
 
@@ -61,8 +57,9 @@ public class LevelsController : Singleton<LevelsController>
         if (level-1 >= Levels.Count)
             return;
 
-        SaveLevel(level);
+        // Update level & high score
         CurrentLevel = level;
+        ScoreController.Instance.LoadHighScore();
 
         // Spawn model
         ModelsController.ModelTypes type = Levels[level];
@@ -71,14 +68,20 @@ public class LevelsController : Singleton<LevelsController>
     #endregion
 
 
-    #region PLAYERPREFS
-    private void SaveLevel(int level)
+    #region PLAYERPREFS    
+    public void SaveLevel(int level)
     {
+        // Save current level
         PlayerPrefs.SetInt("Level", level);
+        
+        // Update level & high score
+        CurrentLevel = level;
+        ScoreController.Instance.LoadHighScore();
     }
 
     private int GetSavedLevel()
     {
+        // Retrieve last saved level
         if (PlayerPrefs.HasKey("Level"))
             return PlayerPrefs.GetInt("Level");
         else

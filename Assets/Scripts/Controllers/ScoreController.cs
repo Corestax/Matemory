@@ -10,8 +10,7 @@ public class ScoreController : Singleton<ScoreController>
     void Start()
     {
         modelsController = ModelsController.Instance;
-
-        HighScore = PlayerPrefs.GetInt("HighScore");
+        HighScore = 0;
         CurrentScore = 0;
     }
 
@@ -38,20 +37,32 @@ public class ScoreController : Singleton<ScoreController>
             SaveScore();
     }
 
-    public void SaveScore()
-    {
-        // New high score
-        if (CurrentScore > HighScore)
-        {
-            string modelType = modelsController.ActiveModelType.ToString();
-            PlayerPrefs.SetInt("HighScore_" + modelType, CurrentScore);
-            HighScore = CurrentScore;
-            print("New high score!");
-        }
-    }
-
     public void AddScore(int _points)
     {
         CurrentScore += _points;
+    }
+
+    public void SaveScore()
+    {
+        // Save new high score for current level
+        if (CurrentScore > HighScore)
+        {
+            int level = LevelsController.Instance.CurrentLevel;
+            PlayerPrefs.SetInt("HighScore_" + level, CurrentScore);
+            HighScore = CurrentScore;
+            print("New high score for level " + level + ": " + HighScore);
+        }
+    }
+
+    public void LoadHighScore()
+    {
+        // Retrieve last saved score for current level
+        HighScore = 0;
+        int level = LevelsController.Instance.CurrentLevel;
+        if (PlayerPrefs.HasKey("HighScore_" + level))
+        {
+            HighScore = PlayerPrefs.GetInt("HighScore_" + level);
+            print("Loaded previously saved score for level " + level + ": " + HighScore);
+        }
     }
 }

@@ -12,7 +12,6 @@ public class GameController : Singleton<GameController>
 {
     public enum EndGameTypes { NONE, WIN, LOSE }
 
-    public bool EnableLevels;
     [SerializeField]
     private bool enableAR;
     [SerializeField]
@@ -102,6 +101,8 @@ public class GameController : Singleton<GameController>
     #region DEBUG BUTTON CLICKS
     public void Restart()
     {
+        // Delete playerprefs all just for Demo purposes
+        PlayerPrefs.DeleteAll();
         SceneManager.LoadScene(0);
     }
     #endregion

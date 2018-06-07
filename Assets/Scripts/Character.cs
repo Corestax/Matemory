@@ -41,7 +41,7 @@ public class Character : MonoBehaviour
         {
             // If character has moved to next level
             var targetPoint = other.GetComponent<TargetPoint>();
-            if (targetPoint.Level == LevelsController.Instance.CurrentLevel+1)
+            if (targetPoint.Level == LevelsController.Instance.CurrentLevel)
             {
                 Stop();
                 ShowPanelPlayLevel(1f);

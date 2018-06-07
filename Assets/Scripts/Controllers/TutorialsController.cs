@@ -37,7 +37,7 @@ public class TutorialsController : Singleton<TutorialsController>
     {
         currentIndex = -1;
         StopAllCoroutines();
-        HideActiveTutorial();
+        StartCoroutine(HideActiveTutorialCR());
     }
 
     public void ShowTutorial(int index)
@@ -84,7 +84,7 @@ public class TutorialsController : Singleton<TutorialsController>
         IsCompleted[index] = true;
 
         // Fade out previous tutorial
-        yield return StartCoroutine(HideActiveTutorial());
+        yield return StartCoroutine(HideActiveTutorialCR());
 
         // Fade in next tutorial
         currentIndex = index;
@@ -94,7 +94,7 @@ public class TutorialsController : Singleton<TutorialsController>
         IsFading = false;        
     }
 
-    private IEnumerator HideActiveTutorial()
+    private IEnumerator HideActiveTutorialCR()
     {
         if (currentIndex != -1)
         {            
@@ -113,14 +113,16 @@ public class TutorialsController : Singleton<TutorialsController>
 
     private IEnumerator OnNextClickedCR()
     {
-        yield return StartCoroutine(HideActiveTutorial());
+        yield return StartCoroutine(HideActiveTutorialCR());
         buttonsController.EnableAllButtons();
         IsActive = false;
 
         // Place platform
         if (currentIndex == 0)
         {
-
+#if UNITY_EDITOR
+            LevelsController.Instance.LoadLastSavedLevel();
+#endif
         }
         // Memorize
         else if (currentIndex == 1)

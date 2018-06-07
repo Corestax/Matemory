@@ -46,12 +46,6 @@ public class MapsController : Singleton<MapsController>
             m.SetActive(false);
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-            character.Play();
-    }
-
     public void SetMap(int _mapIndex)
     {
         currentIndex = _mapIndex;

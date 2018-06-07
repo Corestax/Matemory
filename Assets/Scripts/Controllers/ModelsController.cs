@@ -73,7 +73,7 @@ public class ModelsController : Singleton<ModelsController>
     }
 
     public void Spawn(ModelTypes _type)
-    {        
+    {
         TutorialsController.Instance.ShowTutorial(1);
         //uiController.ShowStatusText("You have " + timeToMemorize + " seconds to memorize the pieces!", uiController.Color_statusText, timeToMemorize);
         //platform.RotatePlatform(Explode, time_rotatePlatform, _newGame);
