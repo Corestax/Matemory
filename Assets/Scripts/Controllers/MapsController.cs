@@ -5,8 +5,8 @@ using Dreamteck.Splines;
 public class MapsController : Singleton<MapsController>
 {
     [SerializeField]
-    private GameObject[] Maps;
-        
+    private GameObject[] Maps;    
+
     private SplineComputer splineComputer;
     private SplineFollower follower;
     private Character character;
@@ -69,7 +69,7 @@ public class MapsController : Singleton<MapsController>
 
     private IEnumerator ShowMapAndAnimateCharacterCR(float _delay)
     {
-        ShowMap();
+        ShowMap();        
         yield return new WaitForSeconds(_delay);
         character.Play();
     }

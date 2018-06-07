@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ModelsController : Singleton<ModelsController>
 {
-    public enum ModelTypes { NONE, BUTTERFLY = 1, GIRAFFE = 100, LIZARD = 200, SPACESHIP = 300 }
+    public enum ModelTypes { NONE, ANT = 100, BIRD = 200, BUTTERFLY = 300, CAT = 400, GIRAFFE = 500, LIZARD = 600, RABBIT = 700, SEMI_TRUCK = 800, SPACESHIP = 900, SQUID = 1000, TURTLE = 1100 }
 
     [Serializable]
     public struct Model
@@ -34,7 +34,7 @@ public class ModelsController : Singleton<ModelsController>
     private float time_beforeExplosion;
     private float time_afterExplosion;
     private float timeToMemorize;
-    
+
     void Start()
     {
         fruitsController = FruitsController.Instance;
@@ -109,12 +109,12 @@ public class ModelsController : Singleton<ModelsController>
         DestroyImmediate(ActiveModel);
         ActiveModelType = ModelTypes.NONE;
     }
-    
+
     private void Explode(bool startGame)
     {
         StopExplode();
         CR_Explode = StartCoroutine(ExplodeCR(startGame));
-    }    
+    }
 
     private IEnumerator ExplodeCR(bool startGame)
     {

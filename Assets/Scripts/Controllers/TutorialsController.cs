@@ -130,18 +130,8 @@ public class TutorialsController : Singleton<TutorialsController>
             ModelsController.Instance.RotatePlatformAndExplode();
             ShowCountdown();
         }
-        // Pinch zoom
-        else if (currentIndex == 2)
-        {
-            ShowTutorial(3);
-        }
-        // Spin
-        else if (currentIndex == 3)
-        {
-            ShowTutorial(4);
-        }
         // Drag fruit
-        else if (currentIndex == 4)
+        else if (currentIndex == 2)
         {
             GameController.Instance.StartGame();
         }

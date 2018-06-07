@@ -41,6 +41,7 @@ public class GameController : Singleton<GameController>
     public static event Action OnGameUnpaused;
 
     private Touch touch;
+    private UIController uiController;
     private MapsController mapsController;
     private RoomController roomController;
     private FruitRotatorController fruitRotatorController;
@@ -48,6 +49,7 @@ public class GameController : Singleton<GameController>
 
     void Start()
     {
+        uiController = UIController.Instance;
         mapsController = MapsController.Instance;
         roomController = RoomController.Instance;
         fruitRotatorController = FruitRotatorController.Instance;
@@ -83,7 +85,7 @@ public class GameController : Singleton<GameController>
     void Update()
     {
         DragItem();
-    }    
+    }
 
     #region SHOW/HIDE MAP
     public void ToggleMap()
@@ -98,16 +100,22 @@ public class GameController : Singleton<GameController>
     {
         Plate.SetActive(false);
         if (_animateCharacter)
+        {
+            uiController.HideMapButton();
             mapsController.ShowMapAndAnimateCharacter(2.0f);
+        }
         else
+        {
+            uiController.ShowMapButton();
             mapsController.ShowMap();
+        }
 
         PauseGame();
     }
 
     public void HideMap()
     {
-        mapsController.HideMap();
+        mapsController.HideMap();        
         Plate.SetActive(true);
 
         UnpauseGame();

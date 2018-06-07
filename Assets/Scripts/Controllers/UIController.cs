@@ -52,6 +52,7 @@ public class UIController : Singleton<UIController>
 
         // Start main menu enabled
         fader_mainMenu.FadeIn(0f);
+        HideMapButton();
     }
 
     void OnEnable()
@@ -78,12 +79,14 @@ public class UIController : Singleton<UIController>
     private void OnGameStarted()
     {
         ShowHUD();
+        ShowMapButton();
         RechargeHint(0f);        
     }
 
     private void OnGameEnded(GameController.EndGameTypes _type)
     {
         StopAllCoroutines();
+        HideMapButton();
         HideHUD();
         ClearHint();
         ShowPanel(PanelTypes.RESULTS, _type);
@@ -159,6 +162,7 @@ public class UIController : Singleton<UIController>
 
     private void ShowPanelMainMenu()
     {
+        buttonsController.DisableAllButtonsExcept(fader_mainMenu.transform);
         fader_mainMenu.FadeIn(FADESPEED);
     }
 
@@ -266,7 +270,7 @@ public class UIController : Singleton<UIController>
         HideActivePanel();
         gameController.ShowMap(true);
     }    
-
+    
     private void ResetPanelResults()
     {
         // Hide next button
@@ -289,6 +293,7 @@ public class UIController : Singleton<UIController>
 
     private void ShowPlayLevel()
     {
+        buttonsController.DisableAllButtonsExcept(fader_playLevel.transform);
         text_playLevel.text = "Level " + (levelsController.CurrentLevel);
         fader_playLevel.FadeIn(FADESPEED);
     }
@@ -307,6 +312,21 @@ public class UIController : Singleton<UIController>
     #endregion
 
 
+    #region SHOW/HIDE MAP
+    [SerializeField]
+    private GameObject button_map;
+    public void ShowMapButton()
+    {
+        button_map.SetActive(true);
+    }
+
+    public void HideMapButton()
+    {
+        button_map.SetActive(false);
+    }
+    #endregion
+
+
     public void ShowHUD()
     {
         if (!gameController.IsGameRunning)
@@ -321,7 +341,7 @@ public class UIController : Singleton<UIController>
 
     public void HideHUD()
     {
-        HideActivePanel();
+        HideActivePanel();        
         HideCorrector();
 
         buttons_top.SetActive(false);
