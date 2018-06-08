@@ -76,13 +76,22 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
 
     public void AddScoreToLeaderboard(int level, int score)
     {
+        LeaderboardIdByLevel lId;
+
         if (!Authenticated)
             return;
 
         if (!Enum.IsDefined(typeof(LeaderboardIdByLevel), level))
             return;
 
-        LeaderboardIdByLevel lId = (LeaderboardIdByLevel)level;
+        try
+        {
+            lId = GetLevelId(level);
+        }
+        catch (Exception e)
+        {
+            return;
+        }
 
         Social.ReportScore(score, lId.ToString(), (bool success) => {
             Debug.Log("Score updated");
@@ -93,6 +102,34 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
     {
         if (Authenticated)
             Social.ShowLeaderboardUI();
+    }
+
+    public void GetHighestUserScore(int level, Action<int> callback = null)
+    {
+        LeaderboardIdByLevel levelId;
+
+        try
+        {
+            levelId = GetLevelId(level);
+        } catch (Exception e)
+        {
+            Debug.LogWarning(e.Message);
+
+            callback(0);
+            return;
+        }
+
+        PlayGamesPlatform.Instance.LoadScores(
+            levelId.ToString(),
+            LeaderboardStart.PlayerCentered,
+            1,
+            LeaderboardCollection.Public,
+            LeaderboardTimeSpan.AllTime,
+        (LeaderboardScoreData data) =>
+        {
+            if (callback != null)
+                callback((int)data.PlayerScore.value);
+        });
     }
 
     public bool Authenticating
@@ -109,5 +146,15 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
         {
             return Social.Active.localUser.authenticated;
         }
+    }
+
+    private LeaderboardIdByLevel GetLevelId(int level)
+    {
+        if (!Enum.IsDefined(typeof(LeaderboardIdByLevel), level))
+            throw new Exception("Wrong level");
+
+        LeaderboardIdByLevel lId = (LeaderboardIdByLevel)level;
+
+        return lId;
     }
 }
