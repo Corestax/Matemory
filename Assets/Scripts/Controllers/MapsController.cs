@@ -81,7 +81,6 @@ public class MapsController : Singleton<MapsController>
                             // If character needs to move
                             if (selectedLevel != levelsController.CurrentLevel)
                             {
-                                print("Allowed!");
                                 levelsController.CurrentLevel = selectedLevel;
                                 SetCharacterPosition(selectedLevel);
                                 UIController.Instance.ShowPanel(UIController.PanelTypes.PLAY_LEVEL);
@@ -116,7 +115,6 @@ public class MapsController : Singleton<MapsController>
                                 // If character needs to move
                                 if (selectedLevel != levelsController.CurrentLevel)
                                 {
-                                    print("Allowed!");
                                     levelsController.CurrentLevel = selectedLevel;
                                     SetCharacterPosition(selectedLevel);
                                     UIController.Instance.ShowPanel(UIController.PanelTypes.PLAY_LEVEL);

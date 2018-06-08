@@ -70,6 +70,8 @@ public class AudioManager : Singleton<AudioManager>
         return false;
     }
 
+    public bool IsPlayingMusic { get { return audioSources[0].isPlaying; } }
+
     public void PlayMusic(AudioClip _clip, float _delay = 0)
     {
         audioSources[0].clip = _clip;
@@ -83,8 +85,18 @@ public class AudioManager : Singleton<AudioManager>
 
     public void StopMusic()
     {
-        audioSources[0].Stop();
+        audioSources[0].Stop();        
     }
+
+    public void PauseMusic()
+    {
+        audioSources[0].Pause();
+    }
+
+    public void UnpauseMusic()
+    {
+        audioSources[0].UnPause();
+    } 
 
     public void PlayCollisionSound()
     {

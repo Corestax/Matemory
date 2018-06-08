@@ -16358,6 +16358,7 @@ MonoBehaviour:
   text_playLevel: {fileID: 1364544300}
   fader_settings: {fileID: 745517599}
   button_settings: {fileID: 2041876492}
+  text_buttonMusic: {fileID: 1949433756}
   button_closeMap: {fileID: 933981737}
   image_hintFill: {fileID: 33455054}
   hintBlinkRate: 0.4

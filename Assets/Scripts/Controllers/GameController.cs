@@ -25,7 +25,7 @@ public class GameController : Singleton<GameController>
     [SerializeField]
     private Camera camAR;
     [SerializeField]
-    private PinchZoom pinchZoom;    
+    private PinchZoom pinchZoom;
     [SerializeField]
     private LayerMask layer_fruits;
     [SerializeField]
@@ -88,26 +88,28 @@ public class GameController : Singleton<GameController>
     }
 
     #region SHOW/HIDE MAP
-    public void ShowMap(bool _animateCharacter)
+    public void ShowMap(bool _animateCharacter, bool _showCloseMapButton)
     {
         Plate.SetActive(false);
+
+        // Animate character
         if (_animateCharacter)
-        {
-            uiController.HideMapButton();
             mapsController.ShowMapAndAnimateCharacter(2.0f);
-        }
         else
-        {
-            uiController.ShowMapButton();
             mapsController.ShowMap();
-        }
+
+        // Show map button
+        if (_showCloseMapButton)
+            uiController.ShowCloseMapButton();
+        else
+            uiController.HideCloseMapButton();
 
         PauseGame();
     }
 
     public void HideMap()
     {
-        mapsController.HideMap();        
+        mapsController.HideMap();
         Plate.SetActive(true);
 
         UnpauseGame();
@@ -169,7 +171,7 @@ public class GameController : Singleton<GameController>
                     Vector3 worldPos = Camera.main.ScreenToWorldPoint(touchPos) + vOffset;
 
                     // Drag object
-                    dragItem.position = worldPos;                    
+                    dragItem.position = worldPos;
                 }
             }
             else if (Input.GetMouseButtonUp(0))
@@ -181,7 +183,7 @@ public class GameController : Singleton<GameController>
         // Touch input
         else
         {
-            if(Input.touchCount > 0)
+            if (Input.touchCount > 0)
             {
                 touch = Input.GetTouch(0);
                 if (touch.phase == TouchPhase.Began)
@@ -223,19 +225,19 @@ public class GameController : Singleton<GameController>
             }
         }
     }
-#endregion
+    #endregion
 
 
-#region RESET     
+    #region RESET     
     private void ClearDrag()
     {
         fruitRotatorController.SetDropped();
         dragItem = null;
     }
-#endregion
-    
+    #endregion
 
-#region START/STOP GAME
+
+    #region START/STOP GAME
     public void StartGame()
     {
         if (IsGameRunning)
@@ -243,7 +245,7 @@ public class GameController : Singleton<GameController>
 
         IsGameRunning = true;
         if (OnGameStarted != null)
-            OnGameStarted();        
+            OnGameStarted();
     }
 
     public void StopGame(EndGameTypes _type)

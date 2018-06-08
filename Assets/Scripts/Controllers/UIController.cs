@@ -53,7 +53,9 @@ public class UIController : Singleton<UIController>
         // Start main menu enabled
         fader_mainMenu.FadeIn(0f);
         HideSettingsButton();
-        HideMapButton();
+        HideCloseMapButton();
+
+        LoadMusicSettings();
     }
 
     void OnEnable()
@@ -277,7 +279,13 @@ public class UIController : Singleton<UIController>
     public void OnResultsNextClicked()
     {
         HideActivePanel();
-        gameController.ShowMap(true);
+        //gameController.ShowMap(true, false);
+
+        // Show map: animate character if progressing to new level
+        if (levelsController.CurrentLevel == levelsController.HighestLevel)
+            gameController.ShowMap(true, false);
+        else
+            gameController.ShowMap(false, false);
     }    
     
     private void ResetPanelResults()
@@ -326,6 +334,8 @@ public class UIController : Singleton<UIController>
     private CanvasFader fader_settings;
     [SerializeField]
     private GameObject button_settings;
+    [SerializeField]
+    private Text text_buttonMusic;
 
     public void OnSettingsButtonClicked()
     {
@@ -358,35 +368,70 @@ public class UIController : Singleton<UIController>
     {
         button_settings.SetActive(false);
     }
+    #endregion
 
+
+    #region MUSIC
     public void OnToggleMusic()
     {
-        
+        if (audioManager.IsPlayingMusic)
+            PauseMusic();
+        else
+            UnpauseMusic();
     }
+
+    private void LoadMusicSettings()
+    {
+        if (PlayerPrefs.HasKey("Music"))
+        {
+            if (PlayerPrefs.GetInt("Music") == 0)
+                PauseMusic();
+            else if (PlayerPrefs.GetInt("Music") == 1)
+                UnpauseMusic();
+        }
+        else
+        {
+            audioManager.PlayMusic();
+        }
+    }
+
+    private void PauseMusic()
+    {
+        text_buttonMusic.text = "MUSIC OFF";
+        audioManager.PauseMusic();
+        PlayerPrefs.SetInt("Music", 0);
+    }
+
+    private void UnpauseMusic()
+    {
+        text_buttonMusic.text = "MUSIC ON";
+        audioManager.UnpauseMusic();
+        PlayerPrefs.SetInt("Music", 1);
+    }    
     #endregion
 
 
     #region SHOW/HIDE MAP
     [SerializeField]
     private GameObject button_closeMap;
-    public void ShowMapButton()
+    public void ShowCloseMapButton()
     {
         button_closeMap.SetActive(true);
     }
 
-    public void HideMapButton()
+    public void HideCloseMapButton()
     {
         button_closeMap.SetActive(false);
     }
 
     public void OnMapShowButtonClicked()
     {
-        gameController.ShowMap(false);        
+        gameController.ShowMap(false, true);        
     }
 
     public void OnMapHideButtonClicked()
     {
-        HideMapButton();
+        HideCloseMapButton();
         gameController.HideMap();
     }
     #endregion

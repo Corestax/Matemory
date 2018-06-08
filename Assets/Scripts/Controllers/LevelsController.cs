@@ -80,15 +80,15 @@ public class LevelsController : Singleton<LevelsController>
     #region PLAYERPREFS    
     public void SaveLevel(int level)
     {
-        // Save current level
-        PlayerPrefs.SetInt("Level", level);
-        
-        // Update level & high score
-        CurrentLevel = level;
+        if (level <= HighestLevel)
+            return;
 
-        // Save highest level
-        if (CurrentLevel > HighestLevel)
-            HighestLevel = CurrentLevel;
+        // Update levels
+        CurrentLevel = level;
+        HighestLevel = CurrentLevel;
+
+        // Save level
+        PlayerPrefs.SetInt("Level", level);
 
         ScoreController.Instance.LoadHighScore();
     }
