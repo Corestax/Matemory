@@ -4,11 +4,12 @@ using GooglePlayGames.BasicApi.SavedGame;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using GooglePlayGames.Native.Cwrapper;
 using UnityEngine;
 
 public class GoogleGameServicesController : Singleton<GoogleGameServicesController>
 {
-    private enum LeaderboardIdByLevel {
+    private enum GetLeaderboardIdByLevel {
         CgkIqqKPyKgOEAIQAQ = 1,
         CgkIqqKPyKgOEAIQAg = 2,
         CgkIqqKPyKgOEAIQAw = 3,
@@ -47,15 +48,15 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
             Debug.LogWarning("Ignoring repeated call to Authenticate().");
             return;
         }
-
+                
         PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
                 .EnableSavedGames()
-                .Build();
+                .Build();        
 
         PlayGamesPlatform.InitializeInstance(config);
-
+        
         PlayGamesPlatform.Activate();
-
+        
         mAuthenticating = true;
         Social.localUser.Authenticate((bool success) =>
         {
@@ -76,12 +77,12 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
 
     public void AddScoreToLeaderboard(int level, int score)
     {
-        LeaderboardIdByLevel lId;
+        GetLeaderboardIdByLevel lId;
 
         if (!Authenticated)
             return;
 
-        if (!Enum.IsDefined(typeof(LeaderboardIdByLevel), level))
+        if (!Enum.IsDefined(typeof(GetLeaderboardIdByLevel), level))
             return;
 
         try
@@ -105,8 +106,8 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
     }
 
     public void GetHighestUserScore(int level, Action<int> callback = null)
-    {
-        LeaderboardIdByLevel levelId;
+    {        
+        GetLeaderboardIdByLevel levelId;
 
         try
         {
@@ -115,7 +116,9 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
         {
             Debug.LogWarning(e.Message);
 
-            callback(0);
+            if (callback != null)
+                callback(0);
+            
             return;
         }
 
@@ -127,8 +130,13 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
             LeaderboardTimeSpan.AllTime,
         (LeaderboardScoreData data) =>
         {
+            int score = 0;
+            
+            if (data.PlayerScore != null)
+                score = (int) data.PlayerScore.value;
+
             if (callback != null)
-                callback((int)data.PlayerScore.value);
+                callback(score);
         });
     }
 
@@ -148,12 +156,12 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
         }
     }
 
-    private LeaderboardIdByLevel GetLevelId(int level)
+    private GetLeaderboardIdByLevel GetLevelId(int level)
     {
-        if (!Enum.IsDefined(typeof(LeaderboardIdByLevel), level))
+        if (!Enum.IsDefined(typeof(GetLeaderboardIdByLevel), level))
             throw new Exception("Wrong level");
 
-        LeaderboardIdByLevel lId = (LeaderboardIdByLevel)level;
+        GetLeaderboardIdByLevel lId = (GetLeaderboardIdByLevel)level;
 
         return lId;
     }
