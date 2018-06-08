@@ -32,7 +32,7 @@ public class ScoreController : Singleton<ScoreController>
     }
 
     private void OnEnable()
-    {
+    {        
         GameController.OnGameStarted += OnGameStarted;
         GameController.OnGameEnded += OnGameEnded;
     }
@@ -80,13 +80,27 @@ public class ScoreController : Singleton<ScoreController>
 
     public void LoadHighScore()
     {
-        // Retrieve last saved score for current level
         HighScore = 0;
         int level = LevelsController.Instance.CurrentLevel;
+        
+        // Retrieve last saved score for current level from PlayerPrefs
         if (PlayerPrefs.HasKey("HighScore_" + level))
         {
             HighScore = PlayerPrefs.GetInt("HighScore_" + level);
             print("Loaded previously saved score for level " + level + ": " + HighScore);
+        }
+        
+        // or leaderboard
+        else
+        {
+            googleGameServices.GetHighestUserScore(level, (score) =>
+            {
+                if (score == 0)
+                    return;
+                
+                HighScore = score;
+                PlayerPrefs.SetInt("HighScore_" + level, CurrentScore);
+            });
         }
     }
 }
