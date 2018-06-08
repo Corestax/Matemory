@@ -10509,7 +10509,7 @@ Transform:
   m_GameObject: {fileID: 1015936963981432}
   m_LocalRotation: {x: -0.05050007, y: -0, z: -0, w: 0.9987241}
   m_LocalPosition: {x: 0.0771, y: 0.18081, z: -0.10485}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4895170250715152}
   m_Father: {fileID: 4188198231236962}
@@ -10991,7 +10991,7 @@ Transform:
   m_GameObject: {fileID: 1531078690178474}
   m_LocalRotation: {x: -0.033691794, y: 0.34681416, z: -0.09063155, w: 0.9329366}
   m_LocalPosition: {x: 0.27777, y: 0.06801, z: -0.12213}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4619483694293448}
   m_Father: {fileID: 4188198231236962}
@@ -11187,7 +11187,7 @@ Transform:
   m_GameObject: {fileID: 1833426770945748}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.00787, y: 0.2726, z: 0.00957}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4419622123474048}
   m_Father: {fileID: 4188198231236962}
@@ -12198,7 +12198,7 @@ Transform:
   m_GameObject: {fileID: 1692315293498040}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.0444, y: 0.10073, z: 0.1905}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4830458082928446}
   m_Father: {fileID: 4188198231236962}
@@ -12420,7 +12420,7 @@ Transform:
   m_GameObject: {fileID: 1485635041000678}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.1911, y: 0.1023, z: 0.0074}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4838871803335266}
   m_Father: {fileID: 4188198231236962}
@@ -12538,7 +12538,7 @@ Transform:
   m_GameObject: {fileID: 1441201425813204}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.06295, y: 0.1862, z: 0.09523}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4533696080734912}
   m_Father: {fileID: 4188198231236962}
@@ -12565,7 +12565,7 @@ Transform:
   m_GameObject: {fileID: 1236375660632724}
   m_LocalRotation: {x: -0.046858106, y: 0.06952518, z: 0.19209045, w: 0.97778934}
   m_LocalPosition: {x: -0.05096, y: 0.26225, z: -0.09124}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4775187823733144}
   m_Father: {fileID: 4188198231236962}
@@ -12905,7 +12905,7 @@ Transform:
   m_GameObject: {fileID: 1672345115181196}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.3515, y: 0.0646, z: -0.2154}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4763268880019480}
   m_Father: {fileID: 4188198231236962}
@@ -14156,7 +14156,7 @@ Transform:
   m_GameObject: {fileID: 1108787764672806}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.4245, y: 0.06489, z: -0.4403}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4797919460019986}
   m_Father: {fileID: 4188198231236962}
@@ -14419,7 +14419,7 @@ Transform:
   m_GameObject: {fileID: 1326311126958798}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.3917, y: 0.06489, z: -0.3377}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4636576675172540}
   m_Father: {fileID: 4188198231236962}
@@ -15117,7 +15117,7 @@ Transform:
   m_GameObject: {fileID: 1060831554170256}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.1457, y: 0.10138, z: 0.1307}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4212877893822858}
   m_Father: {fileID: 4188198231236962}
@@ -15170,7 +15170,7 @@ Transform:
   m_GameObject: {fileID: 1423505920385704}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.0557, y: 0.18828, z: 0.1074}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4337391782407896}
   m_Father: {fileID: 4188198231236962}
@@ -16112,7 +16112,7 @@ Transform:
   m_GameObject: {fileID: 1580295715232854}
   m_LocalRotation: {x: 0.0021988533, y: -0.2958602, z: 0.20177329, w: 0.9336752}
   m_LocalPosition: {x: 0.05591, y: 0.14612, z: -0.19618}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4224981279948368}
   m_Father: {fileID: 4188198231236962}
@@ -16191,7 +16191,7 @@ Transform:
   m_GameObject: {fileID: 1081130185722010}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.1915, y: 0.10237, z: 0.03}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4694985403650424}
   m_Father: {fileID: 4188198231236962}
@@ -17263,7 +17263,7 @@ Transform:
   m_GameObject: {fileID: 1830587061937552}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.1746, y: 0.1051, z: -0.0891}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4792498643426090}
   m_Father: {fileID: 4188198231236962}
@@ -17602,7 +17602,7 @@ Transform:
   m_GameObject: {fileID: 1106616408318356}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.0701, y: 0.10297, z: 0.1823}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4024911910301008}
   m_Father: {fileID: 4188198231236962}
@@ -17733,7 +17733,7 @@ Transform:
   m_GameObject: {fileID: 1445833655531834}
   m_LocalRotation: {x: 0.17169745, y: 0.00039190048, z: -0.007817867, w: 0.9851186}
   m_LocalPosition: {x: -0.1115, y: 0.2122, z: -0.0105}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4139781441122052}
   m_Father: {fileID: 4188198231236962}
@@ -17799,7 +17799,7 @@ Transform:
   m_GameObject: {fileID: 1441146997257644}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.10541, y: 0.18347, z: -0.01124}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4613224341707046}
   m_Father: {fileID: 4188198231236962}
@@ -17930,7 +17930,7 @@ Transform:
   m_GameObject: {fileID: 1656349627989012}
   m_LocalRotation: {x: 0.012860422, y: 0.2707689, z: 0.046769433, w: 0.9614216}
   m_LocalPosition: {x: -0.0711, y: 0.1145, z: -0.184}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4896756050479016}
   m_Father: {fileID: 4188198231236962}
@@ -17957,7 +17957,7 @@ Transform:
   m_GameObject: {fileID: 1676439548659066}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.1562, y: 0.10375, z: 0.1174}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4460474993531350}
   m_Father: {fileID: 4188198231236962}
@@ -43294,6 +43294,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fff03650cfc9bc54eb8866614b3df55c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlatformPositions:
+  - 0
+  - 0.058
+  - 0.116
+  - 0.178
+  - 0.288
+  - 0.33
+  - 0.363
+  - 0.396
+  - 0.43
+  - 0.463
+  - 0.503
+  - 0.55
+  - 0.6
+  - 0.66
+  - 0.707
+  - 0.75
+  - 0.789
+  - 0.851
+  - 0.916
+  - 1
 --- !u!114 &114981524339590994
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -44851,8 +44872,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.003
-  m_Center: {x: 0, y: 0.01, z: 0}
+  m_Radius: 0.002
+  m_Center: {x: 0, y: 0.005, z: 0}
 --- !u!135 &135016542421710536
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -44863,8 +44884,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.003
-  m_Center: {x: 0, y: 0.01, z: 0}
+  m_Radius: 0.002
+  m_Center: {x: 0, y: 0.005, z: 0}
 --- !u!135 &135099582959469374
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -44875,8 +44896,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.003
-  m_Center: {x: 0, y: 0.01, z: 0}
+  m_Radius: 0.002
+  m_Center: {x: 0, y: 0.005, z: 0}
 --- !u!135 &135115422520977262
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -44887,8 +44908,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.003
-  m_Center: {x: 0, y: 0.01, z: 0}
+  m_Radius: 0.002
+  m_Center: {x: 0, y: 0.005, z: 0}
 --- !u!135 &135120004924598166
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -44899,8 +44920,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.003
-  m_Center: {x: 0, y: 0.01, z: 0}
+  m_Radius: 0.002
+  m_Center: {x: 0, y: 0.005, z: 0}
 --- !u!135 &135352881470992886
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -44911,8 +44932,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.003
-  m_Center: {x: 0, y: 0.01, z: 0}
+  m_Radius: 0.002
+  m_Center: {x: 0, y: 0.005, z: 0}
 --- !u!135 &135457349686174266
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -44935,8 +44956,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.003
-  m_Center: {x: 0, y: 0.01, z: 0}
+  m_Radius: 0.002
+  m_Center: {x: 0, y: 0.005, z: 0}
 --- !u!135 &135499960371580586
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -44947,8 +44968,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.003
-  m_Center: {x: 0, y: 0.01, z: 0}
+  m_Radius: 0.002
+  m_Center: {x: 0, y: 0.005, z: 0}
 --- !u!135 &135521562810972344
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -44959,8 +44980,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.003
-  m_Center: {x: 0, y: 0.01, z: 0}
+  m_Radius: 0.002
+  m_Center: {x: 0, y: 0.005, z: 0}
 --- !u!135 &135608332885999290
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -44971,8 +44992,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.003
-  m_Center: {x: 0, y: 0.01, z: 0}
+  m_Radius: 0.002
+  m_Center: {x: 0, y: 0.005, z: 0}
 --- !u!135 &135691631111712982
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -44983,8 +45004,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.003
-  m_Center: {x: 0, y: 0.01, z: 0}
+  m_Radius: 0.002
+  m_Center: {x: 0, y: 0.005, z: 0}
 --- !u!135 &135785632951438214
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -44995,8 +45016,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.003
-  m_Center: {x: 0, y: 0.01, z: 0}
+  m_Radius: 0.002
+  m_Center: {x: 0, y: 0.005, z: 0}
 --- !u!135 &135902005656593956
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -45007,8 +45028,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.003
-  m_Center: {x: 0, y: 0.01, z: 0}
+  m_Radius: 0.002
+  m_Center: {x: 0, y: 0.005, z: 0}
 --- !u!135 &135913259751405672
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -45019,8 +45040,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.003
-  m_Center: {x: 0, y: 0.01, z: 0}
+  m_Radius: 0.002
+  m_Center: {x: 0, y: 0.005, z: 0}
 --- !u!135 &135914498140916992
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -45031,8 +45052,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.003
-  m_Center: {x: 0, y: 0.01, z: 0}
+  m_Radius: 0.002
+  m_Center: {x: 0, y: 0.005, z: 0}
 --- !u!135 &135916559061127422
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -45043,8 +45064,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.003
-  m_Center: {x: 0, y: 0.01, z: 0}
+  m_Radius: 0.002
+  m_Center: {x: 0, y: 0.005, z: 0}
 --- !u!135 &135939366751761616
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -45055,8 +45076,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.003
-  m_Center: {x: 0, y: 0.01, z: 0}
+  m_Radius: 0.002
+  m_Center: {x: 0, y: 0.005, z: 0}
 --- !u!135 &135982208497986670
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -45067,8 +45088,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.003
-  m_Center: {x: 0, y: 0.01, z: 0}
+  m_Radius: 0.002
+  m_Center: {x: 0, y: 0.005, z: 0}
 --- !u!135 &135988270668126726
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -45079,8 +45100,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.003
-  m_Center: {x: 0, y: 0.01, z: 0}
+  m_Radius: 0.002
+  m_Center: {x: 0, y: 0.005, z: 0}
 --- !u!135 &135994273332290268
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -45091,5 +45112,5 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.003
-  m_Center: {x: 0, y: 0.01, z: 0}
+  m_Radius: 0.002
+  m_Center: {x: 0, y: 0.005, z: 0}
