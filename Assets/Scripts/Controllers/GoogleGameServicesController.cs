@@ -6,9 +6,15 @@ using System.Collections;
 using System.Collections.Generic;
 using GooglePlayGames.Native.Cwrapper;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GoogleGameServicesController : Singleton<GoogleGameServicesController>
 {
+    [SerializeField]
+    private GameObject loginButton;
+    [SerializeField]
+    private GameObject loginResult;
+    
     private enum GetLeaderboardIdByLevel {
         CgkIqqKPyKgOEAIQAQ = 1,
         CgkIqqKPyKgOEAIQAg = 2,
@@ -37,11 +43,12 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
 
     // Use this for initialization
     void Start()
-    {
-        Init();
+    {        
+        if (Authenticated)
+            DisableLoginButton();
     }
 
-    private void Init()
+    public void SignIn()
     {
         if (Authenticated || mAuthenticating)
         {
@@ -50,8 +57,8 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
         }
                 
         PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
-                .EnableSavedGames()
-                .Build();        
+            .EnableSavedGames()
+            .Build();
 
         PlayGamesPlatform.InitializeInstance(config);
         
@@ -65,13 +72,15 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
             {
                 // if we signed in successfully, load data from cloud
                 Debug.Log("Login successful!");
-            }
+                            }
             else
             {
                 // no need to show error message (error messages are shown automatically
                 // by plugin)
                 Debug.LogWarning("Failed to sign in with Google Play Games.");
             }
+
+            LoginResult();
         });
     }
 
@@ -106,7 +115,10 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
     }
 
     public void GetHighestUserScore(int level, Action<int> callback = null)
-    {        
+    {
+        if (!Authenticated)
+            callback(0);
+        
         GetLeaderboardIdByLevel levelId;
 
         try
@@ -164,5 +176,42 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
         GetLeaderboardIdByLevel lId = (GetLeaderboardIdByLevel)level;
 
         return lId;
+    }
+
+
+    private void DisableLoginButton()
+    {
+        if (loginButton != null)
+            loginButton.SetActive(false);
+    }
+
+    private void LoginResult()
+    {
+        if (CRLoginResult != null)
+            StopCoroutine(CRLoginResult);
+        
+        CRLoginResult = StartCoroutine(LoginResultCR());
+    }
+
+    private Coroutine CRLoginResult;
+    IEnumerator LoginResultCR()
+    {
+        if (loginResult != null)
+        {
+            string resultText = Authenticated ? "LOGIN SUCCESSFUL" : "LOGIN FAILED";
+
+            loginResult.GetComponent<Text>().text = resultText;
+            loginResult.GetComponent<CanvasFader>().FadeIn(0.25f);
+        }
+        
+        yield return new WaitForSecondsRealtime(1.5f);
+        
+        if (loginResult != null)
+            loginResult.GetComponent<CanvasFader>().FadeOut(0.25f);
+
+        if (loginButton != null && Authenticated)
+            loginButton.GetComponent<CanvasFader>().FadeOut(0.25f);
+
+        CRLoginResult = null;
     }
 }
