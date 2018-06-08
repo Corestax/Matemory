@@ -10,6 +10,7 @@ public class MapsController : Singleton<MapsController>
     private GameObject[] Maps;
 
     private LevelsController levelsController;
+    private AudioManager audioManager;
     private SplineComputer splineComputer;
     private SplineFollower follower;
     private Character character;
@@ -31,6 +32,7 @@ public class MapsController : Singleton<MapsController>
         SetMap(currentIndex);
 
         levelsController = LevelsController.Instance;
+        audioManager = AudioManager.Instance;
         splineComputer = currentMap.GetComponent<SplineComputer>();
         follower = currentMap.GetComponentInChildren<SplineFollower>();
         character = follower.GetComponent<Character>();
@@ -100,7 +102,7 @@ public class MapsController : Singleton<MapsController>
             TargetPoint targetPoint = hit.collider.GetComponentInParent<TargetPoint>();
             int selectedLevel = targetPoint.Level;
             if (selectedLevel <= levelsController.HighestLevel)
-            {
+            {                
                 // If character needs to move
                 if (selectedLevel != levelsController.CurrentLevel)
                 {
@@ -117,6 +119,7 @@ public class MapsController : Singleton<MapsController>
                 {
                     UIController.Instance.ShowPanel(UIController.PanelTypes.PLAY_LEVEL);
                 }
+                audioManager.PlaySound(audioManager.audio_selectLevel);
             }
         }
     }    
