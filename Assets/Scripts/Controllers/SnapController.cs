@@ -83,7 +83,7 @@ public class SnapController : Singleton<SnapController>
         // If game won
         if (SnapColliders.Count == count)
         {
-            audioManager.PlaySound(audioManager.audio_complete);
+            audioManager.PlaySound(audioManager.audio_modelCompleted);
             GameController.Instance.StopGame(GameController.EndGameTypes.WIN);
         }
     }

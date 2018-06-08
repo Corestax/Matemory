@@ -20,6 +20,7 @@ public class TutorialsController : Singleton<TutorialsController>
     private UIController uiContronller;
     private LevelsController levelsController;
     private ButtonsController buttonsController;
+    private AudioManager audioManager;
 
     private void Start()
     {
@@ -28,6 +29,8 @@ public class TutorialsController : Singleton<TutorialsController>
         uiContronller = UIController.Instance;
         levelsController = LevelsController.Instance;
         buttonsController = ButtonsController.Instance;
+        audioManager = AudioManager.Instance;
+
         IsCompleted = new bool[faders.Length];
     }
 
@@ -156,11 +159,12 @@ public class TutorialsController : Singleton<TutorialsController>
         int timeLeft = 5;
         while (timeLeft > 0)
         {
-            if(timeLeft > 1)
+            if (timeLeft > 1)
                 uiContronller.ShowStatusText(timeLeft.ToString(), Color.green);
             else
                 uiContronller.ShowStatusText(timeLeft.ToString(), Color.green, 1f);
             timeLeft--;
+            audioManager.PlaySound(audioManager.audio_countdown);
             yield return new WaitForSeconds(1f);
         }
     }

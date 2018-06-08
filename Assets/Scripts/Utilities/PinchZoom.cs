@@ -13,6 +13,7 @@ public class PinchZoom : MonoBehaviour
     public Camera MainCamera { get; set; }
 
     private FruitRotatorController fruitRotatorController;
+    private AudioManager audioManager;
 
     private const float SPEED = 2f;
     private const float MAX_ZOOM_IN = 0.25f;
@@ -30,6 +31,7 @@ public class PinchZoom : MonoBehaviour
     void Start()
     {
         fruitRotatorController = FruitRotatorController.Instance;
+        audioManager = AudioManager.Instance;
         scale = 1f;
     }
     
@@ -85,10 +87,12 @@ public class PinchZoom : MonoBehaviour
     {
         isAnimating = true;
         isZoomIn = zoomIn;
+        audioManager.PlayZoomSound();
     }
 
     public void StopZoom()
     {
+        audioManager.StopZoomSound();
         isAnimating = false;
     }
 }

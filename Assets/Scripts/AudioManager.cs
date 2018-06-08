@@ -5,9 +5,11 @@ public class AudioManager : Singleton<AudioManager>
     public AudioClip music_bg;
 
     public AudioClip audio_click;
-    public AudioClip audio_complete;
+    public AudioClip audio_clickSuccess;
+    public AudioClip audio_modelCompleted;
     public AudioClip audio_spawn;
     public AudioClip audio_spin;
+    public AudioClip audio_zoom;
     public AudioClip audio_explode;
     public AudioClip audio_collision;
     public AudioClip audio_snapCorrect;
@@ -17,10 +19,12 @@ public class AudioManager : Singleton<AudioManager>
     public AudioClip audio_star;
     public AudioClip audio_win;
     public AudioClip audio_lose;
+    public AudioClip audio_countdown;
+    public AudioClip audio_selectLevel;
 
     private AudioSource[] audioSources;
     private int currentIndex;
-    private const int START_INDEX = 3;
+    private const int START_INDEX = 4;
 
     private float fVolumeReductionCoeffient = .5f;
 
@@ -34,6 +38,7 @@ public class AudioManager : Singleton<AudioManager>
             audioSources[0].Play();
         audioSources[1].clip = audio_collision;
         audioSources[2].clip = audio_spin;
+        audioSources[3].clip = audio_zoom;
 
         currentIndex = START_INDEX;
     }
@@ -114,6 +119,18 @@ public class AudioManager : Singleton<AudioManager>
     {
         if (audioSources[2].isPlaying)
             audioSources[2].Stop();
+    }
+
+    public void PlayZoomSound()
+    {
+        StopZoomSound();
+        audioSources[3].Play();
+    }
+
+    public void StopZoomSound()
+    {
+        if (audioSources[3].isPlaying)
+            audioSources[3].Stop();
     }
 
     public void SetMusicVolume(float _volume)
