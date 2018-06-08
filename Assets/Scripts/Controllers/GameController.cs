@@ -110,6 +110,7 @@ public class GameController : Singleton<GameController>
     public void HideMap()
     {
         mapsController.HideMap();
+        uiController.HideCloseMapButton();
         Plate.SetActive(true);
 
         UnpauseGame();
@@ -262,6 +263,9 @@ public class GameController : Singleton<GameController>
     #region PAUSE/UNPAUSE GAME
     public void PauseGame()
     {
+        if (!IsGameRunning)
+            return;
+
         IsGamePaused = true;
         if (OnGamePaused != null)
             OnGamePaused();
@@ -269,6 +273,9 @@ public class GameController : Singleton<GameController>
 
     public void UnpauseGame()
     {
+        if (!IsGameRunning)
+            return;
+
         IsGamePaused = false;
         if (OnGameUnpaused != null)
             OnGameUnpaused();

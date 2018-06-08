@@ -322,6 +322,7 @@ public class UIController : Singleton<UIController>
     
     public void OnPlayLevelClicked()
     {
+        gameController.StopGame(GameController.EndGameTypes.NONE);
         HideActivePanel();
         gameController.HideMap();
         levelsController.LoadLevel();
@@ -431,7 +432,6 @@ public class UIController : Singleton<UIController>
 
     public void OnMapHideButtonClicked()
     {
-        HideCloseMapButton();
         gameController.HideMap();
     }
     #endregion

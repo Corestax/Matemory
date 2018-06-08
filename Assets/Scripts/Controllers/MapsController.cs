@@ -70,13 +70,13 @@ public class MapsController : Singleton<MapsController>
             {
                 // Raycast
                 ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out hit, 10f))
+                if (Physics.Raycast(ray, out hit))
                 {
                     if (hit.collider.tag == "TargetPointPlatform")
                     {
                         // Replay previous level
                         int selectedLevel = hit.collider.GetComponentInParent<TargetPoint>().Level;
-                        if (selectedLevel <= levelsController.HighestLevel && selectedLevel != levelsController.CurrentLevel)
+                        if (selectedLevel <= levelsController.HighestLevel)
                         {
                             // If character needs to move
                             if (selectedLevel != levelsController.CurrentLevel)
@@ -104,7 +104,7 @@ public class MapsController : Singleton<MapsController>
                 if (touch.phase == TouchPhase.Began)
                 {
                     ray = Camera.main.ScreenPointToRay(touch.position);
-                    if (Physics.Raycast(ray, out hit, 10f))
+                    if (Physics.Raycast(ray, out hit))
                     {
                         if (hit.collider.tag == "TargetPointPlatform")
                         {
