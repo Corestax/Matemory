@@ -10,12 +10,16 @@ public class Character : MonoBehaviour
     private float[] PlatformPositions;
 
     private UIController uiController;
+    private MapsController mapsController;
+    private LevelsController levelsController;
     private SplineFollower follower;
     private Collider sphereCollider;
 
     void Start ()
     {
         uiController = UIController.Instance;
+        mapsController = MapsController.Instance;
+        levelsController = LevelsController.Instance;
         follower = GetComponent<SplineFollower>();
         sphereCollider = GetComponent<Collider>();
 
@@ -54,14 +58,13 @@ public class Character : MonoBehaviour
         {
             // If character has moved to next level
             var targetPoint = other.GetComponent<TargetPoint>();
-            print(targetPoint.Level + " == " + LevelsController.Instance.CurrentLevel);
-            if (targetPoint.Level == LevelsController.Instance.CurrentLevel)
+            if (targetPoint.Level == levelsController.CurrentLevel)
             {
                 Stop();
                 ShowPanelPlayLevel(1f);
 
                 // Update targetpoint color
-                MapsController.Instance.HighlightTargetPoint(targetPoint.Level);
+                mapsController.HighlightTargetPoint(targetPoint.Level);
             }
         }
     }

@@ -153,7 +153,8 @@ public class ARCoreController : MonoBehaviour
         else
         {
             // Show red outline
-            uiController.ShowStatusText("Focus a flat surface to place the platform!", Color.red);
+            if(!tutorialController.IsActive)
+                uiController.ShowStatusText("Focus at a flat surface", Color.red);
             platform.Material.color = Color.red;
             platform.Material.SetFloat("_OutlineAlpha", 1f);
 

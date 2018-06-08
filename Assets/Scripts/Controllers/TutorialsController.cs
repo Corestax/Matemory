@@ -15,12 +15,18 @@ public class TutorialsController : Singleton<TutorialsController>
     public bool IsActive { get; private set; }
     public bool IsFading { get; private set; }
 
+    private GameController gameController;
+    private ModelsController modelsController;
     private UIController uiContronller;
+    private LevelsController levelsController;
     private ButtonsController buttonsController;
 
     private void Start()
     {
+        gameController = GameController.Instance;
+        modelsController = ModelsController.Instance;
         uiContronller = UIController.Instance;
+        levelsController = LevelsController.Instance;
         buttonsController = ButtonsController.Instance;
         IsCompleted = new bool[faders.Length];
     }
@@ -69,7 +75,7 @@ public class TutorialsController : Singleton<TutorialsController>
 
                 // Start game
                 if (count == IsCompleted.Length)
-                    GameController.Instance.StartGame();
+                    gameController.StartGame();
             }
             return;
         }
@@ -123,20 +129,20 @@ public class TutorialsController : Singleton<TutorialsController>
         // Place platform
         if (currentIndex == 0)
         {
-#if UNITY_EDITOR
-            LevelsController.Instance.LoadLastSavedLevel();
+#if UNITY_EDITOR            
+            levelsController.LoadLastSavedLevel();
 #endif
         }
         // Memorize
         else if (currentIndex == 1)
         {
-            ModelsController.Instance.RotatePlatformAndExplode();
+            modelsController.RotatePlatformAndExplode();
             ShowCountdown();
         }
         // Drag fruit
         else if (currentIndex == 2)
         {
-            GameController.Instance.StartGame();
+            gameController.StartGame();
         }
     }
 
@@ -151,9 +157,9 @@ public class TutorialsController : Singleton<TutorialsController>
         while (timeLeft > 0)
         {
             if(timeLeft > 1)
-                UIController.Instance.ShowStatusText(timeLeft.ToString(), Color.green);
+                uiContronller.ShowStatusText(timeLeft.ToString(), Color.green);
             else
-                UIController.Instance.ShowStatusText(timeLeft.ToString(), Color.green, 1f);
+                uiContronller.ShowStatusText(timeLeft.ToString(), Color.green, 1f);
             timeLeft--;
             yield return new WaitForSeconds(1f);
         }
