@@ -14,6 +14,8 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
     private GameObject loginButton;
     [SerializeField]
     private GameObject loginResult;
+    [SerializeField]
+    private GameObject[] GGSButtons;
     
     private enum GetLeaderboardIdByLevel {
         CgkIqqKPyKgOEAIQAQ = 1,
@@ -43,9 +45,12 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
 
     // Use this for initialization
     void Start()
-    {        
+    {
         if (Authenticated)
+        {
             DisableLoginButton();
+            EnableGGSButtons();
+        }
     }
 
     public void SignIn()
@@ -72,7 +77,8 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
             {
                 // if we signed in successfully, load data from cloud
                 Debug.Log("Login successful!");
-                            }
+                EnableGGSButtons();
+            }
             else
             {
                 // no need to show error message (error messages are shown automatically
@@ -213,5 +219,14 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
             loginButton.GetComponent<CanvasFader>().FadeOut(0.25f);
 
         CRLoginResult = null;
+    }
+
+    
+    private void EnableGGSButtons()
+    {
+        foreach (var go in GGSButtons)
+        {
+            go.SetActive(true);
+        }
     }
 }
