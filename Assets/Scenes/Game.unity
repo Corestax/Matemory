@@ -11089,6 +11089,11 @@ Prefab:
       propertyPath: autoStartPosition
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114986415378608988, guid: bb0d23dd2c0860e4ba04bf1173eb5456,
+        type: 2}
+      propertyPath: followMode
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bb0d23dd2c0860e4ba04bf1173eb5456, type: 2}
   m_IsPrefabParent: 0

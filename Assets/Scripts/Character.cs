@@ -5,6 +5,7 @@ using Dreamteck.Splines;
 
 public class Character : MonoBehaviour
 {
+    // Hardcoded values for SplineFollower positions based on platform placement. Used to move character to any specific level/platform.
     [SerializeField]
     private float[] PlatformPositions;
 
@@ -25,9 +26,8 @@ public class Character : MonoBehaviour
     {
         if (level <= PlatformPositions.Length)
         {
-            float position = PlatformPositions[level-1];
-            print(level +": " + position);
-            follower.SetDistance(position);
+            float posPercentage = PlatformPositions[level-1];
+            follower.SetPercent(posPercentage);
         }
     }
 
