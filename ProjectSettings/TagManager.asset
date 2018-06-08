@@ -9,6 +9,7 @@ TagManager:
   - Wall
   - AlwaysInteractable
   - TargetPoint
+  - TargetPointPlatform
   layers:
   - Default
   - TransparentFX

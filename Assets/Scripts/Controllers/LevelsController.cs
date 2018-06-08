@@ -18,6 +18,7 @@ public class LevelsController : Singleton<LevelsController>
 
     private ModelsController modelsController;
     public int CurrentLevel = 0;
+    public int HighestLevel = 0;
 
 	void Start ()
     {
@@ -57,8 +58,16 @@ public class LevelsController : Singleton<LevelsController>
         if (level-1 >= Levels.Count)
             return;
 
+        // Set character position in map
+        MapsController.Instance.SetCharacterPosition(level);
+
         // Update level & high score
         CurrentLevel = level;
+
+        // Save highest level
+        if (CurrentLevel > HighestLevel)
+            HighestLevel = CurrentLevel;
+
         ScoreController.Instance.LoadHighScore();
 
         // Spawn model
@@ -76,6 +85,11 @@ public class LevelsController : Singleton<LevelsController>
         
         // Update level & high score
         CurrentLevel = level;
+
+        // Save highest level
+        if (CurrentLevel > HighestLevel)
+            HighestLevel = CurrentLevel;
+
         ScoreController.Instance.LoadHighScore();
     }
 

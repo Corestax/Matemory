@@ -5,40 +5,47 @@ using Dreamteck.Splines;
 
 public class Character : MonoBehaviour
 {
+    [SerializeField]
+    private float[] PlatformPositions;
+
     private UIController uiController;
     private SplineFollower follower;
-    private Collider collider;
+    private Collider sphereCollider;
 
     void Start ()
     {
         uiController = UIController.Instance;
         follower = GetComponent<SplineFollower>();
-        collider = GetComponent<Collider>();
+        sphereCollider = GetComponent<Collider>();
 
-        collider.enabled = false;
+        sphereCollider.enabled = false;
     }
 	
-	void Update ()
+    public void SetPosition(int level)
     {
-        if (Input.GetKeyDown(KeyCode.D))
-            follower.clipFrom = 0.2f;
-    }    
-
-    public void SetPosition(float distance)
-    {
-        follower.SetDistance(distance);
+        if (level <= PlatformPositions.Length)
+        {
+            float position = PlatformPositions[level-1];
+            print(level +": " + position);
+            follower.SetDistance(position);
+        }
     }
 
-    public void Play()
+    public void Play(bool moveForward)
     {
+        if (moveForward)        
+            follower.direction = Spline.Direction.Forward;
+        else
+            follower.direction = Spline.Direction.Backward;
+
         follower.autoFollow = true;
-        collider.enabled = true;
+        sphereCollider.enabled = true;
     }
 
     public void Stop()
     {
         follower.autoFollow = false;
-        collider.enabled = false;
+        sphereCollider.enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -47,6 +54,7 @@ public class Character : MonoBehaviour
         {
             // If character has moved to next level
             var targetPoint = other.GetComponent<TargetPoint>();
+            print(targetPoint.Level + " == " + LevelsController.Instance.CurrentLevel);
             if (targetPoint.Level == LevelsController.Instance.CurrentLevel)
             {
                 Stop();
@@ -55,7 +63,7 @@ public class Character : MonoBehaviour
         }
     }
 
-    private void ShowPanelPlayLevel(float _delay)
+    public void ShowPanelPlayLevel(float _delay)
     {
         StartCoroutine(ShowPanelPlayLevelCR(_delay));
     }

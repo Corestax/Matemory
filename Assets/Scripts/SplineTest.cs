@@ -32,10 +32,4 @@ public class SplineTest : MonoBehaviour
 #endif
         }     
     }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-            character.Play();
-    }
 }
