@@ -10,8 +10,6 @@ public class UIController : Singleton<UIController>
     [SerializeField]
     private Text text_status;
     [SerializeField]
-    private Text text_pinchZoom;
-    [SerializeField]
     private GameObject buttons_zoom;
     [SerializeField]
     private GameObject buttons_rotatePlatform;
@@ -445,8 +443,6 @@ public class UIController : Singleton<UIController>
         buttons_top.SetActive(true);
         buttons_zoom.SetActive(true);
         buttons_rotatePlatform.SetActive(true);
-        if (gameController.EnableAR)
-            text_pinchZoom.gameObject.SetActive(true);
     }
 
     public void HideHUD()
@@ -457,8 +453,6 @@ public class UIController : Singleton<UIController>
         buttons_top.SetActive(false);
         buttons_zoom.SetActive(false);
         buttons_rotatePlatform.SetActive(false);
-        if (gameController.EnableAR)
-            text_pinchZoom.gameObject.SetActive(false);
 
         ShowStatusText("", Color.red);
     }    
