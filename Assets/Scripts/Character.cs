@@ -59,6 +59,9 @@ public class Character : MonoBehaviour
             {
                 Stop();
                 ShowPanelPlayLevel(1f);
+
+                // Update targetpoint color
+                MapsController.Instance.HighlightTargetPoint(targetPoint.Level);
             }
         }
     }

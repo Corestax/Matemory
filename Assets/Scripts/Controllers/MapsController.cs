@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Dreamteck.Splines;
 
@@ -12,13 +14,14 @@ public class MapsController : Singleton<MapsController>
     private SplineFollower follower;
     private Character character;
     private PathGenerator path;
+    private List<TargetPoint> targetPoints;
     private Material[] material;
     private int currentIndex;
     private GameObject currentMap;
     private RaycastHit hit;
     private Ray ray;
     private Touch touch;
-    
+
     public bool IsMapShowing { get; private set; }
 
     void Start()
@@ -58,41 +61,19 @@ public class MapsController : Singleton<MapsController>
         if (!IsMapShowing)
             return;
 
-        SelectLevel();
+        OnLevelSelected();
     }
 
-    private void SelectLevel()
+    private void OnLevelSelected()
     {
         // Mouse input
         if (!GameController.Instance.EnableAR)
         {
             if (Input.GetMouseButtonDown(0))
             {
-                // Raycast
                 ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out hit))
-                {
-                    if (hit.collider.tag == "TargetPointPlatform")
-                    {
-                        // Replay previous level
-                        int selectedLevel = hit.collider.GetComponentInParent<TargetPoint>().Level;
-                        if (selectedLevel <= levelsController.HighestLevel)
-                        {
-                            // If character needs to move
-                            if (selectedLevel != levelsController.CurrentLevel)
-                            {
-                                levelsController.CurrentLevel = selectedLevel;
-                                SetCharacterPosition(selectedLevel);
-                                UIController.Instance.ShowPanel(UIController.PanelTypes.PLAY_LEVEL);
-                            }
-                            // If character already on selected level
-                            else
-                            {
-                                UIController.Instance.ShowPanel(UIController.PanelTypes.PLAY_LEVEL);
-                            }
-                        }
-                    }
-                }
+                    SelectLevel();
             }
         }
         // Touch input
@@ -105,36 +86,62 @@ public class MapsController : Singleton<MapsController>
                 {
                     ray = Camera.main.ScreenPointToRay(touch.position);
                     if (Physics.Raycast(ray, out hit))
-                    {
-                        if (hit.collider.tag == "TargetPointPlatform")
-                        {
-                            // Replay previous level
-                            int selectedLevel = hit.collider.GetComponentInParent<TargetPoint>().Level;
-                            if (selectedLevel <= levelsController.HighestLevel)
-                            {
-                                // If character needs to move
-                                if (selectedLevel != levelsController.CurrentLevel)
-                                {
-                                    levelsController.CurrentLevel = selectedLevel;
-                                    SetCharacterPosition(selectedLevel);
-                                    UIController.Instance.ShowPanel(UIController.PanelTypes.PLAY_LEVEL);
-                                }
-                                // If character already on selected level
-                                else
-                                {
-                                    UIController.Instance.ShowPanel(UIController.PanelTypes.PLAY_LEVEL);
-                                }
-                            }
-                        }
-                    }
+                        SelectLevel();
                 }
             }
         }
     }
 
+    private void SelectLevel()
+    {
+        if (hit.collider.tag == "TargetPointPlatform")
+        {
+            // Replay previous level
+            TargetPoint targetPoint = hit.collider.GetComponentInParent<TargetPoint>();
+            int selectedLevel = targetPoint.Level;
+            if (selectedLevel <= levelsController.HighestLevel)
+            {
+                // If character needs to move
+                if (selectedLevel != levelsController.CurrentLevel)
+                {
+                    // Update targetpoint color
+                    HighlightTargetPoint(selectedLevel);
+
+                    levelsController.CurrentLevel = selectedLevel;
+                    SetCharacterPosition(selectedLevel);
+
+                    UIController.Instance.ShowPanel(UIController.PanelTypes.PLAY_LEVEL);
+                }
+                // If character already on selected level
+                else
+                {
+                    UIController.Instance.ShowPanel(UIController.PanelTypes.PLAY_LEVEL);
+                }
+            }
+        }
+    }    
+
     public void SetCharacterPosition(int level)
     {
         character.SetPosition(level);
+        HighlightTargetPoint(level);
+    }
+
+    private void LoadTargetPoints()
+    {
+        targetPoints = new List<TargetPoint>();
+        targetPoints = currentMap.GetComponentsInChildren<TargetPoint>().ToList();
+    }
+
+    public void HighlightTargetPoint(int level)
+    {
+        foreach (var tp in targetPoints)
+        {
+            if (tp.Level == level)
+                tp.SetSelected();
+            else if (tp.Level <= levelsController.HighestLevel)
+                tp.SetUnselected();
+        }
     }
 
     public void SetMap(int _mapIndex)
@@ -142,6 +149,7 @@ public class MapsController : Singleton<MapsController>
         currentIndex = _mapIndex;
         currentMap = Maps[currentIndex];
         follower = currentMap.GetComponentInChildren<SplineFollower>();
+        LoadTargetPoints();
     }
 
     // Do not call this function: Call GameController.ShowMap() instead to hide plate
