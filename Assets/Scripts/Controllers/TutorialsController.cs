@@ -18,18 +18,22 @@ public class TutorialsController : Singleton<TutorialsController>
     private GameController gameController;
     private ModelsController modelsController;
     private UIController uiContronller;
-    private LevelsController levelsController;
     private ButtonsController buttonsController;
     private AudioManager audioManager;
+#if UNITY_EDITOR
+    private LevelsController levelsController;
+#endif
 
     private void Start()
     {
         gameController = GameController.Instance;
         modelsController = ModelsController.Instance;
         uiContronller = UIController.Instance;
-        levelsController = LevelsController.Instance;
         buttonsController = ButtonsController.Instance;
         audioManager = AudioManager.Instance;
+#if UNITY_EDITOR
+        levelsController = LevelsController.Instance;
+#endif
 
         IsCompleted = new bool[faders.Length];
     }

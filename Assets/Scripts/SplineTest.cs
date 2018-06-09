@@ -8,15 +8,10 @@ public class SplineTest : MonoBehaviour
     [SerializeField]
     private SplineFollower follower;
 
-    private Character character;
-    private PathGenerator path;
     private Material[] material;
 
     void Start()
     {
-        character = follower.GetComponent<Character>();
-        path = spline.GetComponent<PathGenerator>();
-
         // TEMPORARY EDITOR FIX FOR SHADER
         var meshes = follower.GetComponentsInChildren<MeshRenderer>();
         foreach (var m in meshes)

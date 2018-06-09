@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Banana 1
+  m_Name: Banana_Follower
   m_Shader: {fileID: 4800000, guid: 295896ae29123b3419b46567a595c519, type: 3}
   m_ShaderKeywords: ARCORELIGHT_ON LIGHTEST_OFF
   m_LightmapFlags: 4

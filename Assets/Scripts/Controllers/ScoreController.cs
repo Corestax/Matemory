@@ -19,13 +19,11 @@ public class ScoreController : Singleton<ScoreController>
     public int CurrentScore { get; private set; }
 
     private TimerController timerController;
-    private ModelsController modelsController;
     private GoogleGameServicesController googleGameServices;
 
     void Start()
     {
         timerController = TimerController.Instance;
-        modelsController = ModelsController.Instance;
         googleGameServices = GoogleGameServicesController.Instance;
         HighScore = 0;
         CurrentScore = 0;

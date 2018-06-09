@@ -19,7 +19,6 @@ public class UIController : Singleton<UIController>
     private Image image_corrector;
 
     private GameController gameController;
-    private ModelsController modelsController;
     private LevelsController levelsController;
     private ButtonsController buttonsController;
     private TimerController timeController;
@@ -34,7 +33,6 @@ public class UIController : Singleton<UIController>
     void Start()
     {
         gameController = GameController.Instance;
-        modelsController = ModelsController.Instance;
         levelsController = LevelsController.Instance;
         buttonsController = ButtonsController.Instance;
         timeController = TimerController.Instance;

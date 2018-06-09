@@ -43,7 +43,6 @@ public class GameController : Singleton<GameController>
     private Touch touch;
     private UIController uiController;
     private MapsController mapsController;
-    private RoomController roomController;
     private FruitRotatorController fruitRotatorController;
     private TutorialsController tutorialController;
 
@@ -51,7 +50,6 @@ public class GameController : Singleton<GameController>
     {
         uiController = UIController.Instance;
         mapsController = MapsController.Instance;
-        roomController = RoomController.Instance;
         fruitRotatorController = FruitRotatorController.Instance;
         tutorialController = TutorialsController.Instance;
 

@@ -27,10 +27,7 @@ public class LevelsController : Singleton<LevelsController>
         // Populate dictionary of levels
         Levels = new Dictionary<int, ModelsController.ModelTypes>();
         foreach (var item in LevelObjects)
-        {
-            string name = item.Type.ToString();
             Levels.Add(item.Level, item.Type);
-        }
     }
 
     #region LOAD LEVEL

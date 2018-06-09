@@ -14,7 +14,6 @@ public class MapsController : Singleton<MapsController>
     private SplineComputer splineComputer;
     private SplineFollower follower;
     private Character character;
-    private PathGenerator path;
     private List<TargetPoint> targetPoints;
     private Material[] material;
     private int currentIndex;
@@ -36,7 +35,6 @@ public class MapsController : Singleton<MapsController>
         splineComputer = currentMap.GetComponent<SplineComputer>();
         follower = currentMap.GetComponentInChildren<SplineFollower>();
         character = follower.GetComponent<Character>();
-        path = splineComputer.GetComponent<PathGenerator>();
 
         // TEMPORARY EDITOR FIX FOR SHADER
         var meshes = follower.GetComponentsInChildren<MeshRenderer>();

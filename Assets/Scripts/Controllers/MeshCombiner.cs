@@ -4,7 +4,6 @@ public class MeshCombiner : Singleton<MeshCombiner>
 {
     private DynamicOutline dynamicOutline;
     private GameObject combinedObject;
-    private Transform tParent;
 
     public void Show()
     {
@@ -42,7 +41,6 @@ public class MeshCombiner : Singleton<MeshCombiner>
 
     public void CombineMesh(DynamicOutline _dynamicOutline, Material _material = null, Transform _parent = null, bool _enabled = true)
     {
-        tParent = _parent;
         dynamicOutline = _dynamicOutline;
 
         combinedObject = new GameObject();
