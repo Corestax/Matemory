@@ -15,6 +15,8 @@ public class Character : MonoBehaviour
     private SplineFollower follower;
     private Collider sphereCollider;
 
+    public int CurrentLevel { get; set; }
+
     void Start ()
     {
         uiController = UIController.Instance;
@@ -30,6 +32,7 @@ public class Character : MonoBehaviour
     {
         if (level <= PlatformPositions.Length)
         {
+            CurrentLevel = level;
             float posPercentage = PlatformPositions[level-1];
             follower.SetPercent(posPercentage);
         }
@@ -42,14 +45,16 @@ public class Character : MonoBehaviour
         else
             follower.direction = Spline.Direction.Backward;
 
-        follower.autoFollow = true;
         sphereCollider.enabled = true;
+        follower.followSpeed = 0.1f;
+        //follower.autoFollow = true;
     }
 
     public void Stop()
     {
-        follower.autoFollow = false;
+        //follower.autoFollow = false;
         sphereCollider.enabled = false;
+        follower.followSpeed = 0f;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -61,10 +66,8 @@ public class Character : MonoBehaviour
             if (targetPoint.Level == levelsController.CurrentLevel)
             {
                 Stop();
+                mapsController.SetCharacterLevel(targetPoint.Level);
                 ShowPanelPlayLevel(1f);
-
-                // Update targetpoint color
-                mapsController.HighlightTargetPoint(targetPoint.Level);
             }
         }
     }

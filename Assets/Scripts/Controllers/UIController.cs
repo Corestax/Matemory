@@ -20,8 +20,10 @@ public class UIController : Singleton<UIController>
 
     private GameController gameController;
     private LevelsController levelsController;
+    private MapsController mapsController;
     private ButtonsController buttonsController;
     private TimerController timeController;
+    private TutorialsController tutorialController;
     private AudioManager audioManager;
     private MeshCombiner meshCombiner;
 
@@ -34,8 +36,10 @@ public class UIController : Singleton<UIController>
     {
         gameController = GameController.Instance;
         levelsController = LevelsController.Instance;
+        mapsController = MapsController.Instance;
         buttonsController = ButtonsController.Instance;
         timeController = TimerController.Instance;
+        tutorialController = TutorialsController.Instance;
         audioManager = AudioManager.Instance;
         meshCombiner = MeshCombiner.Instance;
         activePanel = PanelTypes.NONE;
@@ -181,7 +185,7 @@ public class UIController : Singleton<UIController>
     public void OnPlayButtonClicked()
     {
         HidePanel(PanelTypes.MAIN_MENU);
-        TutorialsController.Instance.ShowTutorial(0);
+        tutorialController.ShowTutorial(0);
     }
     #endregion
 
@@ -255,8 +259,9 @@ public class UIController : Singleton<UIController>
                 yield return new WaitForSeconds(0.5f);
             }
 
-            // Save next level & load high score
-            levelsController.SaveLevel(levelsController.CurrentLevel + 1);            
+            // If new level unlocked: save next level
+            if(levelsController.CurrentLevel == levelsController.HighestLevel)
+                levelsController.SaveLevel(levelsController.CurrentLevel + 1);            
         }
         // Lose scenario
         else if(_type == GameController.EndGameTypes.LOSE)
@@ -275,7 +280,6 @@ public class UIController : Singleton<UIController>
     public void OnResultsNextClicked()
     {
         HideActivePanel();
-        //gameController.ShowMap(true, false);
 
         // Show map: animate character if progressing to new level
         if (levelsController.CurrentLevel == levelsController.HighestLevel)
@@ -307,7 +311,7 @@ public class UIController : Singleton<UIController>
     private void ShowPanelPlayLevel()
     {
         buttonsController.DisableAllButtonsExcept(fader_playLevel.transform);
-        text_playLevel.text = "Level " + (levelsController.CurrentLevel);
+        text_playLevel.text = "Level " + (mapsController.GetCharacterLevel());
         fader_playLevel.FadeIn(FADESPEED);
     }
 
@@ -320,7 +324,7 @@ public class UIController : Singleton<UIController>
     {
         gameController.StopGame(GameController.EndGameTypes.NONE);
         HideActivePanel();
-        gameController.HideMap();
+        gameController.HideMap(false);
         levelsController.LoadLevel();
     }
     #endregion
@@ -427,8 +431,8 @@ public class UIController : Singleton<UIController>
     }
 
     public void OnMapHideButtonClicked()
-    {
-        gameController.HideMap();
+    {        
+        gameController.HideMap(true);
     }
     #endregion
 
@@ -471,7 +475,7 @@ public class UIController : Singleton<UIController>
 
     public void OnHintClicked()
     {
-        if (!gameController.IsGameRunning || image_hintFill.fillAmount < 1f)
+        if (!gameController.IsGameRunning || gameController.IsGamePaused || image_hintFill.fillAmount < 1f)
             return;
 
         // Stop hint recharge

@@ -17,7 +17,7 @@ public class TutorialsController : Singleton<TutorialsController>
 
     private GameController gameController;
     private ModelsController modelsController;
-    private UIController uiContronller;
+    private UIController uiController;
     private ButtonsController buttonsController;
     private AudioManager audioManager;
 #if UNITY_EDITOR
@@ -28,7 +28,7 @@ public class TutorialsController : Singleton<TutorialsController>
     {
         gameController = GameController.Instance;
         modelsController = ModelsController.Instance;
-        uiContronller = UIController.Instance;
+        uiController = UIController.Instance;
         buttonsController = ButtonsController.Instance;
         audioManager = AudioManager.Instance;
 #if UNITY_EDITOR
@@ -87,7 +87,7 @@ public class TutorialsController : Singleton<TutorialsController>
             return;
         }
 
-        uiContronller.HideActivePanel();
+        uiController.HideActivePanel();
         buttonsController.DisableAllButtons();
         StopAllCoroutines();
         StartCoroutine(ShowTutorialCR(index));
@@ -164,9 +164,9 @@ public class TutorialsController : Singleton<TutorialsController>
         while (timeLeft > 0)
         {
             if (timeLeft > 1)
-                uiContronller.ShowStatusText(timeLeft.ToString(), Color.green);
+                uiController.ShowStatusText(timeLeft.ToString(), Color.green);
             else
-                uiContronller.ShowStatusText(timeLeft.ToString(), Color.green, 1f);
+                uiController.ShowStatusText(timeLeft.ToString(), Color.green, 1f);
             timeLeft--;
             audioManager.PlaySound(audioManager.audio_countdown);
             yield return new WaitForSeconds(1f);

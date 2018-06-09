@@ -16,13 +16,17 @@ public class LevelsController : Singleton<LevelsController>
 
     public Dictionary<int, ModelsController.ModelTypes> Levels { get; private set; }
 
+    private MapsController mapsController;
     private ModelsController modelsController;
+    private ScoreController scoreController;
     public int CurrentLevel = 0;
     public int HighestLevel = 0;
 
 	void Start ()
     {
+        mapsController = MapsController.Instance;
         modelsController = ModelsController.Instance;
+        scoreController = ScoreController.Instance;
 
         // Populate dictionary of levels
         Levels = new Dictionary<int, ModelsController.ModelTypes>();
@@ -46,8 +50,8 @@ public class LevelsController : Singleton<LevelsController>
     }
 
     public void LoadLevel()
-    {
-        LoadLevel(CurrentLevel);
+    {        
+        LoadLevel(mapsController.GetCharacterLevel());
     }
 
     public void LoadLevel(int level)
@@ -63,8 +67,7 @@ public class LevelsController : Singleton<LevelsController>
             HighestLevel = CurrentLevel;
 
         // Set character position in map
-        MapsController.Instance.SetCharacterPosition(level);
-        ScoreController.Instance.LoadHighScore();
+        mapsController.SetCharacterLevel(level);        
 
         // Spawn model
         ModelsController.ModelTypes type = Levels[level];
@@ -83,10 +86,11 @@ public class LevelsController : Singleton<LevelsController>
         CurrentLevel = level;
         HighestLevel = CurrentLevel;
 
+        // Load high score
+        scoreController.LoadHighScore();
+
         // Save level
         PlayerPrefs.SetInt("Level", level);
-
-        ScoreController.Instance.LoadHighScore();
     }
 
     private int GetSavedLevel()

@@ -29,7 +29,7 @@ public class SnapColliderRaycast : MonoBehaviour
 
     void Update()
     {
-        if (!gameController.IsGameRunning || !fruitRotatorController.SelectedFruit || (GameController.Instance.EnableAR && Input.touchCount == 0))
+        if (gameController.IsGamePaused || !gameController.IsGameRunning || !fruitRotatorController.SelectedFruit || (GameController.Instance.EnableAR && Input.touchCount == 0))
             return;
 
         RayCastSnapColliders();

@@ -32,7 +32,7 @@ public class Platform : MonoBehaviour
 
     void Update()
     {
-        if (!gameController.IsGameRunning || !isRotate)
+        if (!gameController.IsGameRunning || gameController.IsGamePaused || !isRotate)
             return;
 
         if (isClockwise)

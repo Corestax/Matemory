@@ -13,6 +13,7 @@ public class PinchZoom : MonoBehaviour
     public Camera MainCamera { get; set; }
 
     private FruitRotatorController fruitRotatorController;
+    private GameController gameController;
     private AudioManager audioManager;
 
     private const float SPEED = 2f;
@@ -31,13 +32,14 @@ public class PinchZoom : MonoBehaviour
     void Start()
     {
         fruitRotatorController = FruitRotatorController.Instance;
+        gameController = GameController.Instance;
         audioManager = AudioManager.Instance;
         scale = 1f;
     }
     
     void Update()
     {
-        if (!GameController.Instance.IsGameRunning)
+        if (!gameController.IsGameRunning || gameController.IsGamePaused)
             return;
 
         if (Input.touches.Length == 2)

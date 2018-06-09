@@ -65,7 +65,7 @@ public class FruitRotatorController : Singleton<FruitRotatorController>
 
     void Update()
     {
-        if (!gameController.IsGameRunning)
+        if (!gameController.IsGameRunning || gameController.IsGamePaused)
             return;
 
 #if UNITY_EDITOR

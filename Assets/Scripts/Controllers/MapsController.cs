@@ -10,29 +10,31 @@ public class MapsController : Singleton<MapsController>
     private GameObject[] Maps;
 
     private LevelsController levelsController;
+    private UIController uiController;
+    private ScoreController scoreController;
     private AudioManager audioManager;
-    private SplineComputer splineComputer;
     private SplineFollower follower;
     private Character character;
     private List<TargetPoint> targetPoints;
     private Material[] material;
-    private int currentIndex;
     private GameObject currentMap;
     private RaycastHit hit;
     private Ray ray;
     private Touch touch;
 
     public bool IsMapShowing { get; private set; }
+    public int MapIndex { get; private set; }
 
     void Start()
     {
         // Default current map to 0
         // NOTE: This will need to change in the future, when loading a saved map
-        SetMap(currentIndex);
+        SetMap(MapIndex);
 
         levelsController = LevelsController.Instance;
+        uiController = UIController.Instance;
+        scoreController = ScoreController.Instance;
         audioManager = AudioManager.Instance;
-        splineComputer = currentMap.GetComponent<SplineComputer>();
         follower = currentMap.GetComponentInChildren<SplineFollower>();
         character = follower.GetComponent<Character>();
 
@@ -100,32 +102,38 @@ public class MapsController : Singleton<MapsController>
             TargetPoint targetPoint = hit.collider.GetComponentInParent<TargetPoint>();
             int selectedLevel = targetPoint.Level;
             if (selectedLevel <= levelsController.HighestLevel)
-            {                
-                // If character needs to move
-                if (selectedLevel != levelsController.CurrentLevel)
-                {
-                    // Update targetpoint color
-                    HighlightTargetPoint(selectedLevel);
+            {
+                HighlightTargetPoint(selectedLevel);
+                SetCharacterLevel(selectedLevel);
+                uiController.ShowPanel(UIController.PanelTypes.PLAY_LEVEL);
 
-                    levelsController.CurrentLevel = selectedLevel;
-                    SetCharacterPosition(selectedLevel);
-
-                    UIController.Instance.ShowPanel(UIController.PanelTypes.PLAY_LEVEL);
-                }
-                // If character already on selected level
-                else
-                {
-                    UIController.Instance.ShowPanel(UIController.PanelTypes.PLAY_LEVEL);
-                }
+                //// Move character to selected level
+                //if (selectedLevel != levelsController.CurrentLevel)
+                //{
+                //    HighlightTargetPoint(selectedLevel);
+                //    SetCharacterLevel(selectedLevel);
+                //    uiController.ShowPanel(UIController.PanelTypes.PLAY_LEVEL);
+                //}
+                //// If character already on selected level: Show UI
+                //else
+                //{
+                //    uiController.ShowPanel(UIController.PanelTypes.PLAY_LEVEL);
+                //}
                 audioManager.PlaySound(audioManager.audio_selectLevel);
             }
         }
     }    
 
-    public void SetCharacterPosition(int level)
+    public void SetCharacterLevel(int level)
     {
         character.SetPosition(level);
         HighlightTargetPoint(level);
+        scoreController.LoadHighScore();
+    }
+
+    public int GetCharacterLevel()
+    {
+        return character.CurrentLevel;
     }
 
     private void LoadTargetPoints()
@@ -147,8 +155,8 @@ public class MapsController : Singleton<MapsController>
 
     public void SetMap(int _mapIndex)
     {
-        currentIndex = _mapIndex;
-        currentMap = Maps[currentIndex];
+        MapIndex = _mapIndex;
+        currentMap = Maps[MapIndex];
         follower = currentMap.GetComponentInChildren<SplineFollower>();
         LoadTargetPoints();
     }
@@ -173,8 +181,12 @@ public class MapsController : Singleton<MapsController>
     }
 
     // Do not call this function: Call GameController.HideMap() instead to hide plate
-    public void HideMap()
+    public void HideMap(bool discardCharacterLevelChanges)
     {
+        // Move back to current level
+        if (discardCharacterLevelChanges)
+            SetCharacterLevel(levelsController.CurrentLevel);
+        
         currentMap.SetActive(false);
         IsMapShowing = false;
     }

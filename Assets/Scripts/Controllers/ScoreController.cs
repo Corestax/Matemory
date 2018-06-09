@@ -2,28 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct ScoreMap
-{
-    public int Level;
-    public List<int> HighScores;
-}
-
 public class ScoreController : Singleton<ScoreController>
 {    
-    // Store high scores for each level independently of maps
-    // Key: MapIndex        Value: Level, Highscore
-    //private Dictionary<int , Dictionary<int, int>> Scores;   
-    //public Dictionary<int, int> HighScores;
-
     public int HighScore { get; private set; }
     public int CurrentScore { get; private set; }
 
     private TimerController timerController;
+    private MapsController mapsController;
     private GoogleGameServicesController googleGameServices;
 
     void Start()
     {
         timerController = TimerController.Instance;
+        mapsController = MapsController.Instance;
         googleGameServices = GoogleGameServicesController.Instance;
         HighScore = 0;
         CurrentScore = 0;
@@ -58,7 +49,6 @@ public class ScoreController : Singleton<ScoreController>
     private void CalculateScore()
     {
         CurrentScore = (int)timerController.TimeLeft * 10;
-        //print(CurrentScore);
     }
 
     public void SaveScore()
@@ -67,7 +57,7 @@ public class ScoreController : Singleton<ScoreController>
         if (CurrentScore > HighScore)
         {
             int level = LevelsController.Instance.CurrentLevel;
-            PlayerPrefs.SetInt("HighScore_" + level, CurrentScore);
+            PlayerPrefs.SetInt("HighScore_M" + mapsController.MapIndex + "_" + level, CurrentScore);
             HighScore = CurrentScore;
             print("New high score for level " + level + ": " + HighScore);
 
@@ -79,15 +69,13 @@ public class ScoreController : Singleton<ScoreController>
     public void LoadHighScore()
     {
         HighScore = 0;
-        int level = LevelsController.Instance.CurrentLevel;
+        int level = MapsController.Instance.GetCharacterLevel();
         
         // Retrieve last saved score for current level from PlayerPrefs
-        if (PlayerPrefs.HasKey("HighScore_" + level))
+        if (PlayerPrefs.HasKey("HighScore_M" + mapsController.MapIndex + "_" +  level))
         {
             HighScore = PlayerPrefs.GetInt("HighScore_" + level);
-            print("Loaded previously saved score for level " + level + ": " + HighScore);
         }
-        
         // or leaderboard
         else
         {
@@ -97,7 +85,7 @@ public class ScoreController : Singleton<ScoreController>
                     return;
                 
                 HighScore = score;
-                PlayerPrefs.SetInt("HighScore_" + level, CurrentScore);
+                PlayerPrefs.SetInt("HighScore_M" + mapsController.MapIndex + "_" + level, HighScore);
             });
         }
     }

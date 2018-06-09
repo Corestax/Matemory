@@ -233,7 +233,7 @@ GameObject:
   - component: {fileID: 4410343311064246}
   - component: {fileID: 114449767471438638}
   m_Layer: 0
-  m_Name: Elephent
+  m_Name: Elephant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1262,7 +1262,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.055, y: 0.14, z: -0.055}
+  m_Size: {x: 0.055, y: 0.14, z: 0.055}
   m_Center: {x: 0.027, y: 0, z: -0.027}
 --- !u!65 &65954032022197830
 BoxCollider:
@@ -1274,7 +1274,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.055, y: 0.14, z: -0.055}
+  m_Size: {x: 0.055, y: 0.14, z: 0.055}
   m_Center: {x: 0.027, y: 0, z: -0.027}
 --- !u!114 &114030644982343096
 MonoBehaviour:

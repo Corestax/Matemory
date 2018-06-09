@@ -105,9 +105,9 @@ public class GameController : Singleton<GameController>
         PauseGame();
     }
 
-    public void HideMap()
-    {
-        mapsController.HideMap();
+    public void HideMap(bool discardCharacterLevelChanges)
+    {       
+        mapsController.HideMap(discardCharacterLevelChanges);
         uiController.HideCloseMapButton();
         Plate.SetActive(true);
 
@@ -135,7 +135,7 @@ public class GameController : Singleton<GameController>
 
     void DragItem()
     {
-        if (!IsGameRunning || tutorialController.IsActive)
+        if (!IsGameRunning || IsGamePaused || tutorialController.IsActive)
             return;
 
         // Mouse input
@@ -242,6 +242,7 @@ public class GameController : Singleton<GameController>
         if (IsGameRunning)
             return;
 
+        IsGamePaused = false;
         IsGameRunning = true;
         if (OnGameStarted != null)
             OnGameStarted();
