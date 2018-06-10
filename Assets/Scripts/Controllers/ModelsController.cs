@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ModelsController : Singleton<ModelsController>
 {
-    public enum ModelTypes { NONE, ANT = 100, BIRD = 200, BUTTERFLY = 300, CAT = 400, GIRAFFE = 500, LIZARD = 600, RABBIT = 700, SEMI_TRUCK = 800, SPACESHIP = 900, SQUID = 1000, TURTLE = 1100 }
+    public enum ModelTypes { NONE, ANT = 100, ARMADILLO = 200, BEETLE = 300, BIRD = 400, BUTTERFLY = 500, CAT = 600, CATERPILLAR = 700, CRAB = 800, ELEPHANT = 900,  GIRAFFE = 1000, LIZARD = 1100, RABBIT = 1200, SEMI_TRUCK = 1300, SNOWMAN = 1400, SPACESHIP = 1500, SQUID = 1600, TEDDYBEAR = 1700, TURTLE = 1800, WARBOAT = 1900, WINDMILL = 2000 }
 
     [Serializable]
     public struct Model

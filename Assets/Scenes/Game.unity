@@ -8063,27 +8063,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelObjects:
   - Level: 1
-    Type: 1000
-  - Level: 2
-    Type: 900
-  - Level: 3
-    Type: 100
-  - Level: 4
-    Type: 1100
-  - Level: 5
-    Type: 300
-  - Level: 6
-    Type: 200
-  - Level: 7
-    Type: 600
-  - Level: 8
-    Type: 800
-  - Level: 9
-    Type: 400
-  - Level: 10
     Type: 700
-  - Level: 11
+  - Level: 2
+    Type: 2000
+  - Level: 3
+    Type: 1600
+  - Level: 4
+    Type: 400
+  - Level: 5
+    Type: 1500
+  - Level: 6
+    Type: 1800
+  - Level: 7
+    Type: 1200
+  - Level: 8
+    Type: 200
+  - Level: 9
     Type: 500
+  - Level: 10
+    Type: 1300
+  - Level: 11
+    Type: 1100
+  - Level: 12
+    Type: 100
+  - Level: 13
+    Type: 800
+  - Level: 14
+    Type: 300
+  - Level: 15
+    Type: 1400
+  - Level: 16
+    Type: 600
+  - Level: 17
+    Type: 900
+  - Level: 18
+    Type: 1900
+  - Level: 19
+    Type: 1000
+  - Level: 20
+    Type: 1700
   CurrentLevel: 0
   HighestLevel: 0
 --- !u!1 &1225219174
@@ -8822,25 +8840,43 @@ MonoBehaviour:
   - Type: 100
     Prefab: {fileID: 1776696987092058, guid: cb58b82010548a341b22df3e965629d9, type: 2}
   - Type: 200
-    Prefab: {fileID: 1618315349344442, guid: 3809bc24810a07a438cd577c32cc4cda, type: 2}
+    Prefab: {fileID: 1346159928052762, guid: c745d0cf87434494e9d730846e366fcf, type: 2}
   - Type: 300
-    Prefab: {fileID: 1418599999840028, guid: 54fbf937638740c428b74cee1e277f4e, type: 2}
+    Prefab: {fileID: 1960575830445964, guid: a436984864c97f94db3bd803151600dc, type: 2}
   - Type: 400
-    Prefab: {fileID: 1343825339549658, guid: 607f9033ec9d9c4468fc1a614909864a, type: 2}
+    Prefab: {fileID: 1618315349344442, guid: 3809bc24810a07a438cd577c32cc4cda, type: 2}
   - Type: 500
-    Prefab: {fileID: 1733398428175870, guid: 4d4abd7a58848ba42a9a64eaaa4dfd18, type: 2}
+    Prefab: {fileID: 1418599999840028, guid: 54fbf937638740c428b74cee1e277f4e, type: 2}
   - Type: 600
-    Prefab: {fileID: 1178185707003030, guid: c5a91607ea877734c84e40fbd8c33c88, type: 2}
+    Prefab: {fileID: 1343825339549658, guid: 607f9033ec9d9c4468fc1a614909864a, type: 2}
   - Type: 700
-    Prefab: {fileID: 1512510701902448, guid: b041717c6d0f0b543b74a84ac3606ee6, type: 2}
+    Prefab: {fileID: 1367141242122408, guid: f1a6ddde83b01264ea2b49dc4868e316, type: 2}
   - Type: 800
-    Prefab: {fileID: 1535136712990296, guid: 18a2d685768c8024281efb5393f1419f, type: 2}
+    Prefab: {fileID: 1525838492022692, guid: 087112fbed708a747b8be5562cb7b5c7, type: 2}
   - Type: 900
-    Prefab: {fileID: 1819159463463230, guid: 4ca5e9fe0303a6b4b8b257ba20cf66c8, type: 2}
+    Prefab: {fileID: 1632914033220794, guid: 422944a831bf6b146b07028b778d64bc, type: 2}
   - Type: 1000
-    Prefab: {fileID: 1623371119371774, guid: d86985cafc78500459e604353d3a0eb6, type: 2}
+    Prefab: {fileID: 1733398428175870, guid: 4d4abd7a58848ba42a9a64eaaa4dfd18, type: 2}
   - Type: 1100
+    Prefab: {fileID: 1178185707003030, guid: c5a91607ea877734c84e40fbd8c33c88, type: 2}
+  - Type: 1200
+    Prefab: {fileID: 1512510701902448, guid: b041717c6d0f0b543b74a84ac3606ee6, type: 2}
+  - Type: 1300
+    Prefab: {fileID: 1535136712990296, guid: 18a2d685768c8024281efb5393f1419f, type: 2}
+  - Type: 1400
     Prefab: {fileID: 1396507733496730, guid: 258555abd4538da459b104c11b7dc09c, type: 2}
+  - Type: 1500
+    Prefab: {fileID: 1758006876242366, guid: 1f3f048c5ba55da4ea9331d59e58c078, type: 2}
+  - Type: 1600
+    Prefab: {fileID: 1623371119371774, guid: d86985cafc78500459e604353d3a0eb6, type: 2}
+  - Type: 1700
+    Prefab: {fileID: 1042825886190638, guid: 1af4bbb460b59a643b69ac0c2ff1555b, type: 2}
+  - Type: 1800
+    Prefab: {fileID: 1396507733496730, guid: 258555abd4538da459b104c11b7dc09c, type: 2}
+  - Type: 1900
+    Prefab: {fileID: 1336252154938332, guid: 0dc3bcb8c83668844bcc5f132b052768, type: 2}
+  - Type: 2000
+    Prefab: {fileID: 1840232749779624, guid: 29e0564aac200934ba461a05b8125848, type: 2}
   platform: {fileID: 2081891069}
   mat_meshCombinedOutline: {fileID: 2100000, guid: d039d5a14be4eda4b81a20aa336c00b9,
     type: 2}
