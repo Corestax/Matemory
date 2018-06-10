@@ -50,10 +50,12 @@ public class UIController : Singleton<UIController>
         color_hintFilled = color_hintAlpha;
         color_hintFilled.a = 1f;
 
-        // Start main menu enabled
-        fader_mainMenu.FadeIn(0f);
         HideSettingsButton();
         HideCloseMapButton();
+
+        // Start main menu enabled
+        activePanel = PanelTypes.MAIN_MENU;
+        fader_mainMenu.FadeIn(0f);
 
         LoadMusicSettings();
     }
@@ -107,9 +109,10 @@ public class UIController : Singleton<UIController>
 
     public void ShowPanel(PanelTypes panel, GameController.EndGameTypes _type = GameController.EndGameTypes.NONE)
     {
-        // Hide last active panel
-        HideActivePanel();
-
+        // Hide last active panel (do not close if settings panel)
+        if(panel != PanelTypes.SETTINGS)
+            HideActivePanel();
+        
         // Show new panel        
         switch (panel)
         {
@@ -163,7 +166,7 @@ public class UIController : Singleton<UIController>
     }
 
     public void HideActivePanel()
-    {
+    {        
         HidePanel(activePanel);
     }
 
@@ -362,6 +365,8 @@ public class UIController : Singleton<UIController>
     [SerializeField]
     private GameObject button_settings;
     [SerializeField]
+    private GameObject button_settingsMap;
+    [SerializeField]
     private Text text_buttonMusic;
 
     public void OnSettingsButtonClicked()
@@ -373,6 +378,12 @@ public class UIController : Singleton<UIController>
     {
         if (!MapsController.Instance.IsMapShowing)
             gameController.PauseGame();
+
+        // If settings panel was opened from Main Menu: Do not show MAPS button
+        if (activePanel == PanelTypes.MAIN_MENU)
+            button_settingsMap.SetActive(false);
+        else
+            button_settingsMap.SetActive(true);
 
         buttonsController.DisableAllButtonsExcept(fader_settings.transform);
         fader_settings.FadeIn(FADESPEED);
