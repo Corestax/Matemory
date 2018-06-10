@@ -330,6 +330,32 @@ public class UIController : Singleton<UIController>
     #endregion
 
 
+    #region COUNTDOWN
+    private Coroutine CR_ShowCountdown;
+    public void ShowCountdown()
+    {
+        if (CR_ShowCountdown != null)
+            StopCoroutine(CR_ShowCountdown);
+        CR_ShowCountdown = StartCoroutine(ShowCountdownCR());
+    }
+
+    private IEnumerator ShowCountdownCR()
+    {
+        int timeLeft = 5;
+        while (timeLeft > 0)
+        {
+            if (timeLeft > 1)
+                ShowStatusText(timeLeft.ToString(), Color.green);
+            else
+                ShowStatusText(timeLeft.ToString(), Color.green, 1f);
+            timeLeft--;
+            audioManager.PlaySound(audioManager.audio_countdown);
+            yield return new WaitForSeconds(1f);
+        }
+    }
+    #endregion
+
+
     #region SETTINGS
     [SerializeField]
     private CanvasFader fader_settings;

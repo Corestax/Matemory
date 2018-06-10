@@ -22,7 +22,7 @@ public class ModelsController : Singleton<ModelsController>
     private Material mat_meshCombinedOutline;
 
     private FruitsController fruitsController;
-    //private UIController uiController;
+    private UIController uiController;
     private AudioManager audioManager;
     private Coroutine CR_Explode;
 
@@ -38,7 +38,7 @@ public class ModelsController : Singleton<ModelsController>
     void Start()
     {
         fruitsController = FruitsController.Instance;
-        //uiController = UIController.Instance;
+        uiController = UIController.Instance;
         audioManager = AudioManager.Instance;
 
         // Define times
@@ -93,6 +93,7 @@ public class ModelsController : Singleton<ModelsController>
     public void RotatePlatformAndExplode()
     {
         platform.RotatePlatform(Explode, time_rotatePlatform, false);
+        uiController.ShowCountdown();
     }
 
     private void Clear()

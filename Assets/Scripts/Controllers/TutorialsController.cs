@@ -57,31 +57,22 @@ public class TutorialsController : Singleton<TutorialsController>
 
     public void ShowTutorial(int index)
     {
-        if (currentIndex == index || index >= faders.Length)
+        if (currentIndex == index || index < 0 || index >= faders.Length)
             return;
 
-        // Skip tutorial and start game      
-        if (index > 0 && IsCompleted[index] == true)
+        // Skip tutorial and process next action      
+        if (IsCompleted[index] == true)
         {
             currentIndex = index;
             if (index == 1)
             {
-                // Rotate platform
-                ModelsController.Instance.RotatePlatformAndExplode();
-                ShowCountdown();
+                // Rotate platform and show countdown                
+                modelsController.RotatePlatformAndExplode();
             }
             else
             {
-                // Check if all tutorials marked as complete
-                int count = 0;
-                foreach(var c in IsCompleted)
-                {
-                    if (c == true)
-                        count++;
-                }
-
                 // Start game
-                if (count == IsCompleted.Length)
+                if(IsTutorialCompleted())
                     gameController.StartGame();
             }
             return;
@@ -120,6 +111,18 @@ public class TutorialsController : Singleton<TutorialsController>
                 yield return null;
         }
     }
+    
+    private bool IsTutorialCompleted()
+    {
+        int count = 0;
+        foreach (var c in IsCompleted)
+        {
+            if (c == true)
+                count++;
+        }
+
+        return (count == IsCompleted.Length) ? true : false;
+    }
 
     public void OnNextClicked()
     {
@@ -141,35 +144,10 @@ public class TutorialsController : Singleton<TutorialsController>
 #endif
         }
         // Memorize
-        else if (currentIndex == 1)
-        {
-            modelsController.RotatePlatformAndExplode();
-            ShowCountdown();
-        }
+        else if (currentIndex == 1)        
+            modelsController.RotatePlatformAndExplode();        
         // Drag fruit
-        else if (currentIndex == 2)
-        {
-            gameController.StartGame();
-        }
-    }
-
-    private void ShowCountdown()
-    {
-        StartCoroutine(ShowCountdownCR());
-    }
-
-    private IEnumerator ShowCountdownCR()
-    {
-        int timeLeft = 5;
-        while (timeLeft > 0)
-        {
-            if (timeLeft > 1)
-                uiController.ShowStatusText(timeLeft.ToString(), Color.green);
-            else
-                uiController.ShowStatusText(timeLeft.ToString(), Color.green, 1f);
-            timeLeft--;
-            audioManager.PlaySound(audioManager.audio_countdown);
-            yield return new WaitForSeconds(1f);
-        }
+        else if (currentIndex == 2)        
+            gameController.StartGame();        
     }
 }
