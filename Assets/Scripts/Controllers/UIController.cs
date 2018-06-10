@@ -110,9 +110,9 @@ public class UIController : Singleton<UIController>
     public void ShowPanel(PanelTypes panel, GameController.EndGameTypes _type = GameController.EndGameTypes.NONE)
     {
         // Hide last active panel (do not close if settings panel)
-        if(panel != PanelTypes.SETTINGS)
+        if (activePanel != PanelTypes.MAIN_MENU)
             HideActivePanel();
-        
+
         // Show new panel        
         switch (panel)
         {
