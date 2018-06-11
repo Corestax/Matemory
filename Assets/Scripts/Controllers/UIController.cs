@@ -53,11 +53,11 @@ public class UIController : Singleton<UIController>
         HideSettingsButton();
         HideCloseMapButton();
 
+        LoadMusicSettings();
+
         // Start main menu enabled
         activePanel = PanelTypes.MAIN_MENU;
         fader_mainMenu.FadeIn(0f);
-
-        LoadMusicSettings();
     }
 
     void OnEnable()
@@ -66,8 +66,12 @@ public class UIController : Singleton<UIController>
         GameController.OnGameEnded += OnGameEnded;
         GameController.OnGamePaused += OnGamePaused;
         GameController.OnGameUnpaused += OnGameUnpaused;
-        ARCoreController.OnTrackingActive += ShowHUD;
-        ARCoreController.OnTrackingLost += HideHUD;
+
+        if (gameController.EnableAR)
+        {
+            ARCoreController.OnTrackingActive += OnTrackingActive;
+            ARCoreController.OnTrackingLost += OnTrackingLost;
+        }
     }
 
     void OnDisable()
@@ -77,8 +81,12 @@ public class UIController : Singleton<UIController>
         GameController.OnGameEnded -= OnGameEnded;
         GameController.OnGamePaused -= OnGamePaused;
         GameController.OnGameUnpaused -= OnGameUnpaused;
-        ARCoreController.OnTrackingActive -= ShowHUD;
-        ARCoreController.OnTrackingLost -= HideHUD;
+
+        if (gameController.EnableAR)
+        {
+            ARCoreController.OnTrackingActive -= OnTrackingActive;
+            ARCoreController.OnTrackingLost -= OnTrackingLost;
+        }
     }    
 
     private void OnGameStarted()
@@ -105,6 +113,22 @@ public class UIController : Singleton<UIController>
     private void OnGameUnpaused()
     {
         ShowHUD();
+    }
+
+    private void OnTrackingActive()
+    {
+        if (!gameController.IsGameRunning || (gameController.IsGameRunning && gameController.IsGamePaused))
+            return;
+
+        ShowHUD();
+    }
+
+    private void OnTrackingLost()
+    {
+        if (!gameController.IsGameRunning || (gameController.IsGameRunning && gameController.IsGamePaused))
+            return;
+
+        HideHUD();
     }
 
     public void ShowPanel(PanelTypes panel, GameController.EndGameTypes _type = GameController.EndGameTypes.NONE)
@@ -139,7 +163,7 @@ public class UIController : Singleton<UIController>
     }    
 
     public void HidePanel(PanelTypes panel)
-    {        
+    {
         switch (panel)
         {
             case PanelTypes.MAIN_MENU:
@@ -166,7 +190,7 @@ public class UIController : Singleton<UIController>
     }
 
     public void HideActivePanel()
-    {        
+    {
         HidePanel(activePanel);
     }
 
@@ -464,19 +488,18 @@ public class UIController : Singleton<UIController>
 
     public void OnMapShowButtonClicked()
     {
-        gameController.ShowMap(false, true);        
+        gameController.ShowMap(false, true);
     }
 
     public void OnMapHideButtonClicked()
     {        
         gameController.HideMap(true);
     }
-    #endregion
-
+    #endregion    
 
     public void ShowHUD()
     {
-        if (!gameController.IsGameRunning)
+        if (!gameController.IsGameRunning || gameController.IsGamePaused)
             return;
 
         buttons_top.SetActive(true);
