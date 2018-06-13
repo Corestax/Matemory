@@ -11,12 +11,11 @@ using UnityEngine.UI;
 public class GoogleGameServicesController : Singleton<GoogleGameServicesController>
 {
     [SerializeField]
-    private GameObject loginButton;
-    [SerializeField]
     private GameObject loginResult;
-    [SerializeField]
-    private GameObject[] GGSButtons;
-    
+
+    public static event Action OnUserLoggedIn;
+    public static event Action OnUserLoggedOut;
+
     private enum GetLeaderboardIdByLevel {
         CgkIqqKPyKgOEAIQAQ = 1,
         CgkIqqKPyKgOEAIQAg = 2,
@@ -40,7 +39,6 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
         CgkIqqKPyKgOEAIQFA = 20
     }
 
-
     private bool mAuthenticating = false;
 
     // Use this for initialization
@@ -48,8 +46,8 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
     {
         if (Authenticated)
         {
-            DisableLoginButton();
-            EnableGGSButtons();
+            if (OnUserLoggedIn != null)
+                OnUserLoggedIn();
         }
     }
 
@@ -75,20 +73,25 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
             mAuthenticating = false;
             if (success)
             {
-                // if we signed in successfully, load data from cloud
-                Debug.Log("Login successful!");
-                EnableGGSButtons();
+                if (OnUserLoggedIn != null)
+                    OnUserLoggedIn();
             }
             else
-            {
-                // no need to show error message (error messages are shown automatically
-                // by plugin)
                 Debug.LogWarning("Failed to sign in with Google Play Games.");
-            }
 
-            LoginResult();
+            ShowLoginResult();
         });
     }
+
+
+    public void SignOut()
+    {
+        ((PlayGamesPlatform)Social.Active).SignOut();
+
+        if (OnUserLoggedOut != null)
+            OnUserLoggedOut();
+    }
+
 
     public void AddScoreToLeaderboard(int level, int score)
     {
@@ -185,22 +188,16 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
     }
 
 
-    private void DisableLoginButton()
+    private void ShowLoginResult()
     {
-        if (loginButton != null)
-            loginButton.SetActive(false);
-    }
-
-    private void LoginResult()
-    {
-        if (CRLoginResult != null)
-            StopCoroutine(CRLoginResult);
+        if (CRShowLoginResult != null)
+            StopCoroutine(CRShowLoginResult);
         
-        CRLoginResult = StartCoroutine(LoginResultCR());
+        CRShowLoginResult = StartCoroutine(ShowLoginResultCR());
     }
 
-    private Coroutine CRLoginResult;
-    IEnumerator LoginResultCR()
+    private Coroutine CRShowLoginResult;
+    IEnumerator ShowLoginResultCR()
     {
         if (loginResult != null)
         {
@@ -215,18 +212,6 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
         if (loginResult != null)
             loginResult.GetComponent<CanvasFader>().FadeOut(0.25f);
 
-        if (loginButton != null && Authenticated)
-            loginButton.GetComponent<CanvasFader>().FadeOut(0.25f);
-
-        CRLoginResult = null;
-    }
-
-    
-    private void EnableGGSButtons()
-    {
-        foreach (var go in GGSButtons)
-        {
-            go.SetActive(true);
-        }
+        CRShowLoginResult = null;
     }
 }

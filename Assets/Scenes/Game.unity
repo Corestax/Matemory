@@ -3566,7 +3566,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 30, y: 0}
+  m_AnchoredPosition: {x: 25, y: 0}
   m_SizeDelta: {x: 64, y: 64}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &525564193
@@ -4926,8 +4926,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: -100}
-  m_SizeDelta: {x: 0, y: 100}
+  m_AnchoredPosition: {x: -40, y: -100}
+  m_SizeDelta: {x: -80, y: 100}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &757471918
 MonoBehaviour:
@@ -5008,10 +5008,9 @@ GameObject:
   - component: {fileID: 762871888}
   - component: {fileID: 762871887}
   - component: {fileID: 762871886}
-  - component: {fileID: 762871891}
-  - component: {fileID: 762871890}
+  - component: {fileID: 762871892}
   m_Layer: 5
-  m_Name: Button_LoginGameServices
+  m_Name: Button_Login
   m_TagString: AlwaysInteractable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5090,8 +5089,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 965705777}
-        m_MethodName: SignIn
+      - m_Target: {fileID: 762871892}
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5138,7 +5137,7 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 762871884}
---- !u!114 &762871890
+--- !u!114 &762871892
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -5146,25 +5145,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 762871884}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54bb5878a98ce9d49b90b935ac267cd7, type: 3}
+  m_Script: {fileID: 11500000, guid: a4a85c6b306961f408dd5204c6c4c251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnFadeOut:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
---- !u!225 &762871891
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 762871884}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
+  text_Button: {fileID: 944560765}
+  button_Login: {fileID: 0}
 --- !u!1 &785026449
 GameObject:
   m_ObjectHideFlags: 0

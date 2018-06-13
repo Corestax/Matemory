@@ -1,0 +1,62 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class LoginButton : MonoBehaviour
+{
+    [SerializeField]
+    private Text text_Button;
+    [SerializeField]
+    private Button button_Login;
+
+    private const string loginText = "LOGIN";
+    private const string logoutText = "LOGOUT";
+
+
+    private void OnEnable() {
+        GoogleGameServicesController.OnUserLoggedIn += CheckUserStatus;
+        GoogleGameServicesController.OnUserLoggedOut += CheckUserStatus;
+    }
+
+    private void OnDisable()
+    {
+        GoogleGameServicesController.OnUserLoggedIn -= CheckUserStatus;
+        GoogleGameServicesController.OnUserLoggedOut -= CheckUserStatus;
+    }
+
+    public void OnClick()
+    {
+        if (IsUserLoggedIn())
+            GoogleGameServicesController.Instance.SignOut();
+        else
+            GoogleGameServicesController.Instance.SignIn();
+    }
+
+    public void UserLoggedIn()
+    {
+        text_Button.text = logoutText;
+    }
+
+
+    public void UserLoggedOut()
+    {
+        text_Button.text = loginText;
+    }
+
+
+    public void CheckUserStatus()
+    {
+        if (IsUserLoggedIn())
+            UserLoggedIn();
+        else
+            UserLoggedOut();
+    }
+
+
+    private bool IsUserLoggedIn()
+    {
+        return GoogleGameServicesController.Instance.Authenticated;
+    }
+
+}
