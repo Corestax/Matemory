@@ -67,7 +67,7 @@ public class UIController : Singleton<UIController>
         GameController.OnGamePaused += OnGamePaused;
         GameController.OnGameUnpaused += OnGameUnpaused;
 
-        if (gameController.EnableAR)
+        if (GameController.Instance.EnableAR)
         {
             ARCoreController.OnTrackingActive += OnTrackingActive;
             ARCoreController.OnTrackingLost += OnTrackingLost;
