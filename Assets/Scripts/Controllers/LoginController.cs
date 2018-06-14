@@ -49,14 +49,11 @@ public class LoginController : Singleton<LoginController>
             if (string.IsNullOrEmpty(www.error))
             {
                 success = true;
-                Debug.Log(www.text);
             }
             else
             {
                 success = false;
                 error = JsonUtility.FromJson<UserError>(www.text);
-
-                Debug.LogWarning(www.text);
             }
                 
             if (callback != null)

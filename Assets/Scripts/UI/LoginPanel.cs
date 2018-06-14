@@ -95,16 +95,32 @@ public class LoginPanel : MonoBehaviour
             loginController.Login(email, pass, LoginSignCallback);
         else
             loginController.Signup(name, email, pass, LoginSignCallback);
+
+        HideLoginMessage();
     }
 
     public void LoginSignCallback(bool success, UserError error = null)
     {
-        Debug.Log("login/signup callback");
+        List<string> messages = new List<string>();
 
-        string message = success ? "LOGIN SUCCESSFUL" : "LOGIN FAILED";
+        if (success)
+            messages.Add("LOGIN SUCCESSFUL");
+        else
+        {
+            if (!string.IsNullOrEmpty(error.name))
+                messages.Add(error.name.ToUpper());
 
-        ShowLoginMessage(message);
-        RunLoginMessageTimeout();
+            if (!string.IsNullOrEmpty(error.email))
+                messages.Add(error.email.ToUpper());
+
+            if (!string.IsNullOrEmpty(error.password))
+                messages.Add(error.password.ToUpper());
+        }
+
+        if (!success && messages.Count == 0)
+            messages.Add("LOGIN FAILED");
+
+        ShowLoginMessage(string.Join("\n", messages.ToArray()));
     }
     #endregion
 
