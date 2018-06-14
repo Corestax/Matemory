@@ -447,6 +447,9 @@ public class UIController : Singleton<UIController>
 
     public void ShowPanelLogin()
     {
+        // reset ActivePanel to Login
+        fader_LoginPanel.GetComponent<LoginPanel>().ResetStatus();
+
         fader_LoginPanel.FadeIn(FADESPEED);
         buttonsController.DisableAllButtonsExcept(fader_LoginPanel.transform);
     }

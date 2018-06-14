@@ -23,12 +23,12 @@ public class LoginPanel : MonoBehaviour
     private GameObject go_LoginMessage;
 
     public enum PanelTypes { LOGIN, SIGNUP }
-    private PanelTypes ActivePanel = PanelTypes.LOGIN;
+    private PanelTypes ActivePanel;
 
 
     private void OnEnable()
     {
-        ShowPanel(ActivePanel);
+        ShowPanel(PanelTypes.LOGIN);
     }
 
     public void ShowPanel(PanelTypes panel)
@@ -58,7 +58,6 @@ public class LoginPanel : MonoBehaviour
         ShowPanel(PanelTypes.SIGNUP);
     }
 
-
     public void OnClickGoogleLogin()
     {
         GoogleGameServicesController.Instance.SignIn(GoogleLoginCallback);
@@ -75,6 +74,15 @@ public class LoginPanel : MonoBehaviour
         }
         else
             UIController.Instance.ShowPanel(UIController.PanelTypes.SETTINGS);
+    }
+
+    public void ResetStatus()
+    {
+        ShowPanel(PanelTypes.LOGIN);
+
+        input_Name.text = "";
+        input_Email.text = "";
+        input_Pass.text = "";
     }
 
     private void ShowLoginPanel()
