@@ -49,6 +49,11 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
             if (OnUserLoggedIn != null)
                 OnUserLoggedIn();
         }
+        else
+        {
+            if (OnUserLoggedOut != null)
+                OnUserLoggedOut();
+        }
     }
 
     public void SignIn()
