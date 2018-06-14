@@ -38,18 +38,29 @@ public class LoginController : Singleton<LoginController>
 
     IEnumerator SendRequestCR(string url, WWWForm form, Action<bool, UserError> callback = null)
     {
+        bool success;
+        UserError error = null;
+
         using (WWW www = new WWW(url, form))
         {
             yield return www;
 
             // save UserData (name)?
             if (string.IsNullOrEmpty(www.error))
+            {
+                success = true;
                 Debug.Log(www.text);
+            }
             else
+            {
+                success = false;
+                error = JsonUtility.FromJson<UserError>(www.text);
+
                 Debug.LogWarning(www.text);
-            
+            }
+                
             if (callback != null)
-                callback(false, null);
+                callback(success, error);
         }
     }
 }
