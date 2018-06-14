@@ -7,8 +7,6 @@ public class LoginButton : MonoBehaviour
 {
     [SerializeField]
     private Text text_Button;
-    [SerializeField]
-    private Button button_Login;
 
     private const string loginText = "LOGIN";
     private const string logoutText = "LOGOUT";
@@ -30,7 +28,12 @@ public class LoginButton : MonoBehaviour
         if (IsUserLoggedIn())
             GoogleGameServicesController.Instance.SignOut();
         else
-            GoogleGameServicesController.Instance.SignIn();
+            UIController.Instance.ShowPanelLogin();
+    }
+
+    public void LoginCallback(bool status, string error)
+    {
+        Debug.Log("Google Login");
     }
 
     public void UserLoggedIn()

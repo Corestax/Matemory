@@ -27,7 +27,7 @@ public class UIController : Singleton<UIController>
     private AudioManager audioManager;
     private MeshCombiner meshCombiner;
 
-    public enum PanelTypes { NONE, MAIN_MENU, RESULTS, PLAY_LEVEL, SETTINGS }
+    public enum PanelTypes { NONE, MAIN_MENU, RESULTS, PLAY_LEVEL, SETTINGS, LOGIN }
     private PanelTypes activePanel;
 
     private const float FADESPEED = 0.25f;
@@ -180,6 +180,10 @@ public class UIController : Singleton<UIController>
 
             case PanelTypes.SETTINGS:
                 HidePanelSettings();
+                break;
+
+            case PanelTypes.LOGIN:
+                HidePanelLogin();
                 break;
 
             default:
@@ -429,6 +433,32 @@ public class UIController : Singleton<UIController>
     public void HideSettingsButton()
     {
         button_settings.SetActive(false);
+    }
+    #endregion
+
+
+    #region LOGIN
+    [SerializeField]
+    private CanvasFader fader_LoginPanel;
+
+    public void ShowPanelLogin()
+    {
+        // Hide settings panel
+        HidePanelSettings();
+
+        fader_LoginPanel.FadeIn(FADESPEED);
+        buttonsController.EnableAllButtons();
+        buttonsController.DisableAllButtonsExcept(fader_LoginPanel.transform);
+    }
+
+    public void HidePanelLogin()
+    {
+        buttonsController.EnableAllButtons();
+        fader_LoginPanel.FadeOut(FADESPEED);
+
+        // Show settings panel
+        ShowPanelSettings();
+
     }
     #endregion
 
