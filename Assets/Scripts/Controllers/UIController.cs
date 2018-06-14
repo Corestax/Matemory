@@ -458,7 +458,6 @@ public class UIController : Singleton<UIController>
 
         // Show settings panel
         ShowPanelSettings();
-
     }
     #endregion
 
