@@ -3617,6 +3617,7 @@ MonoBehaviour:
   text_SignupMenu: {fileID: 2123206761}
   color_ActiveMenu: {r: 0, g: 1, b: 0.15686275, a: 1}
   color_NotActiveMenu: {r: 0.3882353, g: 0.3882353, b: 0.3882353, a: 1}
+  go_LoginMessage: {fileID: 96275442}
 --- !u!1 &480828599
 GameObject:
   m_ObjectHideFlags: 0
@@ -5622,8 +5623,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 965705777}
-        m_MethodName: SignIn
+      - m_Target: {fileID: 476400151}
+        m_MethodName: OnClickGoogleLogin
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7348,7 +7349,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95bf911acc9249149b433f12496fba4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loginResult: {fileID: 96275442}
 --- !u!1 &968421493
 GameObject:
   m_ObjectHideFlags: 0

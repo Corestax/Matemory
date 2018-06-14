@@ -19,6 +19,8 @@ public class LoginPanel : MonoBehaviour
     private Color color_ActiveMenu;
     [SerializeField]
     private Color color_NotActiveMenu;
+    [SerializeField]
+    private GameObject go_LoginMessage;
 
     public enum PanelTypes { LOGIN, SIGNUP }
     private PanelTypes ActivePanel = PanelTypes.LOGIN;
@@ -56,6 +58,25 @@ public class LoginPanel : MonoBehaviour
         ShowPanel(PanelTypes.SIGNUP);
     }
 
+
+    public void OnClickGoogleLogin()
+    {
+        GoogleGameServicesController.Instance.SignIn(GoogleLoginCallback);
+    }
+
+    public void GoogleLoginCallback(bool success)
+    {
+        string message = success ? "LOGIN SUCCESSFUL" : "LOGIN FAILED";
+
+        if (!success)
+        {
+            ShowLoginMessage(message);
+            RunLoginMessageTimeout(1.5f);
+        }
+        else
+            UIController.Instance.ShowPanel(UIController.PanelTypes.SETTINGS);
+    }
+
     private void ShowLoginPanel()
     {
         text_SignupMenu.color = color_NotActiveMenu;
@@ -71,4 +92,39 @@ public class LoginPanel : MonoBehaviour
 
         input_Name.gameObject.SetActive(true);
     }
+
+
+    #region LOGIN_MESSAGE
+    private void ShowLoginMessage(string messsage)
+    {
+        go_LoginMessage.GetComponent<Text>().text = messsage;
+        go_LoginMessage.GetComponent<CanvasFader>().FadeIn(0.25f);
+    }
+
+
+    private void HideLoginMessage()
+    {
+        go_LoginMessage.GetComponent<Text>().text = "";
+        go_LoginMessage.GetComponent<CanvasFader>().FadeOut(0.25f);
+    }
+
+    private void RunLoginMessageTimeout(float time = 1.5f)
+    {
+        if (CRLoginMessageTimeout != null)
+            StopCoroutine(CRLoginMessageTimeout);
+
+        CRLoginMessageTimeout = StartCoroutine(LoginMessageTimeoutCR(time));
+    }
+
+    Coroutine CRLoginMessageTimeout;
+    IEnumerator LoginMessageTimeoutCR(float time)
+    {
+        yield return new WaitForSecondsRealtime(1.5f);
+
+        HideLoginMessage();
+
+        CRLoginMessageTimeout = null;
+    }
+    #endregion
 }
+

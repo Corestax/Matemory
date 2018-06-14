@@ -10,9 +10,6 @@ using UnityEngine.UI;
 
 public class GoogleGameServicesController : Singleton<GoogleGameServicesController>
 {
-    [SerializeField]
-    private GameObject loginResult;
-
     public static event Action OnUserLoggedIn;
     public static event Action OnUserLoggedOut;
 
@@ -56,7 +53,7 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
         }
     }
 
-    public void SignIn()
+    public void SignIn(Action<bool> callback = null)
     {
         if (Authenticated || mAuthenticating)
         {
@@ -84,7 +81,8 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
             else
                 Debug.LogWarning("Failed to sign in with Google Play Games.");
 
-            ShowLoginResult();
+            if (callback != null)
+                callback(success);
         });
     }
 
@@ -190,33 +188,5 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
         GetLeaderboardIdByLevel lId = (GetLeaderboardIdByLevel)level;
 
         return lId;
-    }
-
-
-    private void ShowLoginResult()
-    {
-        if (CRShowLoginResult != null)
-            StopCoroutine(CRShowLoginResult);
-        
-        CRShowLoginResult = StartCoroutine(ShowLoginResultCR());
-    }
-
-    private Coroutine CRShowLoginResult;
-    IEnumerator ShowLoginResultCR()
-    {
-        if (loginResult != null)
-        {
-            string resultText = Authenticated ? "LOGIN SUCCESSFUL" : "LOGIN FAILED";
-
-            loginResult.GetComponent<Text>().text = resultText;
-            loginResult.GetComponent<CanvasFader>().FadeIn(0.25f);
-        }
-        
-        yield return new WaitForSecondsRealtime(1.5f);
-        
-        if (loginResult != null)
-            loginResult.GetComponent<CanvasFader>().FadeOut(0.25f);
-
-        CRShowLoginResult = null;
     }
 }
