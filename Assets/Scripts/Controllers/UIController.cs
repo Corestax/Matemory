@@ -156,6 +156,10 @@ public class UIController : Singleton<UIController>
                 ShowPanelSettings();
                 break;
 
+            case PanelTypes.LOGIN:
+                ShowPanelLogin();
+                break;
+
             default:
                 break;
         }
@@ -443,21 +447,18 @@ public class UIController : Singleton<UIController>
 
     public void ShowPanelLogin()
     {
-        // Hide settings panel
-        HidePanelSettings();
-
         fader_LoginPanel.FadeIn(FADESPEED);
-        buttonsController.EnableAllButtons();
         buttonsController.DisableAllButtonsExcept(fader_LoginPanel.transform);
     }
 
     public void HidePanelLogin()
     {
-        buttonsController.EnableAllButtons();
         fader_LoginPanel.FadeOut(FADESPEED);
+    }
 
-        // Show settings panel
-        ShowPanelSettings();
+    public void OnClickCloseLoginPanel()
+    {
+        ShowPanel(PanelTypes.SETTINGS);
     }
     #endregion
 

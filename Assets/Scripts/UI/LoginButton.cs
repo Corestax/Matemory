@@ -28,7 +28,7 @@ public class LoginButton : MonoBehaviour
         if (IsUserLoggedIn())
             GoogleGameServicesController.Instance.SignOut();
         else
-            UIController.Instance.ShowPanelLogin();
+            UIController.Instance.ShowPanel(UIController.PanelTypes.LOGIN);
     }
 
     public void LoginCallback(bool status, string error)
