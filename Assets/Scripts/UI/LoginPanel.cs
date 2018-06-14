@@ -83,6 +83,8 @@ public class LoginPanel : MonoBehaviour
         input_Name.text = "";
         input_Email.text = "";
         input_Pass.text = "";
+
+        HideLoginMessage();
     }
 
     private void ShowLoginPanel()
