@@ -25,6 +25,12 @@ public class LoginPanel : MonoBehaviour
     public enum PanelTypes { LOGIN, SIGNUP }
     private PanelTypes ActivePanel;
 
+    private LoginController loginController;
+
+    private void Start()
+    {
+        loginController = LoginController.Instance;
+    }
 
     private void OnEnable()
     {
@@ -58,6 +64,7 @@ public class LoginPanel : MonoBehaviour
         ShowPanel(PanelTypes.SIGNUP);
     }
 
+    #region GOOGLE_LOGIN
     public void OnClickGoogleLogin()
     {
         GoogleGameServicesController.Instance.SignIn(GoogleLoginCallback);
@@ -75,6 +82,32 @@ public class LoginPanel : MonoBehaviour
         else
             UIController.Instance.ShowPanel(UIController.PanelTypes.SETTINGS);
     }
+    #endregion
+
+    #region LOGIN/SIGNUP
+    public void OnClickSend()
+    {
+        string name = input_Name.text;
+        string email = input_Email.text;
+        string pass = input_Pass.text;
+
+        if (ActivePanel == PanelTypes.LOGIN)
+            loginController.Login(email, pass, LoginSignCallback);
+        else
+            loginController.Signup(name, email, pass, LoginSignCallback);
+    }
+
+    public void LoginSignCallback(bool success, UserError error = null)
+    {
+        Debug.Log("login/signup callback");
+
+        string message = success ? "LOGIN SUCCESSFUL" : "LOGIN FAILED";
+
+        ShowLoginMessage(message);
+        RunLoginMessageTimeout();
+    }
+    #endregion
+
 
     public void ResetStatus()
     {
