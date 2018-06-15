@@ -104,7 +104,10 @@ public class LoginPanel : MonoBehaviour
         List<string> messages = new List<string>();
 
         if (success)
+        {
             messages.Add("LOGIN SUCCESSFUL");
+            StartCoroutine(OnSuccessfullLoginCR());
+        }
         else
         {
             if (!string.IsNullOrEmpty(error.name))
@@ -121,6 +124,13 @@ public class LoginPanel : MonoBehaviour
             messages.Add(error.error);
 
         ShowLoginMessage(string.Join("\n", messages.ToArray()));
+    }
+
+    IEnumerator OnSuccessfullLoginCR()
+    {
+        yield return new WaitForSecondsRealtime(0.75f);
+
+        UIController.Instance.ShowPanel(UIController.PanelTypes.SETTINGS);
     }
     #endregion
 
