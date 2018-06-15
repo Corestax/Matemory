@@ -3618,6 +3618,7 @@ MonoBehaviour:
   text_SignupMenu: {fileID: 2123206761}
   color_ActiveMenu: {r: 0, g: 1, b: 0.15686275, a: 1}
   color_NotActiveMenu: {r: 0.3882353, g: 0.3882353, b: 0.3882353, a: 1}
+  color_FieldErrorBackground: {r: 1, g: 0.5320209, b: 0.4764151, a: 1}
   go_LoginMessage: {fileID: 96275442}
 --- !u!1 &480828599
 GameObject:

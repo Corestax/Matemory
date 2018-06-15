@@ -20,6 +20,8 @@ public class LoginPanel : MonoBehaviour
     [SerializeField]
     private Color color_NotActiveMenu;
     [SerializeField]
+    private Color color_FieldErrorBackground;
+    [SerializeField]
     private GameObject go_LoginMessage;
 
     public enum PanelTypes { LOGIN, SIGNUP }
@@ -39,6 +41,9 @@ public class LoginPanel : MonoBehaviour
 
     public void ShowPanel(PanelTypes panel)
     {
+        ResetFieldsBackground();
+        HideLoginMessage();
+
         switch (panel)
         {
             case PanelTypes.LOGIN:
@@ -87,6 +92,8 @@ public class LoginPanel : MonoBehaviour
     #region LOGIN/SIGNUP
     public void OnClickSend()
     {
+        ResetFieldsBackground();
+
         string name = input_Name.text;
         string email = input_Email.text;
         string pass = input_Pass.text;
@@ -111,13 +118,22 @@ public class LoginPanel : MonoBehaviour
         else
         {
             if (!string.IsNullOrEmpty(error.name))
+            {
                 messages.Add(error.name.ToUpper());
+                input_Name.GetComponent<Image>().color = color_FieldErrorBackground;
+            }
 
             if (!string.IsNullOrEmpty(error.email))
+            {
                 messages.Add(error.email.ToUpper());
+                input_Email.GetComponent<Image>().color = color_FieldErrorBackground;
+            }
 
             if (!string.IsNullOrEmpty(error.password))
+            {
                 messages.Add(error.password.ToUpper());
+                input_Pass.GetComponent<Image>().color = color_FieldErrorBackground;
+            }
         }
 
         if (!success && messages.Count == 0)
@@ -143,7 +159,15 @@ public class LoginPanel : MonoBehaviour
         input_Email.text = "";
         input_Pass.text = "";
 
+        ResetFieldsBackground();
         HideLoginMessage();
+    }
+
+    private void ResetFieldsBackground()
+    {
+        input_Name.GetComponent<Image>().color = Color.white;
+        input_Email.GetComponent<Image>().color = Color.white;
+        input_Pass.GetComponent<Image>().color = Color.white;
     }
 
     private void ShowLoginPanel()
