@@ -12,19 +12,14 @@ public class LoginButton : MonoBehaviour
     private const string logoutText = "LOGOUT";
 
 
-    private void OnEnable() {
-        GoogleGameServicesController.OnUserLoggedIn += CheckUserStatus;
-        GoogleGameServicesController.OnUserLoggedOut += CheckUserStatus;
-
+    private void OnEnable()
+    {
         LoginController.OnUserLoggedIn += CheckUserStatus;
         LoginController.OnUserLoggedOut += CheckUserStatus;
     }
 
     private void OnDisable()
     {
-        GoogleGameServicesController.OnUserLoggedIn -= CheckUserStatus;
-        GoogleGameServicesController.OnUserLoggedOut -= CheckUserStatus;
-
         LoginController.OnUserLoggedIn -= CheckUserStatus;
         LoginController.OnUserLoggedOut -= CheckUserStatus;
     }
@@ -33,10 +28,11 @@ public class LoginButton : MonoBehaviour
     {
         if (IsUserLoggedIn())
         {
-            if (LoginController.Instance.UserLogged)
-                LoginController.Instance.Logout();
-            else if (GoogleGameServicesController.Instance.Authenticated)
+            if (GoogleGameServicesController.Instance.Authenticated)
                 GoogleGameServicesController.Instance.SignOut();
+            
+            else
+                LoginController.Instance.Logout();
         }
         else
             UIController.Instance.ShowPanel(UIController.PanelTypes.LOGIN);

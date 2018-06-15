@@ -77,6 +77,8 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
             {
                 if (OnUserLoggedIn != null)
                     OnUserLoggedIn();
+                
+                LoginController.Instance.SetUserLogged();
             }
             else
                 Debug.LogWarning("Failed to sign in with Google Play Games.");
@@ -90,6 +92,8 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
     public void SignOut()
     {
         ((PlayGamesPlatform)Social.Active).SignOut();
+        
+        LoginController.Instance.SetUserLogout();
 
         if (OnUserLoggedOut != null)
             OnUserLoggedOut();

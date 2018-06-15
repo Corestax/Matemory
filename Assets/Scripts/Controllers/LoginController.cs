@@ -11,7 +11,7 @@ public class LoginController : Singleton<LoginController>
     public static event Action OnUserLoggedIn;
     public static event Action OnUserLoggedOut;
 
-    private enum RequestTypes { LOGIN, SIGNUP }
+    private enum RequestTypes { LOGIN, SIGNUP, SAVE_GOOGLE_DATA }
 
     private void Start()
     {
@@ -60,6 +60,12 @@ public class LoginController : Singleton<LoginController>
         if (!success)
             return;
 
+        SetUserLogged();
+    }
+
+
+    public void SetUserLogged()
+    {
         UserLogged = true;
 
         if (OnUserLoggedIn != null)
@@ -73,10 +79,17 @@ public class LoginController : Singleton<LoginController>
         StartCoroutine(LogoutCR());
     }
 
+    
     IEnumerator LogoutCR()
     {
         yield return new WaitForSecondsRealtime(0.25f);
 
+        SetUserLogout();
+    }
+
+    
+    public void SetUserLogout()
+    {
         UserLogged = false;
 
         if (OnUserLoggedOut != null)
