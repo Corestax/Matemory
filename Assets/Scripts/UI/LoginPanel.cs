@@ -118,7 +118,7 @@ public class LoginPanel : MonoBehaviour
         }
 
         if (!success && messages.Count == 0)
-            messages.Add("LOGIN FAILED");
+            messages.Add(error.error);
 
         ShowLoginMessage(string.Join("\n", messages.ToArray()));
     }

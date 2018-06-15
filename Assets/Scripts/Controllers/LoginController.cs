@@ -8,6 +8,17 @@ public class LoginController : Singleton<LoginController>
     [HideInInspector]
     public bool UserLogged;
 
+    public static event Action OnUserLoggedIn;
+    public static event Action OnUserLoggedOut;
+
+    private enum RequestTypes { LOGIN, SIGNUP }
+
+    private void Start()
+    {
+        UserLogged = false;
+    }
+
+    #region SIGNUP
     public void Signup(string name, string email, string pass, Action<bool, UserError> callback = null)
     {
         WWWForm form = new WWWForm();
@@ -17,9 +28,22 @@ public class LoginController : Singleton<LoginController>
         form.AddField("email", email);
         form.AddField("password", pass);
 
-        SendRequest(DB.URL_USER, form, callback);
+        SendRequest(DB.URL_USER, form, RequestTypes.SIGNUP, callback);
     }
 
+    private void SignupCallback(bool success, UserData userData = null, UserError error = null)
+    {
+        if (!success)
+            return;
+
+        UserLogged = true;
+
+        if (OnUserLoggedIn != null)
+            OnUserLoggedIn();
+    }
+    #endregion
+
+    #region LOGIN
     public void Login(string email, string pass, Action<bool, UserError> callback = null)
     {
         WWWForm form = new WWWForm();
@@ -28,17 +52,48 @@ public class LoginController : Singleton<LoginController>
         form.AddField("email", email);
         form.AddField("password", pass);
 
-        SendRequest(DB.URL_USER, form, callback);
+        SendRequest(DB.URL_USER, form, RequestTypes.LOGIN, callback);
     }
 
-    private void SendRequest(string url, WWWForm form, Action<bool, UserError> callback = null)
+    private void LoginCallback(bool success, UserData userData = null, UserError error = null)
     {
-        StartCoroutine(SendRequestCR(url, form, callback));
+        if (!success)
+            return;
+
+        UserLogged = true;
+
+        if (OnUserLoggedIn != null)
+            OnUserLoggedIn();
+    }
+    #endregion
+
+    #region LOGOUT
+    public void Logout()
+    {
+        StartCoroutine(LogoutCR());
     }
 
-    IEnumerator SendRequestCR(string url, WWWForm form, Action<bool, UserError> callback = null)
+    IEnumerator LogoutCR()
+    {
+        yield return new WaitForSecondsRealtime(0.25f);
+
+        UserLogged = false;
+
+        if (OnUserLoggedOut != null)
+            OnUserLoggedOut();
+    }
+    #endregion
+
+    #region SEND_REQUEST
+    private void SendRequest(string url, WWWForm form, RequestTypes type, Action<bool, UserError> callback = null)
+    {
+        StartCoroutine(SendRequestCR(url, form, type, callback));
+    }
+
+    IEnumerator SendRequestCR(string url, WWWForm form, RequestTypes type, Action<bool, UserError> callback = null)
     {
         bool success;
+        UserData userData = null;
         UserError error = null;
 
         using (WWW www = new WWW(url, form))
@@ -49,6 +104,7 @@ public class LoginController : Singleton<LoginController>
             if (string.IsNullOrEmpty(www.error))
             {
                 success = true;
+                userData = JsonUtility.FromJson<UserData>(www.text);
             }
             else
             {
@@ -57,7 +113,24 @@ public class LoginController : Singleton<LoginController>
             }
                 
             if (callback != null)
+            {
                 callback(success, error);
+            }
+
+
+            switch (type)
+            {
+                case RequestTypes.LOGIN:
+                    LoginCallback(success, userData, error);
+                    break;
+                case RequestTypes.SIGNUP:
+                    SignupCallback(success, userData, error);
+                    break;
+                default:
+                    break;
+            }
+                
         }
     }
+    #endregion
 }

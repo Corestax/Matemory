@@ -8,6 +8,14 @@ public static class DB
 
 
 [Serializable]
+public class UserData
+{
+    public string name;
+    public string email;
+}
+
+
+[Serializable]
 public class UserError
 {
     public string error;
