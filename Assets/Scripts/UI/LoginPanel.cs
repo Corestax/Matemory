@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,8 +21,6 @@ public class LoginPanel : MonoBehaviour
     [SerializeField]
     private Color color_NotActiveMenu;
     [SerializeField]
-    private Color color_FieldErrorBackground;
-    [SerializeField]
     private GameObject go_LoginMessage;
 
     public enum PanelTypes { LOGIN, SIGNUP }
@@ -41,7 +40,7 @@ public class LoginPanel : MonoBehaviour
 
     public void ShowPanel(PanelTypes panel)
     {
-        ResetFieldsBackground();
+        ResetFieldsError();
         HideLoginMessage();
 
         switch (panel)
@@ -92,7 +91,7 @@ public class LoginPanel : MonoBehaviour
     #region LOGIN/SIGNUP
     public void OnClickSend()
     {
-        ResetFieldsBackground();
+        ResetFieldsError();
 
         string name = input_Name.text;
         string email = input_Email.text;
@@ -120,19 +119,19 @@ public class LoginPanel : MonoBehaviour
             if (!string.IsNullOrEmpty(error.name))
             {
                 messages.Add(error.name.ToUpper());
-                input_Name.GetComponent<Image>().color = color_FieldErrorBackground;
+                SetFieldErrorStatus(input_Name, true);
             }
 
             if (!string.IsNullOrEmpty(error.email))
             {
                 messages.Add(error.email.ToUpper());
-                input_Email.GetComponent<Image>().color = color_FieldErrorBackground;
+                SetFieldErrorStatus(input_Email, true);
             }
 
             if (!string.IsNullOrEmpty(error.password))
             {
                 messages.Add(error.password.ToUpper());
-                input_Pass.GetComponent<Image>().color = color_FieldErrorBackground;
+                SetFieldErrorStatus(input_Pass, true);
             }
         }
 
@@ -159,15 +158,23 @@ public class LoginPanel : MonoBehaviour
         input_Email.text = "";
         input_Pass.text = "";
 
-        ResetFieldsBackground();
+        ResetFieldsError();
         HideLoginMessage();
     }
 
-    private void ResetFieldsBackground()
+    private void SetFieldErrorStatus(InputField field, bool status = true)
     {
-        input_Name.GetComponent<Image>().color = Color.white;
-        input_Email.GetComponent<Image>().color = Color.white;
-        input_Pass.GetComponent<Image>().color = Color.white;
+        var transformBorder = field.transform.Find("Image_BorderError");
+
+        if (transformBorder != null)
+            transformBorder.gameObject.SetActive(status);
+    }
+
+    private void ResetFieldsError()
+    {
+        SetFieldErrorStatus(input_Name, false);
+        SetFieldErrorStatus(input_Email, false);
+        SetFieldErrorStatus(input_Pass, false);
     }
 
     private void ShowLoginPanel()
