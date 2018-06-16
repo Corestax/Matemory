@@ -63,6 +63,8 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
                 
         PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
             .EnableSavedGames()
+            .RequestEmail()
+            .RequestIdToken()
             .Build();
 
         PlayGamesPlatform.InitializeInstance(config);
@@ -79,6 +81,14 @@ public class GoogleGameServicesController : Singleton<GoogleGameServicesControll
                     OnUserLoggedIn();
                 
                 LoginController.Instance.SetUserLogged();
+
+                Debug.Log(Social.Active.localUser.authenticated);
+
+                string name = Social.localUser.userName;
+                string email = ((PlayGamesLocalUser) Social.localUser).Email;
+                string token = ((PlayGamesLocalUser) Social.localUser).GetIdToken();
+                
+                LoginController.Instance.SendGooglePlayGamesData(name, email, token);
             }
             else
                 Debug.LogWarning("Failed to sign in with Google Play Games.");

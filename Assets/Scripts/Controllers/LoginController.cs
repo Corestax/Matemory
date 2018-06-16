@@ -63,7 +63,6 @@ public class LoginController : Singleton<LoginController>
         SetUserLogged();
     }
 
-
     public void SetUserLogged()
     {
         UserLogged = true;
@@ -71,6 +70,21 @@ public class LoginController : Singleton<LoginController>
         if (OnUserLoggedIn != null)
             OnUserLoggedIn();
     }
+
+    public void SendGooglePlayGamesData(string name, string email, string token)
+    {
+        WWWForm form = new WWWForm();
+
+        Debug.Log(String.Format("{0} {1} {2}", name, email, token));
+        
+        form.AddField("auth_type", (int)DB.UserAuthTypes.SAVE_GOOGLE_DATA);
+        form.AddField("name", name);
+        form.AddField("email", email);
+        form.AddField("gpgToken", token);
+        
+        //SendRequest(DB.URL_USER, form, RequestTypes.SAVE_GOOGLE_DATA);
+    }
+    
     #endregion
 
     #region LOGOUT
@@ -142,7 +156,6 @@ public class LoginController : Singleton<LoginController>
                 default:
                     break;
             }
-                
         }
     }
     #endregion
