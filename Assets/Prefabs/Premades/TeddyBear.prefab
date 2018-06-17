@@ -143,9 +143,9 @@ GameObject:
   - component: {fileID: 135089656472341200}
   - component: {fileID: 54368728652038498}
   - component: {fileID: 114186943815020304}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Muskmelon
-  m_TagString: Untagged
+  m_TagString: Draggable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

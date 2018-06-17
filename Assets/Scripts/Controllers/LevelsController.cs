@@ -38,6 +38,7 @@ public class LevelsController : Singleton<LevelsController>
     public void LoadLastSavedLevel()
     {
         int level = GetSavedLevel();
+
         if (level != -1)
             LoadLevel(level);
         else

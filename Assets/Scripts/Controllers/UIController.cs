@@ -388,6 +388,17 @@ public class UIController : Singleton<UIController>
             yield return new WaitForSeconds(1f);
         }
     }
+
+    public void HideCountdown()
+    {
+        if (CR_ShowCountdown != null)
+        {
+            StopCoroutine(CR_ShowCountdown);
+            CR_ShowCountdown = null;
+        }
+
+        HideStatusText(0f);
+    }
     #endregion
 
 
@@ -661,7 +672,7 @@ public class UIController : Singleton<UIController>
         text_console.text += "\n" + text;
     }
 
-    public void ShowStatusText(string text, Color color, float delay = 0f)
+    public void ShowStatusText(string text, Color color, float hideDelay = 0f)
     {
         text_status.text = text;
         text_status.color = color;
@@ -673,9 +684,22 @@ public class UIController : Singleton<UIController>
             CR_HideStatusText = null;
         }
 
+        // Hide text
+        if (hideDelay > 0f)
+            HideStatusText(hideDelay);
+    }
+
+    public void HideStatusText(float _delay)
+    {
+        // Stop hide status coroutine
+        if (CR_HideStatusText != null)
+        {
+            StopCoroutine(CR_HideStatusText);
+            CR_HideStatusText = null;
+        }
+
         // Hide message after delay
-        if(delay > 0f)
-            CR_HideStatusText = StartCoroutine(HideStatusTextCR(delay));
+        CR_HideStatusText = StartCoroutine(HideStatusTextCR(_delay));
     }
 
     private Coroutine CR_HideStatusText;

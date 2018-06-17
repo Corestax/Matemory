@@ -33,7 +33,6 @@ public class ModelsController : Singleton<ModelsController>
     private float time_rotatePlatform;
     private float time_beforeExplosion;
     private float time_afterExplosion;
-    //private float timeToMemorize;
 
     void Start()
     {
@@ -45,7 +44,6 @@ public class ModelsController : Singleton<ModelsController>
         time_rotatePlatform = 3.5f;
         time_beforeExplosion = 1.5f;
         time_afterExplosion = 1.5f;
-        //timeToMemorize = time_beforeExplosion + time_rotatePlatform;
 
         // Populate dictionary of model items from inspector
         Models = new Dictionary<string, GameObject>();
@@ -75,8 +73,6 @@ public class ModelsController : Singleton<ModelsController>
     public void Spawn(ModelTypes _type)
     {
         TutorialsController.Instance.ShowTutorial(1);
-        //uiController.ShowStatusText("You have " + timeToMemorize + " seconds to memorize the pieces!", uiController.Color_statusText, timeToMemorize);
-        //platform.RotatePlatform(Explode, time_rotatePlatform, _newGame);
 
         // Instantiate model
         GameObject go = Instantiate(Models[_type.ToString()], platform.transform);

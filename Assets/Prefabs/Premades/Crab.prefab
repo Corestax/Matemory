@@ -162,9 +162,9 @@ GameObject:
   - component: {fileID: 65295715517470814}
   - component: {fileID: 54014549277254272}
   - component: {fileID: 114221952556254192}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Muskmelon_Half
-  m_TagString: Untagged
+  m_TagString: Draggable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
