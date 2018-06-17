@@ -472,7 +472,7 @@ public class UIController : Singleton<UIController>
 
     public void OnClickCloseLoginPanel()
     {
-        ShowPanel(PanelTypes.SETTINGS);
+        HideActivePanel();
     }
     #endregion
 
