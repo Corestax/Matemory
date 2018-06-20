@@ -128,8 +128,9 @@ public class LoginPanel : MonoBehaviour
     #endregion
 
     #region LOGIN/SIGNUP
-    public void LoginSignCallback(bool success, UserError error = null)
+    public void LoginSignCallback(bool success)
     {
+        DBResponseUserError error = loginController.responseError;
         List<string> messages = new List<string>();
 
         if (success)

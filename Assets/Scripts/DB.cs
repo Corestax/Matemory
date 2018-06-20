@@ -8,7 +8,14 @@ public static class DB
 
 
 [Serializable]
-public class UserData
+public class DBResponseMessage
+{
+    public string message;
+}
+
+
+[Serializable]
+public class DBResponseUserData
 {
     public string name;
     public string email;
@@ -16,7 +23,7 @@ public class UserData
 
 
 [Serializable]
-public class UserError
+public class DBResponseUserError
 {
     public string error;
     public string name;

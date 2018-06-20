@@ -8,6 +8,13 @@ public class LoginController : Singleton<LoginController>
     [HideInInspector]
     public bool UserLogged;
 
+    [HideInInspector]
+    public DBResponseUserData responseUserData;
+    [HideInInspector]
+    public DBResponseUserError responseError;
+    [HideInInspector]
+    public DBResponseMessage responseMessage;
+
     public static event Action OnUserLoggedIn;
     public static event Action OnUserLoggedOut;
 
@@ -19,7 +26,7 @@ public class LoginController : Singleton<LoginController>
     }
 
     #region SIGNUP
-    public void Signup(string name, string email, string pass, Action<bool, UserError> callback = null)
+    public void Signup(string name, string email, string pass, Action<bool> callback = null)
     {
         WWWForm form = new WWWForm();
 
@@ -31,7 +38,7 @@ public class LoginController : Singleton<LoginController>
         SendRequest(DB.URL_USER, form, RequestTypes.SIGNUP, callback);
     }
 
-    private void SignupCallback(bool success, UserData userData = null, UserError error = null)
+    private void SignupCallback(bool success, DBResponseUserData userData = null, DBResponseUserError error = null)
     {
         if (!success)
             return;
@@ -44,7 +51,7 @@ public class LoginController : Singleton<LoginController>
     #endregion
 
     #region LOGIN
-    public void Login(string email, string pass, Action<bool, UserError> callback = null)
+    public void Login(string email, string pass, Action<bool> callback = null)
     {
         WWWForm form = new WWWForm();
 
@@ -55,8 +62,10 @@ public class LoginController : Singleton<LoginController>
         SendRequest(DB.URL_USER, form, RequestTypes.LOGIN, callback);
     }
 
-    private void LoginCallback(bool success, UserData userData = null, UserError error = null)
+    private void LoginCallback(bool success, DBResponseUserData userData = null, DBResponseUserError error = null)
     {
+
+
         if (!success)
             return;
 
@@ -112,16 +121,17 @@ public class LoginController : Singleton<LoginController>
     #endregion
 
     #region SEND_REQUEST
-    private void SendRequest(string url, WWWForm form, RequestTypes type, Action<bool, UserError> callback = null)
+    private void SendRequest(string url, WWWForm form, RequestTypes type, Action<bool> externalCallback = null)
     {
-        StartCoroutine(SendRequestCR(url, form, type, callback));
+        StartCoroutine(SendRequestCR(url, form, type, externalCallback));
     }
 
-    IEnumerator SendRequestCR(string url, WWWForm form, RequestTypes type, Action<bool, UserError> externalCallback = null)
+    IEnumerator SendRequestCR(string url, WWWForm form, RequestTypes type, Action<bool> externalCallback)
     {
         bool success;
-        UserData userData = null;
-        UserError error = null;
+        responseUserData = null;
+        responseError = null;
+        responseMessage = null;
 
         using (WWW www = new WWW(url, form))
         {
@@ -131,26 +141,25 @@ public class LoginController : Singleton<LoginController>
 
             // errors always have the same format
             if (!success)
-                error = JsonUtility.FromJson<UserError>(www.text);
+                responseError = JsonUtility.FromJson<DBResponseUserError>(www.text);
 
-            // call external class callback
+            // call an external class callback
             if (externalCallback != null)
-                 externalCallback(success, error);
+                externalCallback(success);
 
-            // call internal class function
             switch (type)
             {
                 case RequestTypes.LOGIN:
                     if (success)
-                        userData = JsonUtility.FromJson<UserData>(www.text);
+                        responseUserData = JsonUtility.FromJson<DBResponseUserData>(www.text);
 
-                    LoginCallback(success, userData, error);
+                    LoginCallback(success, responseUserData, responseError);
                     break;
                 case RequestTypes.SIGNUP:
                     if (success)
-                        userData = JsonUtility.FromJson<UserData>(www.text);
+                        responseUserData = JsonUtility.FromJson<DBResponseUserData>(www.text);
 
-                    SignupCallback(success, userData, error);
+                    SignupCallback(success, responseUserData, responseError);
                     break;
                 default:
                     break;
