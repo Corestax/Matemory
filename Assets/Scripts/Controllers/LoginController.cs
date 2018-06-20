@@ -117,7 +117,7 @@ public class LoginController : Singleton<LoginController>
         StartCoroutine(SendRequestCR(url, form, type, callback));
     }
 
-    IEnumerator SendRequestCR(string url, WWWForm form, RequestTypes type, Action<bool, UserError> callback = null)
+    IEnumerator SendRequestCR(string url, WWWForm form, RequestTypes type, Action<bool, UserError> externalCallback = null)
     {
         bool success;
         UserData userData = null;
@@ -127,31 +127,29 @@ public class LoginController : Singleton<LoginController>
         {
             yield return www;
 
-            // save UserData (name)?
-            if (string.IsNullOrEmpty(www.error))
-            {
-                success = true;
-                userData = JsonUtility.FromJson<UserData>(www.text);
-            }
-            else
-            {
-                success = false;
-                Debug.LogWarning(www.text);
+            success = string.IsNullOrEmpty(www.error);
+
+            // errors always have the same format
+            if (!success)
                 error = JsonUtility.FromJson<UserError>(www.text);
-            }
-                
-            if (callback != null)
-            {
-                callback(success, error);
-            }
 
+            // call external class callback
+            if (externalCallback != null)
+                 externalCallback(success, error);
 
+            // call internal class function
             switch (type)
             {
                 case RequestTypes.LOGIN:
+                    if (success)
+                        userData = JsonUtility.FromJson<UserData>(www.text);
+
                     LoginCallback(success, userData, error);
                     break;
                 case RequestTypes.SIGNUP:
+                    if (success)
+                        userData = JsonUtility.FromJson<UserData>(www.text);
+
                     SignupCallback(success, userData, error);
                     break;
                 default:
