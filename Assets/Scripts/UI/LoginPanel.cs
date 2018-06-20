@@ -15,6 +15,8 @@ public class LoginPanel : MonoBehaviour
     [SerializeField]
     private Button button_ResetPass;
     [SerializeField]
+    private Button button_ResendEmail;
+    [SerializeField]
     private Text text_OkButton;
     [SerializeField]
     private Text text_LoginMenu;
@@ -27,7 +29,7 @@ public class LoginPanel : MonoBehaviour
     [SerializeField]
     private GameObject go_LoginMessage;
 
-    public enum PanelTypes { LOGIN, SIGNUP, RESET_PASSWORD }
+    public enum PanelTypes { LOGIN, SIGNUP, RESET_PASSWORD, RESEND_EMAIL }
     private PanelTypes ActivePanel;
 
     private LoginController loginController;
@@ -59,6 +61,9 @@ public class LoginPanel : MonoBehaviour
             case PanelTypes.RESET_PASSWORD:
                 ShowResetPasswordPanel();
                 break;
+            case PanelTypes.RESEND_EMAIL:
+                ShowResendEmailPanel();
+                break;
             default:
                 break;
         }
@@ -76,6 +81,7 @@ public class LoginPanel : MonoBehaviour
         input_Email.gameObject.SetActive(true);
         input_Pass.gameObject.SetActive(true);
         button_ResetPass.gameObject.SetActive(true);
+        button_ResendEmail.gameObject.SetActive(false);
 
         SetOkButtonText("LOGIN");
     }
@@ -89,6 +95,7 @@ public class LoginPanel : MonoBehaviour
         input_Name.gameObject.SetActive(true);
         input_Email.gameObject.SetActive(true);
         input_Pass.gameObject.SetActive(true);
+        button_ResendEmail.gameObject.SetActive(false);
 
         SetOkButtonText("SING UP");
     }
@@ -102,8 +109,25 @@ public class LoginPanel : MonoBehaviour
         input_Name.gameObject.SetActive(false);
         input_Email.gameObject.SetActive(true);
         input_Pass.gameObject.SetActive(false);
+        button_ResendEmail.gameObject.SetActive(false);
 
         SetOkButtonText("RESET");
+    }
+
+    private void ShowResendEmailButton()
+    {
+        if (ActivePanel != PanelTypes.LOGIN)
+            return;
+
+        button_ResetPass.gameObject.SetActive(false);
+        button_ResendEmail.gameObject.SetActive(true);
+
+    }
+
+    private void ShowResendEmailPanel()
+    {
+        ShowResetPasswordPanel();
+        SetOkButtonText("RESEND");
     }
     #endregion
 
@@ -164,6 +188,18 @@ public class LoginPanel : MonoBehaviour
     }
     #endregion
 
+    #region RESEND_EMAIL
+    public void ResendEmailCallback(bool success)
+    {
+        DBResponseMessage message = loginController.responseMessage;
+
+        if (success)
+            ShowLoginMessage(message.message);
+        else
+            ShowResponseErrors();
+    }
+    #endregion
+
     #region ONCLICKS
     public void OnClickSend()
     {
@@ -183,6 +219,9 @@ public class LoginPanel : MonoBehaviour
                 break;
             case PanelTypes.RESET_PASSWORD:
                 loginController.ResetPassword(email, ResetPasswordCallback);
+                break;
+            case PanelTypes.RESEND_EMAIL:
+                loginController.ResendVerificationEmail(email, ResendEmailCallback);
                 break;
             default:
                 break;
@@ -204,6 +243,11 @@ public class LoginPanel : MonoBehaviour
     public void OnClickShowResetPassword()
     {
         ShowPanel(PanelTypes.RESET_PASSWORD);
+    }
+
+    public void OnClickShowResendEmail()
+    {
+        ShowPanel(PanelTypes.RESEND_EMAIL);
     }
     #endregion
 
@@ -280,8 +324,14 @@ public class LoginPanel : MonoBehaviour
         if (error == null)
             return;
 
+        // Email not verified
+        if (error.error == "Email not verified.")
+        {
+            ShowResendEmailButton();
+        }
+
         // name field
-        if (!string.IsNullOrEmpty(error.name))
+            if (!string.IsNullOrEmpty(error.name))
         {
             messages.Add(error.name.ToUpper());
             SetFieldErrorStatus(input_Name, true);

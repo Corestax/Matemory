@@ -18,7 +18,7 @@ public class LoginController : Singleton<LoginController>
     public static event Action OnUserLoggedIn;
     public static event Action OnUserLoggedOut;
 
-    private enum RequestTypes { LOGIN, SIGNUP, SAVE_GOOGLE_DATA, RESET_PASSWORD }
+    private enum RequestTypes { LOGIN, SIGNUP, SAVE_GOOGLE_DATA, RESET_PASSWORD, RESEND_EMAIL }
 
     private void Start()
     {
@@ -130,6 +130,18 @@ public class LoginController : Singleton<LoginController>
     }
     #endregion
 
+    #region RESEND_EMAIL
+    public void ResendVerificationEmail(string email, Action<bool> callback = null)
+    {
+        WWWForm form = new WWWForm();
+
+        form.AddField("auth_type", (int)DB.UserAuthTypes.RESEND_EMAIL);
+        form.AddField("email", email);
+
+        SendRequest(DB.URL_USER, form, RequestTypes.RESEND_EMAIL, callback);
+    }
+    #endregion
+
     #region SEND_REQUEST
     private void SendRequest(string url, WWWForm form, RequestTypes type, Action<bool> externalCallback = null)
     {
@@ -149,7 +161,7 @@ public class LoginController : Singleton<LoginController>
 
             success = string.IsNullOrEmpty(www.error);
 
-            // errors always have the same format
+            // errors always have same format
             if (!success)
                 responseError = JsonUtility.FromJson<DBResponseUserError>(www.text);
 
@@ -168,6 +180,11 @@ public class LoginController : Singleton<LoginController>
                     SignupCallback(success);
                     break;
                 case RequestTypes.RESET_PASSWORD:
+                    if (success)
+                        responseMessage = JsonUtility.FromJson<DBResponseMessage>(www.text);
+
+                    break;
+                case RequestTypes.RESEND_EMAIL:
                     if (success)
                         responseMessage = JsonUtility.FromJson<DBResponseMessage>(www.text);
 
