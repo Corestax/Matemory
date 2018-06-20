@@ -13,6 +13,10 @@ public class LoginPanel : MonoBehaviour
     [SerializeField]
     private InputField input_Pass;
     [SerializeField]
+    private Button button_ResetPass;
+    [SerializeField]
+    private Text text_OkButton;
+    [SerializeField]
     private Text text_LoginMenu;
     [SerializeField]
     private Text text_SignupMenu;
@@ -23,7 +27,7 @@ public class LoginPanel : MonoBehaviour
     [SerializeField]
     private GameObject go_LoginMessage;
 
-    public enum PanelTypes { LOGIN, SIGNUP }
+    public enum PanelTypes { LOGIN, SIGNUP, RESET_PASSWORD }
     private PanelTypes ActivePanel;
 
     private LoginController loginController;
@@ -38,6 +42,7 @@ public class LoginPanel : MonoBehaviour
         ShowPanel(PanelTypes.LOGIN);
     }
 
+    #region SHOW_PANELS
     public void ShowPanel(PanelTypes panel)
     {
         ResetFieldsError();
@@ -51,6 +56,9 @@ public class LoginPanel : MonoBehaviour
             case PanelTypes.SIGNUP:
                 ShowSignupPanel();
                 break;
+            case PanelTypes.RESET_PASSWORD:
+                ShowResetPasswordPanel();
+                break;
             default:
                 break;
         }
@@ -58,15 +66,46 @@ public class LoginPanel : MonoBehaviour
         ActivePanel = panel;
     }
 
-    public void OnClickShowLoginPanel()
+
+    private void ShowLoginPanel()
     {
-        ShowPanel(PanelTypes.LOGIN);
+        text_SignupMenu.color = color_NotActiveMenu;
+        text_LoginMenu.color = color_ActiveMenu;
+
+        input_Name.gameObject.SetActive(false);
+        input_Email.gameObject.SetActive(true);
+        input_Pass.gameObject.SetActive(true);
+        button_ResetPass.gameObject.SetActive(true);
+
+        SetOkButtonText("LOGIN");
     }
 
-    public void OnClickShowSignupPanel()
+    private void ShowSignupPanel()
     {
-        ShowPanel(PanelTypes.SIGNUP);
+        text_SignupMenu.color = color_ActiveMenu;
+        text_LoginMenu.color = color_NotActiveMenu;
+
+        button_ResetPass.gameObject.SetActive(false);
+        input_Name.gameObject.SetActive(true);
+        input_Email.gameObject.SetActive(true);
+        input_Pass.gameObject.SetActive(true);
+
+        SetOkButtonText("SING UP");
     }
+
+    private void ShowResetPasswordPanel()
+    {
+        text_SignupMenu.color = color_NotActiveMenu;
+        text_LoginMenu.color = color_NotActiveMenu;
+
+        button_ResetPass.gameObject.SetActive(false);
+        input_Name.gameObject.SetActive(false);
+        input_Email.gameObject.SetActive(true);
+        input_Pass.gameObject.SetActive(false);
+
+        SetOkButtonText("RESET");
+    }
+    #endregion
 
     #region GOOGLE_LOGIN
     public void OnClickGoogleLogin()
@@ -89,22 +128,6 @@ public class LoginPanel : MonoBehaviour
     #endregion
 
     #region LOGIN/SIGNUP
-    public void OnClickSend()
-    {
-        ResetFieldsError();
-
-        string name = input_Name.text;
-        string email = input_Email.text;
-        string pass = input_Pass.text;
-
-        if (ActivePanel == PanelTypes.LOGIN)
-            loginController.Login(email, pass, LoginSignCallback);
-        else
-            loginController.Signup(name, email, pass, LoginSignCallback);
-
-        HideLoginMessage();
-    }
-
     public void LoginSignCallback(bool success, UserError error = null)
     {
         List<string> messages = new List<string>();
@@ -149,50 +172,38 @@ public class LoginPanel : MonoBehaviour
     }
     #endregion
 
-
-    public void ResetStatus()
+    #region ONCLICKS
+    public void OnClickSend()
     {
-        ShowPanel(PanelTypes.LOGIN);
-
-        input_Name.text = "";
-        input_Email.text = "";
-        input_Pass.text = "";
-
         ResetFieldsError();
+
+        string name = input_Name.text;
+        string email = input_Email.text;
+        string pass = input_Pass.text;
+
+        if (ActivePanel == PanelTypes.LOGIN)
+            loginController.Login(email, pass, LoginSignCallback);
+        else
+            loginController.Signup(name, email, pass, LoginSignCallback);
+
         HideLoginMessage();
     }
 
-    private void SetFieldErrorStatus(InputField field, bool status = true)
+    public void OnClickShowLoginPanel()
     {
-        var transformBorder = field.transform.Find("Image_BorderError");
-
-        if (transformBorder != null)
-            transformBorder.gameObject.SetActive(status);
+        ShowPanel(PanelTypes.LOGIN);
     }
 
-    private void ResetFieldsError()
+    public void OnClickShowSignupPanel()
     {
-        SetFieldErrorStatus(input_Name, false);
-        SetFieldErrorStatus(input_Email, false);
-        SetFieldErrorStatus(input_Pass, false);
+        ShowPanel(PanelTypes.SIGNUP);
     }
 
-    private void ShowLoginPanel()
+    public void OnClickShowResetPassword()
     {
-        text_SignupMenu.color = color_NotActiveMenu;
-        text_LoginMenu.color = color_ActiveMenu;
-
-        input_Name.gameObject.SetActive(false);
+        ShowPanel(PanelTypes.RESET_PASSWORD);
     }
-
-    private void ShowSignupPanel()
-    {
-        text_SignupMenu.color = color_ActiveMenu;
-        text_LoginMenu.color = color_NotActiveMenu;
-
-        input_Name.gameObject.SetActive(true);
-    }
-
+    #endregion
 
     #region LOGIN_MESSAGE
     private void ShowLoginMessage(string messsage)
@@ -226,5 +237,37 @@ public class LoginPanel : MonoBehaviour
         CRLoginMessageTimeout = null;
     }
     #endregion
+
+    public void ResetStatus()
+    {
+        ShowPanel(PanelTypes.LOGIN);
+
+        input_Name.text = "";
+        input_Email.text = "";
+        input_Pass.text = "";
+
+        ResetFieldsError();
+        HideLoginMessage();
+    }
+
+    private void SetFieldErrorStatus(InputField field, bool status = true)
+    {
+        var transformBorder = field.transform.Find("Image_BorderError");
+
+        if (transformBorder != null)
+            transformBorder.gameObject.SetActive(status);
+    }
+
+    private void SetOkButtonText(string text)
+    {
+        text_OkButton.text = text;
+    }
+
+    private void ResetFieldsError()
+    {
+        SetFieldErrorStatus(input_Name, false);
+        SetFieldErrorStatus(input_Email, false);
+        SetFieldErrorStatus(input_Pass, false);
+    }
 }
 

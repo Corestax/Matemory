@@ -136,6 +136,7 @@ public class LoginController : Singleton<LoginController>
             else
             {
                 success = false;
+                Debug.LogWarning(www.text);
                 error = JsonUtility.FromJson<UserError>(www.text);
             }
                 
