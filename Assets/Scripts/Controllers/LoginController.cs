@@ -18,7 +18,7 @@ public class LoginController : Singleton<LoginController>
     public static event Action OnUserLoggedIn;
     public static event Action OnUserLoggedOut;
 
-    private enum RequestTypes { LOGIN, SIGNUP, SAVE_GOOGLE_DATA }
+    private enum RequestTypes { LOGIN, SIGNUP, SAVE_GOOGLE_DATA, RESET_PASSWORD }
 
     private void Start()
     {
@@ -38,7 +38,7 @@ public class LoginController : Singleton<LoginController>
         SendRequest(DB.URL_USER, form, RequestTypes.SIGNUP, callback);
     }
 
-    private void SignupCallback(bool success, DBResponseUserData userData = null, DBResponseUserError error = null)
+    private void SignupCallback(bool success)
     {
         if (!success)
             return;
@@ -62,10 +62,8 @@ public class LoginController : Singleton<LoginController>
         SendRequest(DB.URL_USER, form, RequestTypes.LOGIN, callback);
     }
 
-    private void LoginCallback(bool success, DBResponseUserData userData = null, DBResponseUserError error = null)
+    private void LoginCallback(bool success)
     {
-
-
         if (!success)
             return;
 
@@ -120,6 +118,18 @@ public class LoginController : Singleton<LoginController>
     }
     #endregion
 
+    #region RESET_PASSWORD
+    public void ResetPassword(string email, Action<bool> callback = null)
+    {
+        WWWForm form = new WWWForm();
+
+        form.AddField("auth_type", (int)DB.UserAuthTypes.RESET_PASSWORD);
+        form.AddField("email", email);
+
+        SendRequest(DB.URL_USER, form, RequestTypes.RESET_PASSWORD, callback);
+    }
+    #endregion
+
     #region SEND_REQUEST
     private void SendRequest(string url, WWWForm form, RequestTypes type, Action<bool> externalCallback = null)
     {
@@ -143,27 +153,32 @@ public class LoginController : Singleton<LoginController>
             if (!success)
                 responseError = JsonUtility.FromJson<DBResponseUserError>(www.text);
 
-            // call an external class callback
-            if (externalCallback != null)
-                externalCallback(success);
-
             switch (type)
             {
                 case RequestTypes.LOGIN:
                     if (success)
                         responseUserData = JsonUtility.FromJson<DBResponseUserData>(www.text);
 
-                    LoginCallback(success, responseUserData, responseError);
+                    LoginCallback(success);
                     break;
                 case RequestTypes.SIGNUP:
                     if (success)
                         responseUserData = JsonUtility.FromJson<DBResponseUserData>(www.text);
 
-                    SignupCallback(success, responseUserData, responseError);
+                    SignupCallback(success);
+                    break;
+                case RequestTypes.RESET_PASSWORD:
+                    if (success)
+                        responseMessage = JsonUtility.FromJson<DBResponseMessage>(www.text);
+
                     break;
                 default:
                     break;
             }
+
+            // call an external class callback
+            if (externalCallback != null)
+                externalCallback(success);
         }
     }
     #endregion

@@ -130,39 +130,17 @@ public class LoginPanel : MonoBehaviour
     #region LOGIN/SIGNUP
     public void LoginSignCallback(bool success)
     {
-        DBResponseUserError error = loginController.responseError;
         List<string> messages = new List<string>();
 
         if (success)
         {
             messages.Add("LOGIN SUCCESSFUL");
+            ShowLoginMessage(string.Join("\n", messages.ToArray()));
+
             StartCoroutine(OnSuccessfullLoginCR());
         }
         else
-        {
-            if (!string.IsNullOrEmpty(error.name))
-            {
-                messages.Add(error.name.ToUpper());
-                SetFieldErrorStatus(input_Name, true);
-            }
-
-            if (!string.IsNullOrEmpty(error.email))
-            {
-                messages.Add(error.email.ToUpper());
-                SetFieldErrorStatus(input_Email, true);
-            }
-
-            if (!string.IsNullOrEmpty(error.password))
-            {
-                messages.Add(error.password.ToUpper());
-                SetFieldErrorStatus(input_Pass, true);
-            }
-        }
-
-        if (!success && messages.Count == 0)
-            messages.Add(error.error);
-
-        ShowLoginMessage(string.Join("\n", messages.ToArray()));
+            ShowResponseErrors();
     }
 
     IEnumerator OnSuccessfullLoginCR()
@@ -170,6 +148,19 @@ public class LoginPanel : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.75f);
 
         UIController.Instance.ShowPanel(UIController.PanelTypes.SETTINGS);
+    }
+    #endregion
+
+    #region RESET_PASSWORD
+    public void ResetPasswordCallback(bool success)
+    {
+        DBResponseMessage message = loginController.responseMessage;
+
+        if (success)
+            ShowLoginMessage(message.message);
+        else
+            ShowResponseErrors();
+
     }
     #endregion
 
@@ -182,10 +173,20 @@ public class LoginPanel : MonoBehaviour
         string email = input_Email.text;
         string pass = input_Pass.text;
 
-        if (ActivePanel == PanelTypes.LOGIN)
-            loginController.Login(email, pass, LoginSignCallback);
-        else
-            loginController.Signup(name, email, pass, LoginSignCallback);
+        switch (ActivePanel)
+        {
+            case PanelTypes.LOGIN:
+                loginController.Login(email, pass, LoginSignCallback);
+                break;
+            case PanelTypes.SIGNUP:
+                loginController.Signup(name, email, pass, LoginSignCallback);
+                break;
+            case PanelTypes.RESET_PASSWORD:
+                loginController.ResetPassword(email, ResetPasswordCallback);
+                break;
+            default:
+                break;
+        }
 
         HideLoginMessage();
     }
@@ -269,6 +270,42 @@ public class LoginPanel : MonoBehaviour
         SetFieldErrorStatus(input_Name, false);
         SetFieldErrorStatus(input_Email, false);
         SetFieldErrorStatus(input_Pass, false);
+    }
+
+    private void ShowResponseErrors()
+    {
+        DBResponseUserError error = loginController.responseError;
+        List<string> messages = new List<string>();
+
+        if (error == null)
+            return;
+
+        // name field
+        if (!string.IsNullOrEmpty(error.name))
+        {
+            messages.Add(error.name.ToUpper());
+            SetFieldErrorStatus(input_Name, true);
+        }
+
+        // email field
+        if (!string.IsNullOrEmpty(error.email))
+        {
+            messages.Add(error.email.ToUpper());
+            SetFieldErrorStatus(input_Email, true);
+        }
+
+        // password field
+        if (!string.IsNullOrEmpty(error.password))
+        {
+            messages.Add(error.password.ToUpper());
+            SetFieldErrorStatus(input_Pass, true);
+        }
+
+        // if general error
+        if (messages.Count == 0)
+            messages.Add(error.error);
+
+        ShowLoginMessage(string.Join("\n", messages.ToArray()));
     }
 }
 
