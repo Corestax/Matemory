@@ -263,6 +263,7 @@ GameObject:
   - component: {fileID: 38329545}
   - component: {fileID: 38329543}
   - component: {fileID: 38329544}
+  - component: {fileID: 38329547}
   m_Layer: 5
   m_Name: Button_Login
   m_TagString: Untagged
@@ -374,6 +375,18 @@ RectTransform:
   m_AnchoredPosition: {x: -160, y: 0}
   m_SizeDelta: {x: 240, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &38329547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 38329542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2177359861afbbb4bba43f28add3bcfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickSound: 0
 --- !u!1 &39343550
 GameObject:
   m_ObjectHideFlags: 0
@@ -2044,6 +2057,7 @@ GameObject:
   - component: {fileID: 227766207}
   - component: {fileID: 227766206}
   - component: {fileID: 227766205}
+  - component: {fileID: 227766208}
   m_Layer: 5
   m_Name: Button_ResetPassword
   m_TagString: Untagged
@@ -2155,6 +2169,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 227766203}
+--- !u!114 &227766208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 227766203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2177359861afbbb4bba43f28add3bcfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickSound: 0
 --- !u!224 &227817668
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5781,7 +5807,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2177359861afbbb4bba43f28add3bcfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickSound: 0
+  clickSound: 1
 --- !u!114 &760513214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10376,6 +10402,7 @@ GameObject:
   - component: {fileID: 1369203374}
   - component: {fileID: 1369203373}
   - component: {fileID: 1369203372}
+  - component: {fileID: 1369203375}
   m_Layer: 5
   m_Name: Button_Signup
   m_TagString: Untagged
@@ -10487,6 +10514,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1369203370}
+--- !u!114 &1369203375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1369203370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2177359861afbbb4bba43f28add3bcfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickSound: 0
 --- !u!1 &1379051800
 GameObject:
   m_ObjectHideFlags: 0
@@ -10870,7 +10909,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2177359861afbbb4bba43f28add3bcfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickSound: 0
+  clickSound: 1
 --- !u!114 &1418461959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13768,6 +13807,7 @@ GameObject:
   - component: {fileID: 1969989957}
   - component: {fileID: 1969989956}
   - component: {fileID: 1969989955}
+  - component: {fileID: 1969989959}
   m_Layer: 5
   m_Name: Button_ResendVerificationEmail
   m_TagString: Untagged
@@ -13879,6 +13919,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 850, y: 55}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1969989959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1969989954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2177359861afbbb4bba43f28add3bcfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickSound: 0
 --- !u!1 &2008442602
 GameObject:
   m_ObjectHideFlags: 0
