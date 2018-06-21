@@ -14,14 +14,14 @@ public class UIRequiresGoogleLogin : MonoBehaviour
 
     private void OnEnable()
     {
-        GoogleGameServicesController.OnUserLoggedIn += CheckUserStatus;
-        GoogleGameServicesController.OnUserLoggedOut += CheckUserStatus;
+        //GoogleGameServicesController.OnUserLoggedIn += CheckUserStatus;
+        //GoogleGameServicesController.OnUserLoggedOut += CheckUserStatus;
     }
 
     private void OnDisable()
     {
-        GoogleGameServicesController.OnUserLoggedIn -= CheckUserStatus;
-        GoogleGameServicesController.OnUserLoggedOut -= CheckUserStatus;
+        //GoogleGameServicesController.OnUserLoggedIn -= CheckUserStatus;
+        //GoogleGameServicesController.OnUserLoggedOut -= CheckUserStatus;
     }
 
     public void CheckUserStatus()
@@ -48,6 +48,6 @@ public class UIRequiresGoogleLogin : MonoBehaviour
 
     private bool IsUserLoggedIn()
     {
-        return GoogleGameServicesController.Instance.Authenticated;
+        return false; //GoogleGameServicesController.Instance.Authenticated;
     }
 }

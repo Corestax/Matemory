@@ -134,7 +134,7 @@ public class LoginPanel : MonoBehaviour
     #region GOOGLE_LOGIN
     public void OnClickGoogleLogin()
     {
-        GoogleGameServicesController.Instance.SignIn(GoogleLoginCallback);
+        //GoogleGameServicesController.Instance.SignIn(GoogleLoginCallback);
     }
 
     public void GoogleLoginCallback(bool success)

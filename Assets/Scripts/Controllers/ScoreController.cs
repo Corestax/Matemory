@@ -9,13 +9,11 @@ public class ScoreController : Singleton<ScoreController>
 
     private TimerController timerController;
     private MapsController mapsController;
-    private GoogleGameServicesController googleGameServices;
 
     void Start()
     {
         timerController = TimerController.Instance;
         mapsController = MapsController.Instance;
-        googleGameServices = GoogleGameServicesController.Instance;
         HighScore = 0;
         CurrentScore = 0;
     }
@@ -60,9 +58,6 @@ public class ScoreController : Singleton<ScoreController>
             PlayerPrefs.SetInt("HighScore_M" + mapsController.MapIndex + "_" + level, CurrentScore);
             HighScore = CurrentScore;
             print("New high score for level " + level + ": " + HighScore);
-
-            // Save Score To Leaderboard
-            googleGameServices.AddScoreToLeaderboard(level, CurrentScore);
         }
     }
 
@@ -79,14 +74,14 @@ public class ScoreController : Singleton<ScoreController>
         // or leaderboard
         else
         {
-            googleGameServices.GetHighestUserScore(level, (score) =>
-            {
-                if (score == 0)
-                    return;
+            //googleGameServices.GetHighestUserScore(level, (score) =>
+            //{
+            //    if (score == 0)
+            //        return;
                 
-                HighScore = score;
-                PlayerPrefs.SetInt("HighScore_M" + mapsController.MapIndex + "_" + level, HighScore);
-            });
+            //    HighScore = score;
+            //    PlayerPrefs.SetInt("HighScore_M" + mapsController.MapIndex + "_" + level, HighScore);
+            //});
         }
     }
 }

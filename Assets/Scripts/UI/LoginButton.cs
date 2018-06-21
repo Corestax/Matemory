@@ -28,11 +28,7 @@ public class LoginButton : MonoBehaviour
     {
         if (IsUserLoggedIn())
         {
-            if (GoogleGameServicesController.Instance.Authenticated)
-                GoogleGameServicesController.Instance.SignOut();
-            
-            else
-                LoginController.Instance.Logout();
+            LoginController.Instance.Logout();
         }
         else
             UIController.Instance.ShowPanel(UIController.PanelTypes.LOGIN);
@@ -66,7 +62,7 @@ public class LoginButton : MonoBehaviour
 
     private bool IsUserLoggedIn()
     {
-        return GoogleGameServicesController.Instance.Authenticated || LoginController.Instance.UserLogged;
+        return LoginController.Instance.UserLogged;
     }
 
 }
