@@ -132,22 +132,17 @@ public class LoginPanel : MonoBehaviour
     #endregion
 
     #region GOOGLE_LOGIN
-    public void OnClickGoogleLogin()
-    {
-        //GoogleGameServicesController.Instance.SignIn(GoogleLoginCallback);
-    }
-
     public void GoogleLoginCallback(bool success)
     {
         string message = success ? "LOGIN SUCCESSFUL" : "LOGIN FAILED";
 
-        if (!success)
+        ShowLoginMessage(message);
+
+        if (success)
         {
-            ShowLoginMessage(message);
-            RunLoginMessageTimeout(1.5f);
+            loginController.SetUserLogged();
+            StartCoroutine(OnSuccessfullLoginCR());
         }
-        else
-            UIController.Instance.ShowPanel(UIController.PanelTypes.SETTINGS);
     }
     #endregion
 
@@ -169,9 +164,9 @@ public class LoginPanel : MonoBehaviour
 
     IEnumerator OnSuccessfullLoginCR()
     {
-        yield return new WaitForSecondsRealtime(0.75f);
+        yield return new WaitForSecondsRealtime(1f);
 
-        UIController.Instance.ShowPanel(UIController.PanelTypes.SETTINGS);
+        UIController.Instance.HideActivePanel();
     }
     #endregion
 
@@ -248,6 +243,11 @@ public class LoginPanel : MonoBehaviour
     public void OnClickShowResendEmail()
     {
         ShowPanel(PanelTypes.RESEND_EMAIL);
+    }
+
+    public void OnClickGoogleSignIn()
+    {
+        GoogleSignInController.Instance.SignInNormal(GoogleLoginCallback);
     }
     #endregion
 

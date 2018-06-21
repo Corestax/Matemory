@@ -91,12 +91,15 @@ public class LoginController : Singleton<LoginController>
         
         //SendRequest(DB.URL_USER, form, RequestTypes.SAVE_GOOGLE_DATA);
     }
-    
+
     #endregion
 
     #region LOGOUT
     public void Logout()
     {
+        if (GoogleSignInController.Instance.isLoggedIn)
+            GoogleSignInController.Instance.SignOut();
+
         StartCoroutine(LogoutCR());
     }
 

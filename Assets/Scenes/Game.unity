@@ -5848,7 +5848,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 476400151}
-        m_MethodName: OnClickGoogleLogin
+        m_MethodName: OnClickGoogleSignIn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8417,9 +8417,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 0.7
-  m_Text: 'USE GOOGLE
-
-    PLAY GAMES'
+  m_Text: USE GOOGLE
 --- !u!222 &1088156620
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10190,6 +10188,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1359943144}
   - component: {fileID: 1359943145}
+  - component: {fileID: 1359943146}
   m_Layer: 0
   m_Name: LoginController
   m_TagString: Untagged
@@ -10232,6 +10231,18 @@ MonoBehaviour:
     password: 
   responseMessage:
     message: 
+--- !u!114 &1359943146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1359943143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97f5bfd33e80d6740a2abee93ec175fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isLoggedIn: 0
 --- !u!1 &1364321088
 GameObject:
   m_ObjectHideFlags: 0

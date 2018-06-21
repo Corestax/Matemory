@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "491925000490",
+    "firebase_url": "https://fruit-artist-62833801.firebaseio.com",
+    "project_id": "fruit-artist-62833801",
+    "storage_bucket": "fruit-artist-62833801.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:491925000490:android:8a4d0d3f2e5b3078",
+        "android_client_info": {
+          "package_name": "com.vertecx.fruitartist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "491925000490-fud0svp2cu1sj2miklv2bsf1qg7526rm.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "491925000490-lf5eppamiso02hdr68mel3okcdt24scr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vertecx.fruitartist",
+            "certificate_hash": "4b8129f3ab0a1da07c6dd7f220687eb396a01b66"
+          }
+        },
+        {
+          "client_id": "491925000490-fud0svp2cu1sj2miklv2bsf1qg7526rm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqLdWxkmpwS1TQaLGBK0uyERdCZ0O5aIE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "491925000490-fud0svp2cu1sj2miklv2bsf1qg7526rm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
