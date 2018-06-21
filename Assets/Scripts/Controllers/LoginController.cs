@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LoginController : Singleton<LoginController>
 {
@@ -22,7 +23,7 @@ public class LoginController : Singleton<LoginController>
 
     private void Start()
     {
-        UserLogged = false;
+        //Debug.Log("isUserLogeedIn: " + UserLogged);
     }
 
     #region SIGNUP
@@ -109,6 +110,8 @@ public class LoginController : Singleton<LoginController>
         yield return new WaitForSecondsRealtime(0.25f);
 
         SetUserLogout();
+
+        SceneManager.LoadScene(0);
     }
 
     
