@@ -9,7 +9,7 @@ public class LoginButton : MonoBehaviour
     private Text text_Button;
 
     private const string loginText = "LOGIN";
-    private const string logoutText = "LOGOUT";
+    private const string logoutText = "PLAY";
 
 
     private void OnEnable()
@@ -28,15 +28,11 @@ public class LoginButton : MonoBehaviour
     {
         if (IsUserLoggedIn())
         {
-            LoginController.Instance.Logout();
+            UIController.Instance.OnPlayButtonClicked();
+            //LoginController.Instance.Logout();
         }
         else
             UIController.Instance.ShowPanel(UIController.PanelTypes.LOGIN);
-    }
-
-    public void LoginCallback(bool status, string error)
-    {
-        Debug.Log("Google Login");
     }
 
     public void UserLoggedIn()
@@ -62,7 +58,7 @@ public class LoginButton : MonoBehaviour
 
     private bool IsUserLoggedIn()
     {
-        return LoginController.Instance.UserLogged;
+        return LoginController.Instance.isLoggedIn;
     }
 
 }

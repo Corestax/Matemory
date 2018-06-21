@@ -16,7 +16,7 @@ public class GoogleSignInController : Singleton<GoogleSignInController>
 
     public void ManualInit()
     {
-        ChangeLogging(true);
+        ChangeLogging(false);
 
         string client_id = "491925000490-fud0svp2cu1sj2miklv2bsf1qg7526rm.apps.googleusercontent.com";
 

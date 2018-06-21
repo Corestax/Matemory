@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class LoginController : Singleton<LoginController>
 {
     [HideInInspector]
-    public bool UserLogged;
+    public bool isLoggedIn;
 
     [HideInInspector]
     public DBResponseUserData responseUserData;
@@ -44,7 +44,7 @@ public class LoginController : Singleton<LoginController>
         if (!success)
             return;
 
-        UserLogged = true;
+        isLoggedIn = true;
 
         if (OnUserLoggedIn != null)
             OnUserLoggedIn();
@@ -73,7 +73,7 @@ public class LoginController : Singleton<LoginController>
 
     public void SetUserLogged()
     {
-        UserLogged = true;
+        isLoggedIn = true;
 
         if (OnUserLoggedIn != null)
             OnUserLoggedIn();
@@ -117,7 +117,7 @@ public class LoginController : Singleton<LoginController>
     
     public void SetUserLogout()
     {
-        UserLogged = false;
+        isLoggedIn = false;
 
         if (OnUserLoggedOut != null)
             OnUserLoggedOut();

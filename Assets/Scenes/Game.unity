@@ -2484,8 +2484,11 @@ GameObject:
   - component: {fileID: 287263207}
   - component: {fileID: 287263206}
   - component: {fileID: 287263209}
+  - component: {fileID: 287263212}
+  - component: {fileID: 287263211}
+  - component: {fileID: 287263210}
   m_Layer: 5
-  m_Name: Button_Play
+  m_Name: Button_PlayGuest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2607,6 +2610,48 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickSound: 1
+--- !u!114 &287263210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 287263204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a26d7894495e22b44be4d39d17a6a9d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isShowing: 0
+--- !u!225 &287263211
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 287263204}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &287263212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 287263204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &294829509
 GameObject:
   m_ObjectHideFlags: 0
@@ -6684,6 +6729,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a26d7894495e22b44be4d39d17a6a9d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isShowing: 1
 --- !u!225 &866620487
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -9123,6 +9169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a26d7894495e22b44be4d39d17a6a9d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isShowing: 0
 --- !u!114 &1174309672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10220,7 +10267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aa0a7504c5472d418dc8ef3c87ee285, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UserLogged: 0
+  isLoggedIn: 0
   responseUserData:
     name: 
     email: 
