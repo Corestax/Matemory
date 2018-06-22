@@ -132,17 +132,26 @@ public class LoginPanel : MonoBehaviour
     #endregion
 
     #region GOOGLE_LOGIN
-    public void GoogleLoginCallback(bool success)
-    {
-        string message = success ? "LOGIN SUCCESSFUL" : "LOGIN FAILED";
-
-        ShowLoginMessage(message);
-
-        if (success)
+    public void OnClickGoogleSignIn()
+    {        
+        GoogleSignInController.Instance.SignInNormal((success) =>
         {
+            string message = success ? "LOGIN SUCCESSFUL" : "LOGIN FAILED";
+
+            ShowLoginMessage(message);
+
+            if (!success)
+                return;
+            
+            // set loggedIn in Login Controller
             loginController.SetUserLogged();
+            
+            // send user data to DB
+            loginController.SaveGoogleData();
+            
+            // close login panel
             StartCoroutine(OnSuccessfullLoginCR());
-        }
+        });
     }
     #endregion
 
@@ -243,11 +252,6 @@ public class LoginPanel : MonoBehaviour
     public void OnClickShowResendEmail()
     {
         ShowPanel(PanelTypes.RESEND_EMAIL);
-    }
-
-    public void OnClickGoogleSignIn()
-    {
-        GoogleSignInController.Instance.SignInNormal(GoogleLoginCallback);
     }
     #endregion
 

@@ -148,6 +148,37 @@ public class LoginController : Singleton<LoginController>
     }
     #endregion
 
+    #region GOOGLE_LOGIN
+
+    public void SaveGoogleData()
+    {
+        var googleSignInController = GoogleSignInController.Instance;
+
+        if (!googleSignInController.isLoggedIn)
+            return;
+        
+        WWWForm form = new WWWForm();
+
+        form.AddField("auth_type", (int)DB.UserAuthTypes.SAVE_GOOGLE_DATA);
+        form.AddField("name", googleSignInController.GetUserName());
+        form.AddField("email", googleSignInController.GetUserEmail());
+        form.AddField("token", googleSignInController.GetUserToken());
+
+        StartCoroutine(SaveGoogleDataCR(form));
+    }
+
+    IEnumerator SaveGoogleDataCR(WWWForm form)
+    {
+        using (WWW www = new WWW(DB.URL_USER, form))
+        {
+            yield return www;
+
+            if (!string.IsNullOrEmpty(www.error))
+                Debug.LogWarning(www.text);
+        }
+    }
+    #endregion
+
     #region SEND_REQUEST
     private void SendRequest(string url, WWWForm form, RequestTypes type, Action<bool> externalCallback = null)
     {
