@@ -151,6 +151,9 @@ public class LoginPanel : MonoBehaviour
             
             // close login panel
             StartCoroutine(OnSuccessfullLoginCR());
+            
+            // save to playerPrefs
+            PlayerPrefs.SetString("login_type", "google");
         });
     }
     #endregion
@@ -166,6 +169,11 @@ public class LoginPanel : MonoBehaviour
             ShowLoginMessage(string.Join("\n", messages.ToArray()));
 
             StartCoroutine(OnSuccessfullLoginCR());
+            
+            // save to playerPrefs
+            PlayerPrefs.SetString("login_type", "password");
+            PlayerPrefs.SetString("email", input_Email.text);
+            PlayerPrefs.SetString("password", input_Pass.text);
         }
         else
             ShowResponseErrors();

@@ -24,6 +24,8 @@ public class LoginController : Singleton<LoginController>
     private void Start()
     {
         //Debug.Log("isUserLogeedIn: " + UserLogged);
+
+        AutoLogin();
     }
 
     #region SIGNUP
@@ -79,18 +81,24 @@ public class LoginController : Singleton<LoginController>
             OnUserLoggedIn();
     }
 
-    public void SendGooglePlayGamesData(string name, string email, string token)
+    private void AutoLogin()
     {
-        WWWForm form = new WWWForm();
+        if (!PlayerPrefs.HasKey("login_type"))
+            return;
+        
+        if (PlayerPrefs.GetString("login_type") == "google")
+            GoogleSignInController.Instance.SignInSilent();
 
-        Debug.Log(String.Format("{0} {1} {2}", name, email, token));
-        
-        form.AddField("auth_type", (int)DB.UserAuthTypes.SAVE_GOOGLE_DATA);
-        form.AddField("name", name);
-        form.AddField("email", email);
-        form.AddField("gpgToken", token);
-        
-        //SendRequest(DB.URL_USER, form, RequestTypes.SAVE_GOOGLE_DATA);
+        else
+        {
+            var email = PlayerPrefs.GetString("email") ?? null;
+            var password = PlayerPrefs.GetString("password") ?? null;
+
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+                return;
+
+            Login(email, password);
+        }
     }
 
     #endregion
@@ -121,6 +129,16 @@ public class LoginController : Singleton<LoginController>
 
         if (OnUserLoggedOut != null)
             OnUserLoggedOut();
+        
+        // reset playerPrefs
+        if (PlayerPrefs.HasKey("login_type"))
+            PlayerPrefs.DeleteKey("login_type");
+        
+        if (PlayerPrefs.HasKey("email"))
+            PlayerPrefs.DeleteKey("email");
+        
+        if (PlayerPrefs.HasKey("password"))
+            PlayerPrefs.DeleteKey("password");
     }
     #endregion
 
