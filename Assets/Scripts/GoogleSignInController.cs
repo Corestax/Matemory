@@ -9,11 +9,6 @@ public class GoogleSignInController : Singleton<GoogleSignInController>
     [HideInInspector]
     public bool isLoggedIn = false;
 
-    private void Start()
-    {
-        ManualInit();
-    }
-
     public void ManualInit()
     {
         ChangeLogging(false);
@@ -25,6 +20,8 @@ public class GoogleSignInController : Singleton<GoogleSignInController>
 
     public void SignInNormal(Action<bool> callback = null)
     {
+        ManualInit();
+        
         LCGoogleLoginBridge.LoginUser((loggedIn) => {
             isLoggedIn = loggedIn;
 
@@ -35,6 +32,8 @@ public class GoogleSignInController : Singleton<GoogleSignInController>
 
     public void SignInSilent(Action<bool> callback = null)
     {
+        ManualInit();
+        
         LCGoogleLoginBridge.LoginUser((loggedIn) => {
             isLoggedIn = loggedIn;
 
