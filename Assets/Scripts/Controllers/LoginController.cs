@@ -45,11 +45,8 @@ public class LoginController : Singleton<LoginController>
     {
         if (!success)
             return;
-
-        isLoggedIn = true;
-
-        if (OnUserLoggedIn != null)
-            OnUserLoggedIn();
+        
+        SetUserLogged();
     }
     #endregion
 
@@ -87,7 +84,11 @@ public class LoginController : Singleton<LoginController>
             return;
         
         if (PlayerPrefs.GetString("login_type") == "google")
-            GoogleSignInController.Instance.SignInSilent();
+            GoogleSignInController.Instance.SignInSilent((success) =>
+            {
+                SaveGoogleData();
+                SetUserLogged();
+            });
 
         else
         {
