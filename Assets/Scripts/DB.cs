@@ -2,7 +2,7 @@
 
 public static class DB
 {
-    public enum UserAuthTypes { LOGIN, SIGNUP, SAVE_GOOGLE_DATA, RESET_PASSWORD, RESEND_EMAIL }
+    public enum UserAuthTypes { LOGIN, SIGNUP, SAVE_GOOGLE_DATA, RESET_PASSWORD, RESEND_EMAIL, GET_LEADERBOARD }
     public const string URL_USER = "https://fruitartist.vertecx.net/api/v1/users";
 }
 

@@ -16,6 +16,8 @@ public class LoginController : Singleton<LoginController>
     [HideInInspector]
     public DBResponseMessage responseMessage;
 
+    public string UserName { get; private set; }
+
     public static event Action OnUserLoggedIn;
     public static event Action OnUserLoggedOut;
 
@@ -183,6 +185,7 @@ public class LoginController : Singleton<LoginController>
         form.AddField("email", googleSignInController.GetUserEmail());
         form.AddField("token", googleSignInController.GetUserToken());
 
+        UserName = googleSignInController.GetUserName();
         StartCoroutine(SaveGoogleDataCR(form));
     }
 
@@ -226,7 +229,6 @@ public class LoginController : Singleton<LoginController>
                 case RequestTypes.LOGIN:
                     if (success)
                         responseUserData = JsonUtility.FromJson<DBResponseUserData>(www.text);
-
                     LoginCallback(success);
                     break;
                 case RequestTypes.SIGNUP:
@@ -248,6 +250,10 @@ public class LoginController : Singleton<LoginController>
                 default:
                     break;
             }
+
+            // Cache username
+            if (success)
+                UserName = responseUserData.name;
 
             // call an external class callback
             if (externalCallback != null)

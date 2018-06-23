@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,11 +25,14 @@ public class UIController : Singleton<UIController>
     private ButtonsController buttonsController;
     private TimerController timeController;
     private TutorialsController tutorialController;
+    private LeaderboardController leaderboardController;
+    private LoginController loginController;
+    private ScoreController scoreController;
     private AudioManager audioManager;
     private MeshCombiner meshCombiner;
 
-    public enum PanelTypes { NONE, MAIN_MENU, RESULTS, PLAY_LEVEL, SETTINGS, LOGIN }
-    private PanelTypes activePanel;
+    public enum PanelTypes { NONE, MAIN_MENU, RESULTS, PLAY_LEVEL, SETTINGS, LOGIN, LEADERBOARD }
+    public PanelTypes ActivePanel { get; private set; }
 
     private const float FADESPEED = 0.25f;
 
@@ -40,9 +44,14 @@ public class UIController : Singleton<UIController>
         buttonsController = ButtonsController.Instance;
         timeController = TimerController.Instance;
         tutorialController = TutorialsController.Instance;
+        leaderboardController = LeaderboardController.Instance;
+        loginController = LoginController.Instance;
+        scoreController = ScoreController.Instance;
         audioManager = AudioManager.Instance;
         meshCombiner = MeshCombiner.Instance;
-        activePanel = PanelTypes.NONE;
+        ActivePanel = PanelTypes.NONE;
+
+        LeaderboardItems = new List<LeaderboardItem>();
 
         // Define hint colors
         color_hintAlpha = image_hintFill.color;
@@ -56,7 +65,7 @@ public class UIController : Singleton<UIController>
         LoadMusicSettings();
 
         // Start main menu enabled
-        activePanel = PanelTypes.MAIN_MENU;
+        ActivePanel = PanelTypes.MAIN_MENU;
         fader_mainMenu.FadeIn(0f);
     }
 
@@ -134,7 +143,7 @@ public class UIController : Singleton<UIController>
     public void ShowPanel(PanelTypes panel, GameController.EndGameTypes _type = GameController.EndGameTypes.NONE)
     {
         // Hide last active panel (do not close if settings panel)
-        if (activePanel != PanelTypes.MAIN_MENU)
+        if (ActivePanel != PanelTypes.MAIN_MENU)
             HideActivePanel();
 
         // Show new panel        
@@ -160,10 +169,14 @@ public class UIController : Singleton<UIController>
                 ShowPanelLogin();
                 break;
 
+            case PanelTypes.LEADERBOARD:
+                ShowPanelLeaderboard();
+                break;
+
             default:
                 break;
         }
-        activePanel = panel;        
+        ActivePanel = panel;        
     }    
 
     public void HidePanel(PanelTypes panel)
@@ -190,16 +203,20 @@ public class UIController : Singleton<UIController>
                 HidePanelLogin();
                 break;
 
+            case PanelTypes.LEADERBOARD:
+                HidePanelLeaderboard();
+                break;
+
             default:
                 break;
         }
-        activePanel = PanelTypes.NONE;
+        ActivePanel = PanelTypes.NONE;
         buttonsController.EnableAllButtons();
     }
 
     public void HideActivePanel()
     {
-        HidePanel(activePanel);
+        HidePanel(ActivePanel);
     }
 
     #region MAIN MENU
@@ -423,7 +440,7 @@ public class UIController : Singleton<UIController>
             gameController.PauseGame();
 
         // If settings panel was opened from Main Menu: Do not show MAPS button
-        if (activePanel == PanelTypes.MAIN_MENU)
+        if (ActivePanel == PanelTypes.MAIN_MENU)
             button_settingsMap.SetActive(false);
         else
             button_settingsMap.SetActive(true);
@@ -473,6 +490,84 @@ public class UIController : Singleton<UIController>
     public void OnClickCloseLoginPanel()
     {
         HideActivePanel();
+    }
+    #endregion
+
+
+    #region LEADERBOARD
+    [SerializeField]
+    private CanvasFader fader_leaderboard;
+    [SerializeField]
+    private GameObject Prefab_LeaderItem;
+    [SerializeField]
+    private Transform tContentLeaderboard;
+
+    private List<LeaderboardItem> LeaderboardItems;
+
+    public void ShowPanelLeaderboard()
+    {
+        fader_leaderboard.FadeIn(FADESPEED);
+        buttonsController.DisableAllButtonsExcept(fader_leaderboard.transform);
+    }
+
+    public void HidePanelLeaderboard()
+    {
+        fader_leaderboard.FadeOut(FADESPEED);
+    }
+
+    public void OnShowLeaderboardClicked()
+    {
+        ShowPanel(PanelTypes.LEADERBOARD);
+        RefreshLeaderboard();
+    }
+
+    public void OnHideLeaderboardClicked()
+    {
+        ShowPanel(PanelTypes.PLAY_LEVEL);
+    }
+
+    private void RefreshLeaderboard()
+    {
+        if (loginController.isLoggedIn)
+        {
+            // Get latest leaderboard from DB
+            leaderboardController.GetLeaderboard(loginController.UserName, levelsController.CurrentLevel, PopulateLeaderboard);
+        }
+        else
+        {
+            // Add my score only
+            ClearLeaderboard();
+
+            // Create prefab item
+            var go = Instantiate(Prefab_LeaderItem, tContentLeaderboard);
+            LeaderboardItem item = go.GetComponent<LeaderboardItem>();
+            item.Set("1", "You", scoreController.HighScore.ToString());
+            go.SetActive(true);
+            LeaderboardItems.Add(item);
+        }
+    }
+
+    private void PopulateLeaderboard()
+    {
+        ClearLeaderboard();
+
+        // Populate
+        foreach(var l in leaderboardController.Leaderboard)
+        {
+            var go = Instantiate(Prefab_LeaderItem, tContentLeaderboard);
+            LeaderboardItem item = go.GetComponent<LeaderboardItem>();
+            item.Set(l.Rank, l.Player, l.Score);
+            go.SetActive(true);
+            LeaderboardItems.Add(item);
+        }
+    }
+
+    private void ClearLeaderboard()
+    {
+        foreach(var li in LeaderboardItems)
+            Destroy(li.gameObject);
+
+        LeaderboardItems.Clear();
     }
     #endregion
 

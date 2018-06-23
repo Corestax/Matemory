@@ -17,6 +17,8 @@ public class LoginPanel : MonoBehaviour
     [SerializeField]
     private Button button_ResendEmail;
     [SerializeField]
+    private Button button_googleLogin;
+    [SerializeField]
     private Text text_OkButton;
     [SerializeField]
     private Text text_LoginMenu;
@@ -82,6 +84,7 @@ public class LoginPanel : MonoBehaviour
         input_Pass.gameObject.SetActive(true);
         button_ResetPass.gameObject.SetActive(true);
         button_ResendEmail.gameObject.SetActive(false);
+        button_googleLogin.gameObject.SetActive(true);
 
         SetOkButtonText("LOGIN");
     }
@@ -96,8 +99,9 @@ public class LoginPanel : MonoBehaviour
         input_Email.gameObject.SetActive(true);
         input_Pass.gameObject.SetActive(true);
         button_ResendEmail.gameObject.SetActive(false);
+        button_googleLogin.gameObject.SetActive(false);
 
-        SetOkButtonText("SING UP");
+        SetOkButtonText("SIGN UP");
     }
 
     private void ShowResetPasswordPanel()
@@ -121,7 +125,6 @@ public class LoginPanel : MonoBehaviour
 
         button_ResetPass.gameObject.SetActive(false);
         button_ResendEmail.gameObject.SetActive(true);
-
     }
 
     private void ShowResendEmailPanel()

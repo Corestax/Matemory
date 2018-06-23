@@ -108,7 +108,7 @@ public class ARCoreController : MonoBehaviour
         //}
 
         // DO NOT ALLOW REPOSITIONING
-        if (anchor || EventSystem.current.IsPointerOverGameObject() || tutorialController.IsActive)
+        if (anchor || EventSystem.current.IsPointerOverGameObject() || tutorialController.IsActive || uiController.ActivePanel == UIController.PanelTypes.LOGIN || uiController.ActivePanel == UIController.PanelTypes.SETTINGS || uiController.ActivePanel == UIController.PanelTypes.MAIN_MENU)
             return;        
 
         // Show plane visualizer
