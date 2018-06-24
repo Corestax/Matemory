@@ -174,12 +174,14 @@ public class ScoreController : Singleton<ScoreController>
             print("LOCAL SCORE IS HIGHER... SAVING TO DB: " + localScore + " > " + onlineScore);
             // Update DB
             SaveOnlineScore(loginController.Email, level, localScore);
+            HighScore = localScore;
         }
         else if (onlineScore > localScore)
         {
             print("ONLINE SCORE IS HIGHER... SAVING LOCALLY: " + onlineScore + " > " + localScore);
             // Update playerprefs
             SaveLocalScore(level, onlineScore);
+            HighScore = onlineScore;
         }
     }
 }

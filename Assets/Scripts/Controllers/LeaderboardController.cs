@@ -15,8 +15,6 @@ public class LeaderboardController : Singleton<LeaderboardController>
 
     public void GetLeaderboard(string userName, int level, Action callback = null)
     {
-        print(userName);
-        print(level);
         StartCoroutine(GetLeaderboardCR(userName, level, callback));
     }
 
