@@ -17,6 +17,7 @@ public class LoginController : Singleton<LoginController>
     public DBResponseMessage responseMessage;
 
     public string UserName { get; private set; }
+    public string Email { get; private set; }
 
     public static event Action OnUserLoggedIn;
     public static event Action OnUserLoggedOut;
@@ -49,6 +50,9 @@ public class LoginController : Singleton<LoginController>
             return;
         
         SetUserLogged();
+        
+        UserName = responseUserData.name;
+        Email = responseUserData.email;
     }
     #endregion
 
@@ -70,6 +74,9 @@ public class LoginController : Singleton<LoginController>
             return;
 
         SetUserLogged();
+
+        UserName = responseUserData.name;
+        Email = responseUserData.email;
     }
 
     public void SetUserLogged()
@@ -250,10 +257,6 @@ public class LoginController : Singleton<LoginController>
                 default:
                     break;
             }
-
-            // Cache username
-            if (success)
-                UserName = responseUserData.name;
 
             // call an external class callback
             if (externalCallback != null)

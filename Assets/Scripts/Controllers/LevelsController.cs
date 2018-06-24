@@ -42,7 +42,7 @@ public class LevelsController : Singleton<LevelsController>
     {
         if (loginController.isLoggedIn)
         {
-            GetLevelOnline(loginController.UserName, CompareLevels);
+            GetLevelOnline(loginController.Email, CompareLevels);
         }
         else
         {
@@ -65,7 +65,7 @@ public class LevelsController : Singleton<LevelsController>
         if (localLevel > onlineLevel)
         {
             // Update DB
-            SaveLevelOnline(loginController.UserName, localLevel);
+            SaveLevelOnline(loginController.Email, localLevel);
             HighestLevel = localLevel;
         }
         else if (onlineLevel > localLevel)
@@ -129,22 +129,22 @@ public class LevelsController : Singleton<LevelsController>
 
         // Save level locally and online (if user is logged in)
         SaveLevelLocal(level);
-        SaveLevelOnline(loginController.UserName, level);
+        SaveLevelOnline(loginController.Email, level);
     }
     #endregion
 
 
     #region DB
-    private void GetLevelOnline(string userName, Action<int> callback = null)
+    private void GetLevelOnline(string email, Action<int> callback = null)
     {
-        StartCoroutine(GetLevelOnlineCR(userName, callback));
+        StartCoroutine(GetLevelOnlineCR(email, callback));
     }
 
-    private IEnumerator GetLevelOnlineCR(string userName, Action<int> callback)
+    private IEnumerator GetLevelOnlineCR(string email, Action<int> callback)
     {
         WWWForm form = new WWWForm();
         form.AddField("auth_type", (int)DB.LevelAuthTypes.GET_LEVEL);
-        form.AddField("username", userName);
+        form.AddField("email", email);
 
         using (WWW www = new WWW(DB.URL_LEVEL, form))
         {
@@ -166,19 +166,19 @@ public class LevelsController : Singleton<LevelsController>
         }
     }
 
-    private void SaveLevelOnline(string userName, int level)
+    private void SaveLevelOnline(string email, int level)
     {
         if (!loginController.isLoggedIn)
             return;
 
-        StartCoroutine(SaveLevelOnlineCR(userName, level));
+        StartCoroutine(SaveLevelOnlineCR(email, level));
     }
 
-    private IEnumerator SaveLevelOnlineCR(string userName, int level)
+    private IEnumerator SaveLevelOnlineCR(string email, int level)
     {
         WWWForm form = new WWWForm();
         form.AddField("auth_type", (int)DB.LevelAuthTypes.SAVE_LEVEL);
-        form.AddField("username", userName);
+        form.AddField("email", email);
         form.AddField("level", level);
 
         using (WWW www = new WWW(DB.URL_LEVEL, form))

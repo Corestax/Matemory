@@ -63,7 +63,7 @@ public class ScoreController : Singleton<ScoreController>
 
             // Save score locally and online (if user is logged in)
             SaveLocalScore(level, CurrentScore);
-            SaveOnlineScore(loginController.UserName, level, CurrentScore);
+            SaveOnlineScore(loginController.Email, level, CurrentScore);
         }
     }        
 
@@ -75,7 +75,7 @@ public class ScoreController : Singleton<ScoreController>
     public void GetHighScore(int level, Action<int, int> callback = null)
     {
         if (loginController.isLoggedIn)
-            GetOnlineScore(loginController.UserName, level, callback);
+            GetOnlineScore(loginController.Email, level, callback);
         else
             HighScore = GetScoreLocal(level);
     }
@@ -99,16 +99,16 @@ public class ScoreController : Singleton<ScoreController>
 
 
     #region LOCAL SCORE
-    private void GetOnlineScore(string userName, int level, Action<int, int> callback)
+    private void GetOnlineScore(string email, int level, Action<int, int> callback)
     {
-        StartCoroutine(GetOnlineScoreCR(userName, level, callback));
+        StartCoroutine(GetOnlineScoreCR(email, level, callback));
     }
 
-    private IEnumerator GetOnlineScoreCR(string userName, int level, Action<int, int> callback)
+    private IEnumerator GetOnlineScoreCR(string email, int level, Action<int, int> callback)
     {
         WWWForm form = new WWWForm();
         form.AddField("auth_type", (int)DB.ScoreAuthTypes.GET_HIGHSCORE);
-        form.AddField("username", userName);
+        form.AddField("email", email);
         form.AddField("level", level);
 
         using (WWW www = new WWW(DB.URL_SCORE, form))
@@ -130,19 +130,19 @@ public class ScoreController : Singleton<ScoreController>
         }
     }
 
-    private void SaveOnlineScore(string userName, int level, int score)
+    private void SaveOnlineScore(string email, int level, int score)
     {
         if (!loginController.isLoggedIn)
             return;
 
-        StartCoroutine(SaveOnlineScoreCR(loginController.UserName, level, score));
+        StartCoroutine(SaveOnlineScoreCR(email, level, score));
     }
 
-    private IEnumerator SaveOnlineScoreCR(string userName, int level, int score)
+    private IEnumerator SaveOnlineScoreCR(string email, int level, int score)
     {
         WWWForm form = new WWWForm();
         form.AddField("auth_type", (int)DB.ScoreAuthTypes.SAVE_HIGHSCORE);
-        form.AddField("username", userName);
+        form.AddField("email", email);
         form.AddField("level", level);
         form.AddField("score", score);
 
@@ -172,7 +172,7 @@ public class ScoreController : Singleton<ScoreController>
         if (localScore > onlineScore)
         {
             // Update DB
-            SaveOnlineScore(loginController.UserName, level, localScore);
+            SaveOnlineScore(loginController.Email, level, localScore);
         }
         else if (onlineScore > localScore)
         {
