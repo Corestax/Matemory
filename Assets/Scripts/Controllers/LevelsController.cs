@@ -50,7 +50,7 @@ public class LevelsController : Singleton<LevelsController>
             int level = GetLevelLocal();
 
             // Load highest level
-            if (level != -1)
+            if (level > 0)
                 LoadLevel(level);
             else
                 LoadFirstLevel();
@@ -62,6 +62,7 @@ public class LevelsController : Singleton<LevelsController>
         // Compare level from PlayerPrefs vs DB
         // NOTE: This is a callback function that executes after retrieving level from DB
         int localLevel = GetLevelLocal();
+        print(localLevel + " -- " + onlineLevel);
         if (localLevel > onlineLevel)
         {
             print("LOCAL LEVEL IS HIGHER... SAVING TO DB: " + localLevel + " > " + onlineLevel);
@@ -76,9 +77,14 @@ public class LevelsController : Singleton<LevelsController>
             SaveLevelLocal(onlineLevel);
             HighestLevel = onlineLevel;
         }
+        else
+        {
+            HighestLevel = onlineLevel;
+        }
 
+        print("HighestLevel: " + HighestLevel);
         // Load highest level
-        if (HighestLevel != -1)
+        if (HighestLevel > 0)
             LoadLevel(HighestLevel);
         else
             LoadFirstLevel();
@@ -116,7 +122,7 @@ public class LevelsController : Singleton<LevelsController>
     #endregion
 
 
-    #region PLAYERPREFS    
+    #region SAVE LEVEL    
     public void SaveLevel(int level)
     {
         if (level <= HighestLevel)
@@ -136,7 +142,7 @@ public class LevelsController : Singleton<LevelsController>
     #endregion
 
 
-    #region DB
+    #region ONLINE
     private void GetLevelOnline(string email, Action<int> callback = null)
     {
         print("GetLevelOnline: " + email);
@@ -202,7 +208,7 @@ public class LevelsController : Singleton<LevelsController>
     #endregion
 
 
-    #region LOCAL LEVEL
+    #region LOCAL
     public int GetLevelLocal()
     {
         if (PlayerPrefs.HasKey("Level"))
