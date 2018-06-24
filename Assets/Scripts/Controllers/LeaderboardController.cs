@@ -23,11 +23,11 @@ public class LeaderboardController : Singleton<LeaderboardController>
     private IEnumerator GetLeaderboardCR(string userName, int level, Action callback)
     {
         WWWForm form = new WWWForm();
-        form.AddField("auth_type", (int)DB.UserAuthTypes.GET_LEADERBOARD);
+        form.AddField("auth_type", (int)DB.ScoreAuthTypes.GET_LEADERBOARD);
         form.AddField("username", userName);
         form.AddField("level", level);
 
-        using (WWW www = new WWW(DB.URL_USER, form))
+        using (WWW www = new WWW(DB.URL_SCORE, form))
         {
             yield return www;
 

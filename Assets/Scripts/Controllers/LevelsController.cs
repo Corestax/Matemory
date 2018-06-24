@@ -143,10 +143,10 @@ public class LevelsController : Singleton<LevelsController>
     private IEnumerator GetLevelOnlineCR(string userName, Action<int> callback)
     {
         WWWForm form = new WWWForm();
-        form.AddField("auth_type", (int)DB.UserAuthTypes.GET_LEVEL);
+        form.AddField("auth_type", (int)DB.LevelAuthTypes.GET_LEVEL);
         form.AddField("username", userName);
 
-        using (WWW www = new WWW(DB.URL_USER, form))
+        using (WWW www = new WWW(DB.URL_LEVEL, form))
         {
             yield return www;
 
@@ -177,11 +177,11 @@ public class LevelsController : Singleton<LevelsController>
     private IEnumerator SaveLevelOnlineCR(string userName, int level)
     {
         WWWForm form = new WWWForm();
-        form.AddField("auth_type", (int)DB.UserAuthTypes.SAVE_LEVEL);
+        form.AddField("auth_type", (int)DB.LevelAuthTypes.SAVE_LEVEL);
         form.AddField("username", userName);
         form.AddField("level", level);
 
-        using (WWW www = new WWW(DB.URL_USER, form))
+        using (WWW www = new WWW(DB.URL_LEVEL, form))
         {
             yield return www;
 

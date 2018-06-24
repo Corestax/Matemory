@@ -107,11 +107,11 @@ public class ScoreController : Singleton<ScoreController>
     private IEnumerator GetOnlineScoreCR(string userName, int level, Action<int, int> callback)
     {
         WWWForm form = new WWWForm();
-        form.AddField("auth_type", (int)DB.UserAuthTypes.GET_HIGHSCORE);
+        form.AddField("auth_type", (int)DB.ScoreAuthTypes.GET_HIGHSCORE);
         form.AddField("username", userName);
         form.AddField("level", level);
 
-        using (WWW www = new WWW(DB.URL_USER, form))
+        using (WWW www = new WWW(DB.URL_SCORE, form))
         {
             yield return www;
 
@@ -141,12 +141,12 @@ public class ScoreController : Singleton<ScoreController>
     private IEnumerator SaveOnlineScoreCR(string userName, int level, int score)
     {
         WWWForm form = new WWWForm();
-        form.AddField("auth_type", (int)DB.UserAuthTypes.SAVE_HIGHSCORE);
+        form.AddField("auth_type", (int)DB.ScoreAuthTypes.SAVE_HIGHSCORE);
         form.AddField("username", userName);
         form.AddField("level", level);
         form.AddField("score", score);
 
-        using (WWW www = new WWW(DB.URL_USER, form))
+        using (WWW www = new WWW(DB.URL_SCORE, form))
         {
             yield return www;
 
