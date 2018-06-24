@@ -142,7 +142,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Fruit: 100
-  Order: 
 --- !u!136 &136984307304387426
 CapsuleCollider:
   m_ObjectHideFlags: 1

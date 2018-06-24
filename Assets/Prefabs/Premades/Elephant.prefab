@@ -40,9 +40,9 @@ GameObject:
   - component: {fileID: 136620659707438224}
   - component: {fileID: 54515585843461480}
   - component: {fileID: 114030644982343096}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Carrot (2)
-  m_TagString: Untagged
+  m_TagString: Draggable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -75,9 +75,9 @@ GameObject:
   - component: {fileID: 136896280974233696}
   - component: {fileID: 54512220891898874}
   - component: {fileID: 114897546762987548}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Carrot
-  m_TagString: Untagged
+  m_TagString: Draggable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -163,9 +163,9 @@ GameObject:
   - component: {fileID: 136922291335217648}
   - component: {fileID: 54214983499417876}
   - component: {fileID: 114645981448404118}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Carrot (1)
-  m_TagString: Untagged
+  m_TagString: Draggable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -198,9 +198,9 @@ GameObject:
   - component: {fileID: 136013880155818218}
   - component: {fileID: 54704573152866728}
   - component: {fileID: 114359208009676064}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Carrot (3)
-  m_TagString: Untagged
+  m_TagString: Draggable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

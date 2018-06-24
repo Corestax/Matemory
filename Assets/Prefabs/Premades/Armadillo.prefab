@@ -22,9 +22,9 @@ GameObject:
   - component: {fileID: 65275288461484664}
   - component: {fileID: 54215959167757990}
   - component: {fileID: 114603400757549652}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Muskmelon_Half
-  m_TagString: Untagged
+  m_TagString: Draggable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -196,9 +196,9 @@ GameObject:
   - component: {fileID: 136556129470984832}
   - component: {fileID: 54054298403759830}
   - component: {fileID: 114565802332527382}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Babycarrot
-  m_TagString: Untagged
+  m_TagString: Draggable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
