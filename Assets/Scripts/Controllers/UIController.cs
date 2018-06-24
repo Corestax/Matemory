@@ -547,7 +547,7 @@ public class UIController : Singleton<UIController>
 
             // Level & highscore
             int level = mapsController.GetCharacterLevel();
-            int score = scoreController.GetLocalScore(level);
+            int score = scoreController.GetScoreLocal(level);
             item.Set("1", "You", score.ToString());
             LeaderboardItems.Add(item);
         }

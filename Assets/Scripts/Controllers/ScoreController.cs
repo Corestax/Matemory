@@ -77,12 +77,12 @@ public class ScoreController : Singleton<ScoreController>
         if (loginController.isLoggedIn)
             GetOnlineScore(loginController.UserName, level, callback);
         else
-            GetLocalScore(level);
+            HighScore = GetScoreLocal(level);
     }
 
 
     #region LOCAL SCORE
-    public int GetLocalScore(int level)
+    public int GetScoreLocal(int level)
     {
         if (PlayerPrefs.HasKey("HighScore_" + level))
             return PlayerPrefs.GetInt("HighScore_" + level);
@@ -101,7 +101,7 @@ public class ScoreController : Singleton<ScoreController>
     #region LOCAL SCORE
     private void GetOnlineScore(string userName, int level, Action<int, int> callback)
     {
-        StartCoroutine(GetOnlineScoreCR(loginController.UserName, level, callback));
+        StartCoroutine(GetOnlineScoreCR(userName, level, callback));
     }
 
     private IEnumerator GetOnlineScoreCR(string userName, int level, Action<int, int> callback)
@@ -168,7 +168,7 @@ public class ScoreController : Singleton<ScoreController>
     {
         // Compare highScore from PlayerPrefs vs DB
         // NOTE: This is a callback function that executes after retrieving highscore from DB
-        int localScore = GetLocalScore(level);
+        int localScore = GetScoreLocal(level);
         if (localScore > onlineScore)
         {
             // Update DB

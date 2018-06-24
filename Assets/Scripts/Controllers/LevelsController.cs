@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,6 +20,7 @@ public class LevelsController : Singleton<LevelsController>
     private MapsController mapsController;
     private ModelsController modelsController;
     private ScoreController scoreController;
+    private LoginController loginController;
     public int CurrentLevel = 0;
     public int HighestLevel = 0;
 
@@ -27,6 +29,7 @@ public class LevelsController : Singleton<LevelsController>
         mapsController = MapsController.Instance;
         modelsController = ModelsController.Instance;
         scoreController = ScoreController.Instance;
+        loginController = LoginController.Instance;
 
         // Populate dictionary of levels
         Levels = new Dictionary<int, ModelsController.ModelTypes>();
@@ -37,10 +40,44 @@ public class LevelsController : Singleton<LevelsController>
     #region LOAD LEVEL
     public void LoadLastSavedLevel()
     {
-        int level = GetSavedLevel();
+        if (loginController.isLoggedIn)
+        {
+            GetLevelOnline(loginController.UserName, CompareLevels);
+        }
+        else
+        {
+            // Retrieve local level
+            int level = GetLevelLocal();
 
-        if (level != -1)
-            LoadLevel(level);
+            // Load highest level
+            if (level != -1)
+                LoadLevel(level);
+            else
+                LoadFirstLevel();
+        }
+    }
+
+    private void CompareLevels(int onlineLevel)
+    {
+        // Compare level from PlayerPrefs vs DB
+        // NOTE: This is a callback function that executes after retrieving level from DB
+        int localLevel = GetLevelLocal();
+        if (localLevel > onlineLevel)
+        {
+            // Update DB
+            SaveLevelOnline(loginController.UserName, localLevel);
+            HighestLevel = localLevel;
+        }
+        else if (onlineLevel > localLevel)
+        {
+            // Update playerprefs
+            SaveLevelLocal(onlineLevel);
+            HighestLevel = onlineLevel;
+        }
+
+        // Load highest level
+        if (HighestLevel != -1)
+            LoadLevel(HighestLevel);
         else
             LoadFirstLevel();
     }
@@ -90,17 +127,90 @@ public class LevelsController : Singleton<LevelsController>
         // Load high score
         scoreController.LoadHighScore(level);
 
-        // Save level
-        PlayerPrefs.SetInt("Level", level);
+        // Save level locally and online (if user is logged in)
+        SaveLevelLocal(level);
+        SaveLevelOnline(loginController.UserName, level);
+    }
+    #endregion
+
+
+    #region DB
+    private void GetLevelOnline(string userName, Action<int> callback = null)
+    {
+        StartCoroutine(GetLevelOnlineCR(userName, callback));
     }
 
-    private int GetSavedLevel()
+    private IEnumerator GetLevelOnlineCR(string userName, Action<int> callback)
     {
-        // Retrieve last saved level
+        WWWForm form = new WWWForm();
+        form.AddField("auth_type", (int)DB.UserAuthTypes.GET_LEVEL);
+        form.AddField("username", userName);
+
+        using (WWW www = new WWW(DB.URL_USER, form))
+        {
+            yield return www;
+
+            if (!string.IsNullOrEmpty(www.error))
+            {
+                // Retrieve high score
+                CurrentLevel = int.Parse(www.text);
+                Debug.Log("Level retrieved online: " + CurrentLevel);
+
+                if (callback != null)
+                    callback(CurrentLevel);
+            }
+            else
+            {
+                Debug.LogWarning(www.error);
+            }
+        }
+    }
+
+    private void SaveLevelOnline(string userName, int level)
+    {
+        if (!loginController.isLoggedIn)
+            return;
+
+        StartCoroutine(SaveLevelOnlineCR(userName, level));
+    }
+
+    private IEnumerator SaveLevelOnlineCR(string userName, int level)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("auth_type", (int)DB.UserAuthTypes.SAVE_LEVEL);
+        form.AddField("username", userName);
+        form.AddField("level", level);
+
+        using (WWW www = new WWW(DB.URL_USER, form))
+        {
+            yield return www;
+
+            if (!string.IsNullOrEmpty(www.error))
+            {
+                // Retrieve high score
+                Debug.Log("Level saved online: " + CurrentLevel);
+            }
+            else
+            {
+                Debug.LogWarning(www.error);
+            }
+        }
+    }
+    #endregion
+
+
+    #region LOCAL LEVEL
+    public int GetLevelLocal()
+    {
         if (PlayerPrefs.HasKey("Level"))
             return PlayerPrefs.GetInt("Level");
         else
             return -1;
+    }
+
+    private void SaveLevelLocal(int level)
+    {
+        PlayerPrefs.SetInt("Level", level);
     }
     #endregion
 }
