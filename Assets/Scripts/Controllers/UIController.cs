@@ -532,7 +532,7 @@ public class UIController : Singleton<UIController>
         if (loginController.isLoggedIn)
         {
             // Get latest leaderboard from DB
-            leaderboardController.GetLeaderboard(loginController.UserName, levelsController.CurrentLevel, PopulateLeaderboard);
+            leaderboardController.GetLeaderboard(loginController.UserName, mapsController.GetCharacterLevel(), PopulateLeaderboard);
         }
         // Get Local score
         else
