@@ -128,7 +128,7 @@ public class MapsController : Singleton<MapsController>
     {
         character.SetPosition(level);
         HighlightTargetPoint(level);
-        scoreController.LoadHighScore();
+        scoreController.LoadHighScore(level);
     }
 
     public int GetCharacterLevel()

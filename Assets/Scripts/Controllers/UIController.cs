@@ -528,11 +528,13 @@ public class UIController : Singleton<UIController>
 
     private void RefreshLeaderboard()
     {
+        // Get Online score
         if (loginController.isLoggedIn)
         {
             // Get latest leaderboard from DB
             leaderboardController.GetLeaderboard(loginController.UserName, levelsController.CurrentLevel, PopulateLeaderboard);
         }
+        // Get Local score
         else
         {
             // Add my score only
@@ -541,8 +543,12 @@ public class UIController : Singleton<UIController>
             // Create prefab item
             var go = Instantiate(Prefab_LeaderItem, tContentLeaderboard);
             LeaderboardItem item = go.GetComponent<LeaderboardItem>();
-            item.Set("1", "You", scoreController.HighScore.ToString());
             go.SetActive(true);
+
+            // Level & highscore
+            int level = mapsController.GetCharacterLevel();
+            int score = scoreController.GetLocalScore(level);
+            item.Set("1", "You", score.ToString());
             LeaderboardItems.Add(item);
         }
     }

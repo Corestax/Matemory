@@ -20,7 +20,7 @@ public class LeaderboardController : Singleton<LeaderboardController>
         StartCoroutine(GetLeaderboardCR(userName, level, callback));
     }
 
-    IEnumerator GetLeaderboardCR(string userName, int level, Action callback)
+    private IEnumerator GetLeaderboardCR(string userName, int level, Action callback)
     {
         WWWForm form = new WWWForm();
         form.AddField("auth_type", (int)DB.UserAuthTypes.GET_LEADERBOARD);

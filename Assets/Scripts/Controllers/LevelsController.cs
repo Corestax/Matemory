@@ -88,7 +88,7 @@ public class LevelsController : Singleton<LevelsController>
         HighestLevel = CurrentLevel;
 
         // Load high score
-        scoreController.LoadHighScore();
+        scoreController.LoadHighScore(level);
 
         // Save level
         PlayerPrefs.SetInt("Level", level);
