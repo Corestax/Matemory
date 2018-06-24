@@ -166,6 +166,10 @@ public class MapsController : Singleton<MapsController>
     {
         currentMap.SetActive(true);
         IsMapShowing = true;
+
+        // Fix bug for initial map rotation
+        character.Play(true);
+        character.Stop();
     }
 
     public void ShowMapAndAnimateCharacter(float _delay)
