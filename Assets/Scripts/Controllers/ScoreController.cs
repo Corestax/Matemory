@@ -115,7 +115,7 @@ public class ScoreController : Singleton<ScoreController>
         {
             yield return www;
 
-            if (!string.IsNullOrEmpty(www.error))
+            if (string.IsNullOrEmpty(www.error))
             {
                 // Retrieve high score
                 int score = int.Parse(www.text);
@@ -150,7 +150,7 @@ public class ScoreController : Singleton<ScoreController>
         {
             yield return www;
 
-            if (!string.IsNullOrEmpty(www.error))
+            if (string.IsNullOrEmpty(www.error))
             {
                 // Score saved successfully
                 Debug.Log("High score saved for level " + level + ": " + score);
@@ -171,11 +171,13 @@ public class ScoreController : Singleton<ScoreController>
         int localScore = GetScoreLocal(level);
         if (localScore > onlineScore)
         {
+            print("LOCAL SCORE IS HIGHER... SAVING TO DB: " + localScore + " > " + onlineScore);
             // Update DB
             SaveOnlineScore(loginController.Email, level, localScore);
         }
         else if (onlineScore > localScore)
         {
+            print("ONLINE SCORE IS HIGHER... SAVING LOCALLY: " + onlineScore + " > " + localScore);
             // Update playerprefs
             SaveLocalScore(level, onlineScore);
         }

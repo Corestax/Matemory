@@ -31,7 +31,7 @@ public class LeaderboardController : Singleton<LeaderboardController>
         {
             yield return www;
 
-            if (!string.IsNullOrEmpty(www.error))
+            if (string.IsNullOrEmpty(www.error))
             {
                 Leaderboard.Clear();
 

@@ -202,7 +202,7 @@ public class LoginController : Singleton<LoginController>
         {
             yield return www;
 
-            if (!string.IsNullOrEmpty(www.error))
+            if (string.IsNullOrEmpty(www.error))
                 Debug.LogWarning(www.text);
         }
     }

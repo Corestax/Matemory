@@ -64,12 +64,14 @@ public class LevelsController : Singleton<LevelsController>
         int localLevel = GetLevelLocal();
         if (localLevel > onlineLevel)
         {
+            print("LOCAL LEVEL IS HIGHER... SAVING TO DB: " + localLevel + " > " + onlineLevel);
             // Update DB
             SaveLevelOnline(loginController.Email, localLevel);
             HighestLevel = localLevel;
         }
         else if (onlineLevel > localLevel)
         {
+            print("ONLINE LEVEL IS HIGHER... SAVING LOCALLY: " + onlineLevel + " > " + localLevel);
             // Update playerprefs
             SaveLevelLocal(onlineLevel);
             HighestLevel = onlineLevel;
@@ -137,6 +139,7 @@ public class LevelsController : Singleton<LevelsController>
     #region DB
     private void GetLevelOnline(string email, Action<int> callback = null)
     {
+        print("GetLevelOnline: " + email);
         StartCoroutine(GetLevelOnlineCR(email, callback));
     }
 
@@ -150,7 +153,7 @@ public class LevelsController : Singleton<LevelsController>
         {
             yield return www;
 
-            if (!string.IsNullOrEmpty(www.error))
+            if (string.IsNullOrEmpty(www.error))
             {
                 // Retrieve high score
                 CurrentLevel = int.Parse(www.text);
@@ -185,7 +188,7 @@ public class LevelsController : Singleton<LevelsController>
         {
             yield return www;
 
-            if (!string.IsNullOrEmpty(www.error))
+            if (string.IsNullOrEmpty(www.error))
             {
                 // Retrieve high score
                 Debug.Log("Level saved online: " + CurrentLevel);
