@@ -562,7 +562,7 @@ public class UIController : Singleton<UIController>
         {
             var go = Instantiate(Prefab_LeaderItem, tContentLeaderboard);
             LeaderboardItem item = go.GetComponent<LeaderboardItem>();
-            item.Set(l.Rank, l.Player, l.Score);
+            item.Set(l.rank, l.username, l.score);
             go.SetActive(true);
             LeaderboardItems.Add(item);
         }

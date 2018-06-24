@@ -52,7 +52,7 @@ public class LeaderboardController : Singleton<LeaderboardController>
 [Serializable]
 public class Leaderboard
 {
-    public string Rank;
-    public string Player;
-    public string Score;
+    public string rank;
+    public string username;
+    public string score;
 }

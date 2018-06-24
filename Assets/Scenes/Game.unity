@@ -7709,7 +7709,7 @@ GameObject:
   - component: {fileID: 827170022}
   - component: {fileID: 827170021}
   m_Layer: 5
-  m_Name: Player
+  m_Name: UserName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9758,7 +9758,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text_rank: {fileID: 928481243}
-  text_player: {fileID: 1320744012}
+  text_username: {fileID: 1320744012}
   text_score: {fileID: 1832984042}
 --- !u!114 &1065484337
 MonoBehaviour:
@@ -11940,7 +11940,7 @@ GameObject:
   - component: {fileID: 1320744013}
   - component: {fileID: 1320744012}
   m_Layer: 5
-  m_Name: Text_PlayerName
+  m_Name: Text_UserName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12629,7 +12629,7 @@ GameObject:
   - component: {fileID: 1385989698}
   - component: {fileID: 1385989697}
   m_Layer: 5
-  m_Name: Player
+  m_Name: UserName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
