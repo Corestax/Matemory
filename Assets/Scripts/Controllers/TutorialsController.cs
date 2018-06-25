@@ -7,8 +7,6 @@ public class TutorialsController : Singleton<TutorialsController>
     [SerializeField]
     private CanvasFader[] faders;
 
-    private bool[] IsCompleted;
-
     private int currentIndex = -1;
     private float fadeSpeed = 0.25f;
 
@@ -34,8 +32,6 @@ public class TutorialsController : Singleton<TutorialsController>
 #if UNITY_EDITOR
         levelsController = LevelsController.Instance;
 #endif
-
-        IsCompleted = new bool[faders.Length];
     }
 
     private void OnEnable()
@@ -60,8 +56,8 @@ public class TutorialsController : Singleton<TutorialsController>
         if (currentIndex == index || index < 0 || index >= faders.Length)
             return;
 
-        // Skip tutorial and process next action      
-        if (IsCompleted[index] == true)
+        // Skip tutorial and process next action   
+        if (index > 0 && GetIsTutorialCompleted(index) == 1)
         {
             currentIndex = index;
             if (index == 1)
@@ -69,11 +65,10 @@ public class TutorialsController : Singleton<TutorialsController>
                 // Rotate platform and show countdown                
                 modelsController.RotatePlatformAndExplode();
             }
-            else
+            else if (index == faders.Length-1)
             {
                 // Start game
-                if(IsTutorialCompleted())
-                    gameController.StartGame();
+                gameController.StartGame();
             }
             return;
         }
@@ -87,8 +82,8 @@ public class TutorialsController : Singleton<TutorialsController>
     private IEnumerator ShowTutorialCR(int index)
     {
         IsActive = true; 
-        IsFading = true;
-        IsCompleted[index] = true;
+        IsFading = true;        
+        SaveIsTutorialCompleted(index, true);
 
         // Fade out previous tutorial
         yield return StartCoroutine(HideActiveTutorialCR());
@@ -110,18 +105,6 @@ public class TutorialsController : Singleton<TutorialsController>
             while (faders[currentIndex].IsFading)
                 yield return null;
         }
-    }
-    
-    private bool IsTutorialCompleted()
-    {
-        int count = 0;
-        foreach (var c in IsCompleted)
-        {
-            if (c == true)
-                count++;
-        }
-
-        return (count == IsCompleted.Length) ? true : false;
     }
 
     public void OnNextClicked()
@@ -150,4 +133,22 @@ public class TutorialsController : Singleton<TutorialsController>
         else if (currentIndex == 2)        
             gameController.StartGame();        
     }
+
+    #region PLAYERPREFS
+    public int GetIsTutorialCompleted(int index)
+    {
+        string key = "TutorialComplete_" + index;
+        if (PlayerPrefs.HasKey(key))
+            return PlayerPrefs.GetInt(key);
+        else
+            return -1;
+    }
+
+    private void SaveIsTutorialCompleted(int index, bool state)
+    {
+        string key = "TutorialComplete_" + index;
+        int isComplete = state ? 1 : -1;
+        PlayerPrefs.SetInt(key, isComplete);
+    }
+    #endregion
 }
