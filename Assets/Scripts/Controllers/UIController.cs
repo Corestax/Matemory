@@ -102,7 +102,8 @@ public class UIController : Singleton<UIController>
     {
         ShowHUD();
         ShowSettingsButton();
-        RechargeHint(0f);        
+        hintCountUsed = 0;
+        RechargeHint(0f);
     }
 
     private void OnGameEnded(GameController.EndGameTypes _type)
@@ -249,6 +250,8 @@ public class UIController : Singleton<UIController>
     [SerializeField]
     private Text text_results;
     [SerializeField]
+    private Text text_score;
+    [SerializeField]
     private Image[] images_starFill;
     [SerializeField]
     private Button button_resultsNext;
@@ -265,6 +268,8 @@ public class UIController : Singleton<UIController>
     private IEnumerator ShowPanelResultsCR(GameController.EndGameTypes _type)
     {
         buttonsController.DisableAllButtonsExcept(fader_Results.transform);
+        text_results.text = "";
+        text_score.text = "";
 
         // Fade in panel
         fader_Results.FadeIn(FADESPEED);
@@ -276,6 +281,7 @@ public class UIController : Singleton<UIController>
         {
             audioManager.PlaySound(audioManager.audio_win);
             text_results.text = "COMPLETE!";
+            text_score.text = scoreController.CurrentScore.ToString();
 
             float percent = (timeController.TimeLeft / timeController.TimeTotal) * 100f;            
 
@@ -319,6 +325,7 @@ public class UIController : Singleton<UIController>
         else if(_type == GameController.EndGameTypes.LOSE)
         {
             text_results.text = "TIME'S UP!";
+            text_score.text = "";
             audioManager.PlaySound(audioManager.audio_lose);
         }
         button_resultsNext.gameObject.SetActive(true);
@@ -537,19 +544,23 @@ public class UIController : Singleton<UIController>
         // Get Local score
         else
         {
-            // Add my score only
             ClearLeaderboard();
-
-            // Create prefab item
-            var go = Instantiate(Prefab_LeaderItem, tContentLeaderboard);
-            LeaderboardItem item = go.GetComponent<LeaderboardItem>();
-            go.SetActive(true);
 
             // Level & highscore
             int level = mapsController.GetCharacterLevel();
             int score = scoreController.GetScoreLocal(level);
-            item.Set("1", "You", score.ToString());
-            LeaderboardItems.Add(item);
+
+            if (score > 0)
+            {
+                // Create prefab item
+                var go = Instantiate(Prefab_LeaderItem, tContentLeaderboard);
+                LeaderboardItem item = go.GetComponent<LeaderboardItem>();
+                go.SetActive(true);
+
+                // Add my score only
+                item.Set("1", "You", score.ToString());
+                LeaderboardItems.Add(item);
+            }
         }
     }
 
@@ -672,6 +683,7 @@ public class UIController : Singleton<UIController>
     [SerializeField]
     private float hintBlinkRate = 0.4f;
 
+    public int hintCountUsed;
     private Coroutine CR_OnHintClicked;
     private Coroutine CR_RechargeHint;
     private const float HINT_RECHARGE_TIME = 10f;
@@ -690,6 +702,7 @@ public class UIController : Singleton<UIController>
             CR_OnHintClicked = null;
         }
 
+        hintCountUsed++;
         RechargeHint();
         CR_OnHintClicked = StartCoroutine(OnHintClickedCR());
     }

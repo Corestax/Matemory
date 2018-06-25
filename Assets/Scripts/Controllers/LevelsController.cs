@@ -62,17 +62,16 @@ public class LevelsController : Singleton<LevelsController>
         // Compare level from PlayerPrefs vs DB
         // NOTE: This is a callback function that executes after retrieving level from DB
         int localLevel = GetLevelLocal();
-        print(localLevel + " -- " + onlineLevel);
         if (localLevel > onlineLevel)
         {
-            print("LOCAL LEVEL IS HIGHER... SAVING TO DB: " + localLevel + " > " + onlineLevel);
+            //print("LOCAL LEVEL IS HIGHER... SAVING TO DB: " + localLevel + " > " + onlineLevel);
             // Update DB
             SaveLevelOnline(loginController.Email, localLevel);
             HighestLevel = localLevel;
         }
         else if (onlineLevel > localLevel)
         {
-            print("ONLINE LEVEL IS HIGHER... SAVING LOCALLY: " + onlineLevel + " > " + localLevel);
+            //print("ONLINE LEVEL IS HIGHER... SAVING LOCALLY: " + onlineLevel + " > " + localLevel);
             // Update playerprefs
             SaveLevelLocal(onlineLevel);
             HighestLevel = onlineLevel;
@@ -82,7 +81,6 @@ public class LevelsController : Singleton<LevelsController>
             HighestLevel = onlineLevel;
         }
 
-        print("HighestLevel: " + HighestLevel);
         // Load highest level
         if (HighestLevel > 0)
             LoadLevel(HighestLevel);
@@ -145,7 +143,6 @@ public class LevelsController : Singleton<LevelsController>
     #region ONLINE
     private void GetLevelOnline(string email, Action<int> callback = null)
     {
-        print("GetLevelOnline: " + email);
         StartCoroutine(GetLevelOnlineCR(email, callback));
     }
 
@@ -163,7 +160,7 @@ public class LevelsController : Singleton<LevelsController>
             {
                 // Retrieve high score
                 CurrentLevel = int.Parse(www.text);
-                Debug.Log("Level retrieved online: " + CurrentLevel);
+                //Debug.Log("Level retrieved online: " + CurrentLevel);
 
                 if (callback != null)
                     callback(CurrentLevel);
@@ -197,7 +194,7 @@ public class LevelsController : Singleton<LevelsController>
             if (string.IsNullOrEmpty(www.error))
             {
                 // Retrieve high score
-                Debug.Log("Level saved online: " + CurrentLevel);
+                //Debug.Log("Level saved online: " + CurrentLevel);
             }
             else
             {

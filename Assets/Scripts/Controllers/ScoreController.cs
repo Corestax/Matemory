@@ -51,7 +51,8 @@ public class ScoreController : Singleton<ScoreController>
 
     private void CalculateScore()
     {
-        CurrentScore = (int)timerController.TimeLeft * 10;
+        // Deduct points for each time hint is used
+        CurrentScore = ((int)timerController.TimeLeft * 10) - (UIController.Instance.hintCountUsed * 25);
     }    
 
     public void SaveScore()
@@ -119,7 +120,7 @@ public class ScoreController : Singleton<ScoreController>
             {
                 // Retrieve high score
                 int score = int.Parse(www.text);
-                Debug.Log("High score retrieved for level " + level + ": " + score);
+                //Debug.Log("High score retrieved for level " + level + ": " + score);
                 if (callback != null)
                     callback(level, score);
             }
@@ -153,7 +154,7 @@ public class ScoreController : Singleton<ScoreController>
             if (string.IsNullOrEmpty(www.error))
             {
                 // Score saved successfully
-                Debug.Log("High score saved for level " + level + ": " + score);
+                //Debug.Log("High score saved for level " + level + ": " + score);
             }
             else
             {
@@ -171,14 +172,14 @@ public class ScoreController : Singleton<ScoreController>
         int localScore = GetScoreLocal(level);
         if (localScore > onlineScore)
         {
-            print("LOCAL SCORE IS HIGHER... SAVING TO DB: " + localScore + " > " + onlineScore);
+            //print("LOCAL SCORE IS HIGHER... SAVING TO DB: " + localScore + " > " + onlineScore);
             // Update DB
             SaveOnlineScore(loginController.Email, level, localScore);
             HighScore = localScore;
         }
         else if (onlineScore > localScore)
         {
-            print("ONLINE SCORE IS HIGHER... SAVING LOCALLY: " + onlineScore + " > " + localScore);
+            //print("ONLINE SCORE IS HIGHER... SAVING LOCALLY: " + onlineScore + " > " + localScore);
             // Update playerprefs
             SaveLocalScore(level, onlineScore);
             HighScore = onlineScore;
