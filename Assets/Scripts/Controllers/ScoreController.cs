@@ -170,19 +170,13 @@ public class ScoreController : Singleton<ScoreController>
         // Compare highScore from PlayerPrefs vs DB
         // NOTE: This is a callback function that executes after retrieving highscore from DB
         int localScore = GetScoreLocal(level);
+
+        HighScore = localScore >= onlineScore ? localScore : onlineScore;
+
+        // Update DB or playerprefs
         if (localScore > onlineScore)
-        {
-            //print("LOCAL SCORE IS HIGHER... SAVING TO DB: " + localScore + " > " + onlineScore);
-            // Update DB
             SaveOnlineScore(loginController.Email, level, localScore);
-            HighScore = localScore;
-        }
-        else if (onlineScore > localScore)
-        {
-            //print("ONLINE SCORE IS HIGHER... SAVING LOCALLY: " + onlineScore + " > " + localScore);
-            // Update playerprefs
+        else if (localScore < onlineScore)
             SaveLocalScore(level, onlineScore);
-            HighScore = onlineScore;
-        }
     }
 }

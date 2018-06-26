@@ -242,7 +242,7 @@ PlayerSettings:
   AndroidTargetArchitectures: 5
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/Users/Corestacks/Desktop/Matemory/Build/debug.keystore
+  AndroidKeystoreName: C:/Build/debug.keystore
   AndroidKeyaliasName: androiddebugkey
   AndroidTVCompatibility: 1
   AndroidIsGame: 1

@@ -62,24 +62,14 @@ public class LevelsController : Singleton<LevelsController>
         // Compare level from PlayerPrefs vs DB
         // NOTE: This is a callback function that executes after retrieving level from DB
         int localLevel = GetLevelLocal();
+
+        HighestLevel = localLevel >= onlineLevel ? localLevel : onlineLevel;
+
+        // Update DB or playerprefs
         if (localLevel > onlineLevel)
-        {
-            //print("LOCAL LEVEL IS HIGHER... SAVING TO DB: " + localLevel + " > " + onlineLevel);
-            // Update DB
             SaveLevelOnline(loginController.Email, localLevel);
-            HighestLevel = localLevel;
-        }
         else if (onlineLevel > localLevel)
-        {
-            //print("ONLINE LEVEL IS HIGHER... SAVING LOCALLY: " + onlineLevel + " > " + localLevel);
-            // Update playerprefs
             SaveLevelLocal(onlineLevel);
-            HighestLevel = onlineLevel;
-        }
-        else
-        {
-            HighestLevel = onlineLevel;
-        }
 
         // Load highest level
         if (HighestLevel > 0)
