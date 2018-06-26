@@ -32,7 +32,7 @@ public class LoginController : Singleton<LoginController>
     }
 
     #region SIGNUP
-    public void Signup(string name, string email, string pass, Action<bool> callback = null)
+    public void Signup(string name, string email, string pass, Action<bool, DBResponseUserError> callback = null)
     {
         WWWForm form = new WWWForm();
 
@@ -41,23 +41,39 @@ public class LoginController : Singleton<LoginController>
         form.AddField("email", email);
         form.AddField("password", pass);
 
-        SendRequest(DB.URL_USER, form, RequestTypes.SIGNUP, callback);
+        StartCoroutine(SignupCR(form, callback));
     }
 
-    private void SignupCallback(bool success)
+    IEnumerator SignupCR(WWWForm form, Action<bool, DBResponseUserError> callback)
     {
-        if (!success)
-            return;
-        
-        SetUserLogged();
-        
-        UserName = responseUserData.name;
-        Email = responseUserData.email;
+        using (WWW www = new WWW(DB.URL_USER, form))
+        {
+            yield return www;
+
+            bool success = string.IsNullOrEmpty(www.error);
+
+            // errors always have same format
+            if (!success)
+                responseError = JsonUtility.FromJson<DBResponseUserError>(www.text);
+            else
+            {
+                responseUserData = JsonUtility.FromJson<DBResponseUserData>(www.text);
+
+                SetUserLogged();
+
+                UserName = responseUserData.name;
+                Email = responseUserData.email;
+            }
+
+            // call an external class callback
+            if (callback != null)
+                callback(success, responseError);
+        }
     }
     #endregion
 
     #region LOGIN
-    public void Login(string email, string pass, Action<bool> callback = null)
+    public void Login(string email, string pass, Action<bool, DBResponseUserError> callback = null)
     {
         WWWForm form = new WWWForm();
 
@@ -65,18 +81,33 @@ public class LoginController : Singleton<LoginController>
         form.AddField("email", email);
         form.AddField("password", pass);
 
-        SendRequest(DB.URL_USER, form, RequestTypes.LOGIN, callback);
+        StartCoroutine(LoginCR(form, callback));
     }
 
-    private void LoginCallback(bool success)
+    IEnumerator LoginCR(WWWForm form, Action<bool, DBResponseUserError> callback)
     {
-        if (!success)
-            return;
+        using (WWW www = new WWW(DB.URL_USER, form))
+        {
+            yield return www;
 
-        SetUserLogged();
+            bool success = string.IsNullOrEmpty(www.error);
 
-        UserName = responseUserData.name;
-        Email = responseUserData.email;
+            // errors always have same format
+            if (!success)
+                responseError = JsonUtility.FromJson<DBResponseUserError>(www.text);
+            else
+            {
+                responseUserData = JsonUtility.FromJson<DBResponseUserData>(www.text);
+
+                SetUserLogged();
+                UserName = responseUserData.name;
+                Email = responseUserData.email;
+            }
+
+            // call an external class callback
+            if (callback != null)
+                callback(success, responseError);
+        }
     }
 
     public void SetUserLogged()
@@ -153,26 +184,66 @@ public class LoginController : Singleton<LoginController>
     #endregion
 
     #region RESET_PASSWORD
-    public void ResetPassword(string email, Action<bool> callback = null)
+    public void ResetPassword(string email, Action<bool, DBResponseMessage, DBResponseUserError> callback = null)
     {
         WWWForm form = new WWWForm();
 
         form.AddField("auth_type", (int)DB.UserAuthTypes.RESET_PASSWORD);
         form.AddField("email", email);
 
-        SendRequest(DB.URL_USER, form, RequestTypes.RESET_PASSWORD, callback);
+        StartCoroutine(ResetPasswordCR(form, callback));
+    }
+
+    IEnumerator ResetPasswordCR(WWWForm form, Action<bool, DBResponseMessage, DBResponseUserError> callback)
+    {
+        using (WWW www = new WWW(DB.URL_USER, form))
+        {
+            yield return www;
+
+            bool success = string.IsNullOrEmpty(www.error);
+
+            // errors always have same format
+            if (!success)
+                responseError = JsonUtility.FromJson<DBResponseUserError>(www.text);
+            else
+                responseMessage = JsonUtility.FromJson<DBResponseMessage>(www.text);
+
+            // call an external class callback
+            if (callback != null)
+                callback(success, responseMessage, responseError);
+        }
     }
     #endregion
 
     #region RESEND_EMAIL
-    public void ResendVerificationEmail(string email, Action<bool> callback = null)
+    public void ResendVerificationEmail(string email, Action<bool, DBResponseMessage, DBResponseUserError> callback = null)
     {
         WWWForm form = new WWWForm();
 
         form.AddField("auth_type", (int)DB.UserAuthTypes.RESEND_EMAIL);
         form.AddField("email", email);
 
-        SendRequest(DB.URL_USER, form, RequestTypes.RESEND_EMAIL, callback);
+        StartCoroutine(ResetPasswordCR(form, callback));
+    }
+
+    IEnumerator ResendVerificationEmailCR(WWWForm form, Action<bool, DBResponseMessage, DBResponseUserError> callback)
+    {
+        using (WWW www = new WWW(DB.URL_USER, form))
+        {
+            yield return www;
+
+            bool success = string.IsNullOrEmpty(www.error);
+
+            // errors always have same format
+            if (!success)
+                responseError = JsonUtility.FromJson<DBResponseUserError>(www.text);
+            else
+                responseMessage = JsonUtility.FromJson<DBResponseMessage>(www.text);
+
+            // call an external class callback
+            if (callback != null)
+                callback(success, responseMessage, responseError);
+        }
     }
     #endregion
 
@@ -204,63 +275,6 @@ public class LoginController : Singleton<LoginController>
 
             if (string.IsNullOrEmpty(www.error))
                 Debug.LogWarning(www.text);
-        }
-    }
-    #endregion
-
-    #region SEND_REQUEST
-    private void SendRequest(string url, WWWForm form, RequestTypes type, Action<bool> externalCallback = null)
-    {
-        StartCoroutine(SendRequestCR(url, form, type, externalCallback));
-    }
-
-    IEnumerator SendRequestCR(string url, WWWForm form, RequestTypes type, Action<bool> externalCallback)
-    {
-        bool success;
-        responseUserData = null;
-        responseError = null;
-        responseMessage = null;
-
-        using (WWW www = new WWW(url, form))
-        {
-            yield return www;
-
-            success = string.IsNullOrEmpty(www.error);
-
-            // errors always have same format
-            if (!success)
-                responseError = JsonUtility.FromJson<DBResponseUserError>(www.text);
-
-            switch (type)
-            {
-                case RequestTypes.LOGIN:
-                    if (success)
-                        responseUserData = JsonUtility.FromJson<DBResponseUserData>(www.text);
-                    LoginCallback(success);
-                    break;
-                case RequestTypes.SIGNUP:
-                    if (success)
-                        responseUserData = JsonUtility.FromJson<DBResponseUserData>(www.text);
-
-                    SignupCallback(success);
-                    break;
-                case RequestTypes.RESET_PASSWORD:
-                    if (success)
-                        responseMessage = JsonUtility.FromJson<DBResponseMessage>(www.text);
-
-                    break;
-                case RequestTypes.RESEND_EMAIL:
-                    if (success)
-                        responseMessage = JsonUtility.FromJson<DBResponseMessage>(www.text);
-
-                    break;
-                default:
-                    break;
-            }
-
-            // call an external class callback
-            if (externalCallback != null)
-                externalCallback(success);
         }
     }
     #endregion

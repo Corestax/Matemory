@@ -162,7 +162,7 @@ public class LoginPanel : MonoBehaviour
     #endregion
 
     #region LOGIN/SIGNUP
-    public void LoginSignCallback(bool success)
+    public void LoginSignCallback(bool success, DBResponseUserError respError)
     {
         List<string> messages = new List<string>();
 
@@ -179,7 +179,7 @@ public class LoginPanel : MonoBehaviour
             PlayerPrefs.SetString("password", input_Pass.text);
         }
         else
-            ShowResponseErrors();
+            ShowResponseErrors(respError);
     }
 
     IEnumerator OnSuccessfullLoginCR()
@@ -191,27 +191,23 @@ public class LoginPanel : MonoBehaviour
     #endregion
 
     #region RESET_PASSWORD
-    public void ResetPasswordCallback(bool success)
+    public void ResetPasswordCallback(bool success, DBResponseMessage messages, DBResponseUserError errors)
     {
-        DBResponseMessage message = loginController.responseMessage;
-
         if (success)
-            ShowLoginMessage(message.message);
+            ShowLoginMessage(messages.message);
         else
-            ShowResponseErrors();
+            ShowResponseErrors(errors);
 
     }
     #endregion
 
     #region RESEND_EMAIL
-    public void ResendEmailCallback(bool success)
+    public void ResendEmailCallback(bool success, DBResponseMessage messages, DBResponseUserError errors)
     {
-        DBResponseMessage message = loginController.responseMessage;
-
         if (success)
-            ShowLoginMessage(message.message);
+            ShowLoginMessage(messages.message);
         else
-            ShowResponseErrors();
+            ShowResponseErrors(errors);
     }
     #endregion
 
@@ -331,44 +327,43 @@ public class LoginPanel : MonoBehaviour
         SetFieldErrorStatus(input_Pass, false);
     }
 
-    private void ShowResponseErrors()
+    private void ShowResponseErrors(DBResponseUserError errors)
     {
-        DBResponseUserError error = loginController.responseError;
         List<string> messages = new List<string>();
 
-        if (error == null)
+        if (errors == null)
             return;
 
         // Email not verified
-        if (error.error == "Email not verified.")
+        if (errors.error == "Email not verified.")
         {
             ShowResendEmailButton();
         }
 
         // name field
-            if (!string.IsNullOrEmpty(error.name))
+            if (!string.IsNullOrEmpty(errors.name))
         {
-            messages.Add(error.name.ToUpper());
+            messages.Add(errors.name.ToUpper());
             SetFieldErrorStatus(input_Name, true);
         }
 
         // email field
-        if (!string.IsNullOrEmpty(error.email))
+        if (!string.IsNullOrEmpty(errors.email))
         {
-            messages.Add(error.email.ToUpper());
+            messages.Add(errors.email.ToUpper());
             SetFieldErrorStatus(input_Email, true);
         }
 
         // password field
-        if (!string.IsNullOrEmpty(error.password))
+        if (!string.IsNullOrEmpty(errors.password))
         {
-            messages.Add(error.password.ToUpper());
+            messages.Add(errors.password.ToUpper());
             SetFieldErrorStatus(input_Pass, true);
         }
 
         // if general error
         if (messages.Count == 0)
-            messages.Add(error.error);
+            messages.Add(errors.error);
 
         ShowLoginMessage(string.Join("\n", messages.ToArray()));
     }
