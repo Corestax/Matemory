@@ -441,6 +441,14 @@ public class UIController : Singleton<UIController>
         ShowPanel(PanelTypes.SETTINGS);
     }
 
+    public void OnHideSettingsClicked()
+    {
+        HidePanel(ActivePanel);
+
+        if (!GameController.Instance.IsGameRunning && !GameController.Instance.IsGamePaused)
+            ActivePanel = PanelTypes.MAIN_MENU;
+    }
+
     private void ShowPanelSettings()
     {
         if (!MapsController.Instance.IsMapShowing)
