@@ -264,6 +264,8 @@ public class LoginController : Singleton<LoginController>
         form.AddField("token", googleSignInController.GetUserToken());
 
         UserName = googleSignInController.GetUserName();
+        Email = googleSignInController.GetUserEmail();
+
         StartCoroutine(SaveGoogleDataCR(form));
     }
 
