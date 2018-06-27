@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIController : Singleton<UIController>
 {    
@@ -33,6 +34,9 @@ public class UIController : Singleton<UIController>
 
     public enum PanelTypes { NONE, MAIN_MENU, RESULTS, PLAY_LEVEL, SETTINGS, LOGIN, LEADERBOARD }
     public PanelTypes ActivePanel { get; private set; }
+
+    public enum EnvTypes { MAIN_MENU, GAME }
+    public EnvTypes ActiveEnv { get; private set; }
 
     private const float FADESPEED = 0.25f;
 
@@ -67,6 +71,10 @@ public class UIController : Singleton<UIController>
         // Start main menu enabled
         ActivePanel = PanelTypes.MAIN_MENU;
         fader_mainMenu.FadeIn(0f);
+
+        ActiveEnv = EnvTypes.MAIN_MENU;
+
+        Debug.Log(ActiveEnv);
     }
 
     void OnEnable()
@@ -238,7 +246,14 @@ public class UIController : Singleton<UIController>
     public void OnPlayButtonClicked()
     {
         HidePanel(PanelTypes.MAIN_MENU);
+        ActiveEnv = EnvTypes.GAME;
+
         tutorialController.ShowTutorial(0);
+    }
+
+    public void OnGoToMainMenuClicked()
+    {
+        SceneManager.LoadScene(0);
     }
     #endregion
 
@@ -435,6 +450,8 @@ public class UIController : Singleton<UIController>
     [SerializeField]
     private GameObject button_settingsMap;
     [SerializeField]
+    private GameObject button_settingsMainMenu;
+    [SerializeField]
     private Text text_buttonMusic;
 
     public void OnSettingsButtonClicked()
@@ -457,6 +474,9 @@ public class UIController : Singleton<UIController>
             button_settingsMap.SetActive(true);
         else
             button_settingsMap.SetActive(false);
+
+        // show the main menu button if it is not main menu
+        button_settingsMainMenu.SetActive(ActiveEnv != EnvTypes.MAIN_MENU);
 
         buttonsController.DisableAllButtonsExcept(fader_settings.transform);
         fader_settings.FadeIn(FADESPEED);
