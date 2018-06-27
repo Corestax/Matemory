@@ -73,8 +73,6 @@ public class UIController : Singleton<UIController>
         fader_mainMenu.FadeIn(0f);
 
         ActiveEnv = EnvTypes.MAIN_MENU;
-
-        Debug.Log(ActiveEnv);
     }
 
     void OnEnable()
