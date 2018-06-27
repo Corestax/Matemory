@@ -90,8 +90,8 @@ public class LevelsController : Singleton<LevelsController>
 
     public void LoadLevel(int level)
     {
-        if (level-1 >= Levels.Count)
-            return;
+        if (level - 1 >= Levels.Count)
+            level = Levels.Count;
 
         // Update level & high score
         CurrentLevel = level;
