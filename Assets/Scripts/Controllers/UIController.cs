@@ -565,10 +565,13 @@ public class UIController : Singleton<UIController>
             // Get latest leaderboard from DB
             leaderboardController.GetLeaderboard(loginController.UserName, mapsController.GetCharacterLevel(), PopulateLeaderboard);
         }
+
         // Get Local score
         else
         {
             ClearLeaderboard();
+
+            return;
 
             // Level & highscore
             int level = mapsController.GetCharacterLevel();
