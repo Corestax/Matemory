@@ -339,6 +339,7 @@ public class UIController : Singleton<UIController>
     public void OnResultsNextClicked()
     {
         HideActivePanel();
+        ShowSettingsButton();
 
         // Show map: animate character if progressing to new level
         if (levelsController.CurrentLevel == levelsController.HighestLevel)
@@ -444,9 +445,6 @@ public class UIController : Singleton<UIController>
     public void OnHideSettingsClicked()
     {
         HidePanel(ActivePanel);
-
-        if (!GameController.Instance.IsGameRunning && !GameController.Instance.IsGamePaused)
-            ActivePanel = PanelTypes.MAIN_MENU;
     }
 
     private void ShowPanelSettings()
@@ -454,11 +452,11 @@ public class UIController : Singleton<UIController>
         if (!MapsController.Instance.IsMapShowing)
             gameController.PauseGame();
 
-        // If settings panel was opened from Main Menu: Do not show MAPS button
-        if (ActivePanel == PanelTypes.MAIN_MENU)
-            button_settingsMap.SetActive(false);
-        else
+        // Show map button only when game is running
+        if (GameController.Instance.IsGameRunning || GameController.Instance.IsGamePaused)
             button_settingsMap.SetActive(true);
+        else
+            button_settingsMap.SetActive(false);
 
         buttonsController.DisableAllButtonsExcept(fader_settings.transform);
         fader_settings.FadeIn(FADESPEED);

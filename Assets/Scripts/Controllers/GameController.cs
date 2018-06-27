@@ -34,11 +34,13 @@ public class GameController : Singleton<GameController>
     public bool IsGamePaused { get; private set; }
     public bool IsGameRunning { get; private set; }
     public bool EnableAR { get { return enableAR; } }
+    public bool IsMapShowing { get; private set; }
 
     public static event Action OnGameStarted;
     public static event Action<EndGameTypes> OnGameEnded;
     public static event Action OnGamePaused;
     public static event Action OnGameUnpaused;
+
 
     private Touch touch;
     private UIController uiController;
@@ -88,6 +90,9 @@ public class GameController : Singleton<GameController>
     #region SHOW/HIDE MAP
     public void ShowMap(bool _animateCharacter, bool _showCloseMapButton)
     {
+        if (IsMapShowing)
+            return;
+
         Plate.SetActive(false);
 
         // Animate character
@@ -103,6 +108,8 @@ public class GameController : Singleton<GameController>
             uiController.HideCloseMapButton();
 
         PauseGame();
+
+        IsMapShowing = true;
     }
 
     public void HideMap(bool discardCharacterLevelChanges)
@@ -112,6 +119,8 @@ public class GameController : Singleton<GameController>
         Plate.SetActive(true);
 
         UnpauseGame();
+
+        IsMapShowing = false;
     }
     #endregion
 
