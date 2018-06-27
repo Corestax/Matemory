@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 4651223879826994}
   - component: {fileID: 114995509778742786}
   m_Layer: 0
-  m_Name: LaddyBug
+  m_Name: LadyBug
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

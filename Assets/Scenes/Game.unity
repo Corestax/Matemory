@@ -11364,7 +11364,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 526990249}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99999994
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -16815,7 +16815,7 @@ MonoBehaviour:
   - Level: 1
     Type: 700
   - Level: 2
-    Type: 2000
+    Type: 1050
   - Level: 3
     Type: 1600
   - Level: 4
@@ -18206,8 +18206,8 @@ MonoBehaviour:
     Prefab: {fileID: 1396507733496730, guid: 258555abd4538da459b104c11b7dc09c, type: 2}
   - Type: 1500
     Prefab: {fileID: 1758006876242366, guid: 1f3f048c5ba55da4ea9331d59e58c078, type: 2}
-  - Type: 1600
-    Prefab: {fileID: 1623371119371774, guid: d86985cafc78500459e604353d3a0eb6, type: 2}
+  - Type: 1050
+    Prefab: {fileID: 1764690029285576, guid: b248f64cdbd28924998bb53239bf33cd, type: 2}
   - Type: 1700
     Prefab: {fileID: 1042825886190638, guid: 1af4bbb460b59a643b69ac0c2ff1555b, type: 2}
   - Type: 1800
