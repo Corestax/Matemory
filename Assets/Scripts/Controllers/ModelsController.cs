@@ -88,6 +88,8 @@ public class ModelsController : Singleton<ModelsController>
 
     public void RotatePlatformAndExplode()
     {
+        uiController.ShowSettingsButton();
+
         platform.RotatePlatform(Explode, time_rotatePlatform, false);
         uiController.ShowCountdown();
     }
