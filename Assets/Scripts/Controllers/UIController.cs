@@ -217,7 +217,7 @@ public class UIController : Singleton<UIController>
             default:
                 break;
         }
-        ActivePanel = PanelTypes.NONE;
+        ActivePanel = ActiveEnv == EnvTypes.MAIN_MENU ? PanelTypes.MAIN_MENU : PanelTypes.NONE;
         buttonsController.EnableAllButtons();
     }
 
