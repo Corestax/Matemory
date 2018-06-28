@@ -384,7 +384,16 @@ public class UIController : Singleton<UIController>
     private void ShowPanelPlayLevel()
     {
         buttonsController.DisableAllButtonsExcept(fader_playLevel.transform);
-        text_playLevel.text = "Level " + (mapsController.GetCharacterLevel());
+
+        int level = mapsController.GetCharacterLevel();
+
+        // make string from character
+        string character = LevelsController.Instance.GetLevelCharacter(level).ToString().ToLower();
+        character = char.ToUpper(character[0]) + character.Substring(1);
+
+        // title
+        text_playLevel.text = String.Format("Lvl. {0} - {1}", level, character);
+
         fader_playLevel.FadeIn(FADESPEED);
     }
 

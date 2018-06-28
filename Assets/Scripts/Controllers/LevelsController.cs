@@ -37,6 +37,16 @@ public class LevelsController : Singleton<LevelsController>
             Levels.Add(item.Level, item.Type);
     }
 
+    public ModelsController.ModelTypes GetLevelCharacter(int level)
+    {
+        ModelsController.ModelTypes character = ModelsController.ModelTypes.NONE;
+
+        if (Levels.ContainsKey(level))
+            character = Levels[level];
+
+        return character;
+    }
+
     #region LOAD LEVEL
     public void LoadLastSavedLevel()
     {
