@@ -11363,8 +11363,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 526990250}
   m_HandleRect: {fileID: 526990249}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -15002,7 +15002,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -40, y: 150}
+  m_AnchoredPosition: {x: -40, y: 190}
   m_SizeDelta: {x: 1125, y: 208.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &994095420
@@ -15079,7 +15079,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: You need to be logged in to see users score and to save your score.
+  m_Text: You need to login to save your score.
 --- !u!222 &994095424
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -17088,7 +17088,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000038564205}
+  m_AnchoredPosition: {x: 0, y: -0.00009959936}
   m_SizeDelta: {x: -1168, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &1237969526
