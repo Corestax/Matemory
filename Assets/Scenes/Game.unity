@@ -16920,6 +16920,7 @@ MonoBehaviour:
   fader_leaderboard: {fileID: 1449371797}
   Prefab_LeaderItem: {fileID: 1065484334}
   tContentLeaderboard: {fileID: 1237969525}
+  text_TitleLeaderboard: {fileID: 275392992}
   button_closeMap: {fileID: 933981737}
   image_hintFill: {fileID: 33455054}
   hintBlinkRate: 0.4

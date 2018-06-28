@@ -532,6 +532,8 @@ public class UIController : Singleton<UIController>
     private GameObject Prefab_LeaderItem;
     [SerializeField]
     private Transform tContentLeaderboard;
+    [SerializeField]
+    private Text text_TitleLeaderboard;
 
     private List<LeaderboardItem> LeaderboardItems;
 
@@ -559,11 +561,16 @@ public class UIController : Singleton<UIController>
 
     private void RefreshLeaderboard()
     {
+        int level = mapsController.GetCharacterLevel();
+
+        // set title
+        text_TitleLeaderboard.text = string.Format("Level {0} Leaderboard", level);
+
         // Get Online score
         if (loginController.isLoggedIn)
         {
             // Get latest leaderboard from DB
-            leaderboardController.GetLeaderboard(loginController.UserName, mapsController.GetCharacterLevel(), PopulateLeaderboard);
+            leaderboardController.GetLeaderboard(loginController.UserName, level, PopulateLeaderboard);
         }
 
         // Get Local score
@@ -574,7 +581,6 @@ public class UIController : Singleton<UIController>
             return;
 
             // Level & highscore
-            int level = mapsController.GetCharacterLevel();
             int score = scoreController.GetScoreLocal(level);
 
             if (score > 0)
