@@ -49,6 +49,15 @@ public class Platform : MonoBehaviour
     private void OnDisable()
     {
         GameController.OnGameEnded -= OnGameEnded;
+
+        if (CR_RotatePlatform != null)
+        {
+            ResetRotation();
+            audioManager.StopSpinSound();
+
+            StopCoroutine(CR_RotatePlatform);
+            CR_RotatePlatform = null;
+        }
     }
 
     private void OnGameEnded(GameController.EndGameTypes _type)
