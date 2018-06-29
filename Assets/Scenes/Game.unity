@@ -11363,8 +11363,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 526990250}
   m_HandleRect: {fileID: 526990249}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.99999994
+  m_Value: 0
+  m_Size: 0.9999998
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -16817,39 +16817,39 @@ MonoBehaviour:
   - Level: 2
     Type: 1050
   - Level: 3
-    Type: 1600
-  - Level: 4
     Type: 400
+  - Level: 4
+    Type: 1200
   - Level: 5
     Type: 1500
   - Level: 6
     Type: 1800
   - Level: 7
-    Type: 1200
+    Type: 2000
   - Level: 8
-    Type: 200
-  - Level: 9
-    Type: 500
-  - Level: 10
-    Type: 1300
-  - Level: 11
-    Type: 1100
-  - Level: 12
     Type: 100
+  - Level: 9
+    Type: 600
+  - Level: 10
+    Type: 1100
+  - Level: 11
+    Type: 1400
+  - Level: 12
+    Type: 200
   - Level: 13
-    Type: 800
+    Type: 500
   - Level: 14
     Type: 300
   - Level: 15
-    Type: 1400
+    Type: 1300
   - Level: 16
-    Type: 600
-  - Level: 17
-    Type: 900
-  - Level: 18
-    Type: 1900
-  - Level: 19
     Type: 1000
+  - Level: 17
+    Type: 800
+  - Level: 18
+    Type: 900
+  - Level: 19
+    Type: 1900
   - Level: 20
     Type: 1700
   CurrentLevel: 0
@@ -17089,7 +17089,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.00006908178}
+  m_AnchoredPosition: {x: 0, y: 0.000022470951}
   m_SizeDelta: {x: -1168, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &1237969526
