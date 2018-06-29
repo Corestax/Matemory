@@ -90,6 +90,14 @@ public class ModelsController : Singleton<ModelsController>
     {
         uiController.ShowSettingsButton();
 
+        StartCoroutine(RotatePlatformAndExplodeCR());
+    }
+
+    IEnumerator RotatePlatformAndExplodeCR()
+    {
+        while (!platform.gameObject.activeInHierarchy)
+            yield return null;
+
         platform.RotatePlatform(Explode, time_rotatePlatform, false);
         uiController.ShowCountdown();
     }
