@@ -63,6 +63,10 @@ public class MapsController : Singleton<MapsController>
         if (!IsMapShowing)
             return;
 
+        // UI panels
+        if (uiController.ActivePanel != UIController.PanelTypes.NONE)
+            return;
+
         OnLevelSelected();
     }
 
