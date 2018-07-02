@@ -122,8 +122,9 @@ public class TutorialsController : Singleton<TutorialsController>
         // Place platform
         if (currentIndex == 0)
         {
-#if UNITY_EDITOR            
-            levelsController.LoadLastSavedLevel();
+#if UNITY_EDITOR     
+            gameController.LoadGame();
+            //levelsController.LoadLastSavedLevel();
 #endif
         }
         // Memorize

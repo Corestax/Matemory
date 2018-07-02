@@ -137,7 +137,10 @@ public class ARCoreController : MonoBehaviour
 
             uiController.ShowStatusText("", Color.red);
             platform.Material.SetFloat("_OutlineAlpha", 0f);
-            levelsController.LoadLastSavedLevel();
+            //levelsController.LoadLastSavedLevel();
+            GameController.Instance.LoadGame();
+
+
 
             // Look at camera
             if ((hit.Flags & TrackableHitFlags.PlaneWithinPolygon) != TrackableHitFlags.None)

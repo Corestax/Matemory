@@ -47,6 +47,7 @@ public class GameController : Singleton<GameController>
     private MapsController mapsController;
     private FruitRotatorController fruitRotatorController;
     private TutorialsController tutorialController;
+    private LevelsController levelsController;
 
     void Start()
     {
@@ -54,6 +55,7 @@ public class GameController : Singleton<GameController>
         mapsController = MapsController.Instance;
         fruitRotatorController = FruitRotatorController.Instance;
         tutorialController = TutorialsController.Instance;
+        levelsController = LevelsController.Instance;
 
         // Force AR on builds
 #if !UNITY_EDITOR && UNITY_ANDROID
@@ -246,6 +248,20 @@ public class GameController : Singleton<GameController>
 
 
     #region START/STOP GAME
+    public void LoadGame()
+    {
+        // load last level
+        levelsController.GetLastSavedLevel((level) => {
+            levelsController.SetLevel(level);
+
+            ShowMap(false, false);
+
+            uiController.ShowPanel(UIController.PanelTypes.PLAY_LEVEL);
+
+            uiController.ShowSettingsButton();
+        });
+    }
+
     public void StartGame()
     {
         if (IsGameRunning)

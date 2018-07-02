@@ -47,27 +47,60 @@ public class LevelsController : Singleton<LevelsController>
         return character;
     }
 
-    #region LOAD LEVEL
-    public void LoadLastSavedLevel()
+    public void SetLevel(int level)
     {
+        if (level - 1 >= Levels.Count)
+            level = Levels.Count;
+
+        // Update level & high score
+        CurrentLevel = level;
+
+        // Update highest level
+        if (CurrentLevel > HighestLevel)
+            HighestLevel = CurrentLevel;
+
+        // Set character position in map
+        mapsController.SetCharacterLevel(level);
+    }
+
+    public void SetHighestLevel(int level)
+    {
+        HighestLevel = level;
+    }
+
+    #region LOAD LEVEL
+    public void GetLastSavedLevel(Action<int> callback = null)
+    {
+        int level;
+
         if (loginController.isLoggedIn)
         {
-            GetLevelOnline(loginController.Email, CompareLevels);
+            GetLevelOnline(loginController.Email, (db_level) =>
+            {
+                level = CompareLevels(db_level);
+
+                if (callback != null)
+                    callback(level);
+            });
         }
         else
         {
-            // Retrieve local level
-            int level = GetLevelLocal();
+            level = GetLevelLocal();
 
-            // Load highest level
-            if (level > 0)
-                LoadLevel(level);
-            else
-                LoadFirstLevel();
+            if (callback != null)
+                callback(level);
         }
     }
 
-    private void CompareLevels(int onlineLevel)
+
+    public void LoadLastSavedLevel()
+    {
+        GetLastSavedLevel((level) => {
+            LoadLevel(level > 0 ? level : 1);
+        });
+    }
+
+    private int CompareLevels(int onlineLevel)
     {
         // Compare level from PlayerPrefs vs DB
         // NOTE: This is a callback function that executes after retrieving level from DB
@@ -81,11 +114,7 @@ public class LevelsController : Singleton<LevelsController>
         else if (onlineLevel > localLevel)
             SaveLevelLocal(onlineLevel);
 
-        // Load highest level
-        if (HighestLevel > 0)
-            LoadLevel(HighestLevel);
-        else
-            LoadFirstLevel();
+        return HighestLevel;
     }
 
     public void LoadFirstLevel()
@@ -100,18 +129,7 @@ public class LevelsController : Singleton<LevelsController>
 
     public void LoadLevel(int level)
     {
-        if (level - 1 >= Levels.Count)
-            level = Levels.Count;
-
-        // Update level & high score
-        CurrentLevel = level;
-
-        // Save highest level
-        if (CurrentLevel > HighestLevel)
-            HighestLevel = CurrentLevel;
-
-        // Set character position in map
-        mapsController.SetCharacterLevel(level);        
+        SetLevel(level);
 
         // Spawn model
         ModelsController.ModelTypes type = Levels[level];
@@ -160,6 +178,7 @@ public class LevelsController : Singleton<LevelsController>
             {
                 // Retrieve high score
                 CurrentLevel = int.Parse(www.text);
+
                 //Debug.Log("Level retrieved online: " + CurrentLevel);
 
                 if (callback != null)

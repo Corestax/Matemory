@@ -693,7 +693,15 @@ public class UIController : Singleton<UIController>
     {        
         gameController.HideMap(true);
     }
-    #endregion    
+    #endregion
+
+
+    #region LOGIN
+    public void OnLoginButtonClicked()
+    {
+        ShowPanel(UIController.PanelTypes.LOGIN);
+    }
+    #endregion
 
     public void ShowHUD()
     {
