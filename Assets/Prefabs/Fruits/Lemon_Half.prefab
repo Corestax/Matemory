@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4283959228499336}
   - component: {fileID: 33300091172479790}
   - component: {fileID: 23946440569261748}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 65949528513951814}
   - component: {fileID: 54730808880395556}
   - component: {fileID: 114988607993398238}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Lemon_Half
   m_TagString: Draggable
   m_Icon: {fileID: 0}

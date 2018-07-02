@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 65366623789459458}
   - component: {fileID: 54982837991430182}
   - component: {fileID: 114584901774635040}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Muskmelon_Wedge
   m_TagString: Draggable
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 4662495211479218}
   - component: {fileID: 33253253445345790}
   - component: {fileID: 23905414890597370}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}

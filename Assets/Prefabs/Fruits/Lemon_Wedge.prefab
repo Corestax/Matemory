@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 65125276599666684}
   - component: {fileID: 54452029882558748}
   - component: {fileID: 114036261758506794}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Lemon_Wedge
   m_TagString: Draggable
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 4898272383538908}
   - component: {fileID: 33125135145715614}
   - component: {fileID: 23642982095576318}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
