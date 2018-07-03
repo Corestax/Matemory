@@ -119,7 +119,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 0.5
+  bundleVersion: 0.5.1
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -242,8 +242,8 @@ PlayerSettings:
   AndroidTargetArchitectures: 5
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/Build/debug.keystore
-  AndroidKeyaliasName: androiddebugkey
+  AndroidKeystoreName: C:/Build/topiknew.keystore
+  AndroidKeyaliasName: topik
   AndroidTVCompatibility: 1
   AndroidIsGame: 1
   AndroidEnableTango: 1

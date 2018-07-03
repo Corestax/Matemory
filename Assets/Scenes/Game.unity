@@ -3976,7 +3976,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: -44, y: -30}
-  m_SizeDelta: {x: -258, y: 400}
+  m_SizeDelta: {x: -278, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &414291047
 MonoBehaviour:
@@ -4010,7 +4010,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Will will have a completed version soon.
+  m_Text: 'We will have a completed version soon.
 
     Thanks for playing!'
 --- !u!222 &414291048
