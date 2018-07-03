@@ -172,7 +172,7 @@ public class LevelsController : Singleton<LevelsController>
 
         // Save level locally and online (if user is logged in)
         SaveLevelLocal(level);
-        SaveLevelOnline(loginController.Email, level);
+        //SaveLevelOnline(loginController.Email, level);
     }
     #endregion
 
