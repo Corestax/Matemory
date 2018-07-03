@@ -32,7 +32,7 @@ public class UIController : Singleton<UIController>
     private AudioManager audioManager;
     private MeshCombiner meshCombiner;
 
-    public enum PanelTypes { NONE, MAIN_MENU, RESULTS, PLAY_LEVEL, SETTINGS, LOGIN, LEADERBOARD }
+    public enum PanelTypes { NONE, MAIN_MENU, RESULTS, PLAY_LEVEL, SETTINGS, LOGIN, LEADERBOARD, CONGRATS }
     public PanelTypes ActivePanel { get; private set; }
 
     public enum EnvTypes { MAIN_MENU, GAME }
@@ -180,6 +180,10 @@ public class UIController : Singleton<UIController>
                 ShowPanelLeaderboard();
                 break;
 
+            case PanelTypes.CONGRATS:
+                ShowPanelCongrats();
+                break;
+
             default:
                 break;
         }
@@ -212,6 +216,10 @@ public class UIController : Singleton<UIController>
 
             case PanelTypes.LEADERBOARD:
                 HidePanelLeaderboard();
+                break;
+
+            case PanelTypes.CONGRATS:
+                HidePanelCongrats();
                 break;
 
             default:
@@ -365,9 +373,8 @@ public class UIController : Singleton<UIController>
         // user finished the game
         else if (currentLevel == lastGameLevel && levelsController.isUserUnlockedLastLevel)
         {
-            Debug.Log("finish!!!");
+            ShowPanel(PanelTypes.CONGRATS);
             levelsController.isUserUnlockedLastLevel = false;
-            gameController.ShowMap(false, false);
         }
         else
             gameController.ShowMap(false, false);
@@ -714,6 +721,22 @@ public class UIController : Singleton<UIController>
         ShowPanel(UIController.PanelTypes.LOGIN);
     }
     #endregion
+
+    #region
+    [SerializeField]
+    private CanvasFader fader_Congrats;
+
+    private void ShowPanelCongrats()
+    {
+        fader_Congrats.FadeIn(FADESPEED);
+    }
+
+    private void HidePanelCongrats()
+    {
+        fader_Congrats.FadeOut(FADESPEED);
+    }
+    #endregion
+
 
     public void ShowHUD()
     {
