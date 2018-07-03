@@ -254,6 +254,12 @@ public class GameController : Singleton<GameController>
         levelsController.GetLastSavedLevel((level) => {
             levelsController.SetLevel(level);
 
+            if (level > 0)
+                levelsController.UnlockNextLevelIfPossible();
+
+            // Set character position in map
+            mapsController.SetCharacterLevel(levelsController.CurrentLevel);
+
             ShowMap(false, false);
 
             uiController.ShowPanel(UIController.PanelTypes.PLAY_LEVEL);
@@ -280,6 +286,13 @@ public class GameController : Singleton<GameController>
 
         if (OnGameEnded != null)
             OnGameEnded(_type);
+
+        if (_type == EndGameTypes.WIN)
+        {
+            // If new level unlocked: save next level
+            if (levelsController.CurrentLevel == levelsController.HighestLevel)
+                levelsController.SaveLevel(levelsController.CurrentLevel);
+        }
     }
     #endregion
 

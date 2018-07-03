@@ -23,6 +23,7 @@ public class LevelsController : Singleton<LevelsController>
     private LoginController loginController;
     public int CurrentLevel = 0;
     public int HighestLevel = 0;
+    public bool isUserUnlockedLastLevel;
 
 	void Start ()
     {
@@ -49,8 +50,8 @@ public class LevelsController : Singleton<LevelsController>
 
     public void SetLevel(int level)
     {
-        if (level - 1 >= Levels.Count)
-            level = Levels.Count;
+        level = level > GetTheHighestLevelInTheGame() ? GetTheHighestLevelInTheGame() : level;
+        level = level < 1 ? 1 : level;
 
         // Update level & high score
         CurrentLevel = level;
@@ -58,14 +59,29 @@ public class LevelsController : Singleton<LevelsController>
         // Update highest level
         if (CurrentLevel > HighestLevel)
             HighestLevel = CurrentLevel;
-
-        // Set character position in map
-        mapsController.SetCharacterLevel(level);
     }
 
     public void SetHighestLevel(int level)
     {
         HighestLevel = level;
+    }
+
+    public void UnlockNextLevelIfPossible()
+    {
+        // check if it is not the latest level in the game
+        if (GetTheHighestLevelInTheGame() == CurrentLevel)
+            return;
+
+        // if next level is the last in the game
+        if (CurrentLevel == GetTheHighestLevelInTheGame() - 1)
+            isUserUnlockedLastLevel = true;
+
+        SetLevel(CurrentLevel + 1);
+    }
+
+    public int GetTheHighestLevelInTheGame()
+    {
+        return LevelObjects[LevelObjects.Length - 1].Level;
     }
 
     #region LOAD LEVEL
@@ -131,6 +147,9 @@ public class LevelsController : Singleton<LevelsController>
     {
         SetLevel(level);
 
+        // Set character position in map
+        mapsController.SetCharacterLevel(level);
+
         // Spawn model
         ModelsController.ModelTypes type = Levels[level];
         modelsController.Spawn(type);
@@ -141,7 +160,7 @@ public class LevelsController : Singleton<LevelsController>
     #region SAVE LEVEL    
     public void SaveLevel(int level)
     {
-        if (level <= HighestLevel)
+        if (level < HighestLevel)
             return;
 
         // Update levels

@@ -328,11 +328,7 @@ public class UIController : Singleton<UIController>
                 }
                 audioManager.PlaySound(audioManager.audio_star);
                 yield return new WaitForSeconds(0.5f);
-            }
-
-            // If new level unlocked: save next level
-            if(levelsController.CurrentLevel == levelsController.HighestLevel)
-                levelsController.SaveLevel(levelsController.CurrentLevel + 1);            
+            }        
         }
         // Lose scenario
         else if(_type == GameController.EndGameTypes.LOSE)
@@ -353,13 +349,29 @@ public class UIController : Singleton<UIController>
     {
         HideActivePanel();
         ShowSettingsButton();
+        
+        int currentLevel = levelsController.CurrentLevel;
+        int lastUserLevel = levelsController.HighestLevel;
+        int lastGameLevel = levelsController.GetTheHighestLevelInTheGame();
 
-        // Show map: animate character if progressing to new level
-        if (levelsController.CurrentLevel == levelsController.HighestLevel)
+        // not the latest level in the game
+        // and next level is not unlocked
+        if (currentLevel < lastGameLevel && currentLevel == lastUserLevel)
+        {
+            levelsController.UnlockNextLevelIfPossible();
             gameController.ShowMap(true, false);
+        }
+
+        // user finished the game
+        else if (currentLevel == lastGameLevel && levelsController.isUserUnlockedLastLevel)
+        {
+            Debug.Log("finish!!!");
+            levelsController.isUserUnlockedLastLevel = false;
+            gameController.ShowMap(false, false);
+        }
         else
             gameController.ShowMap(false, false);
-    }    
+    }
     
     private void ResetPanelResults()
     {
